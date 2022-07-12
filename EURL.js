@@ -25,7 +25,7 @@ function afficherDataEURL(){
     const salaireBrutMois = CAIndependantMois - ((CAIndependantMois * 12) % 50) / 12
     const salaireNetAvantImpotMois = getSalaireNet(salaireBrutMois * 12) / 12
     const cotisationsSalarialesPatronalesMois = salaireNetAvantImpotMois - salaireBrutMois
-    const baremeProgressifMois = calculBaremeProgressif("EURL", salaireNetAvantImpotMois) 
+    const baremeProgressifMois = calculBaremeProgressif("EURL", salaireNetAvantImpotMois)[0]
     const revenuNetImpotTotalMois = salaireNetAvantImpotMois + baremeProgressifMois
     const pouvoirAchatMois = revenuNetImpotTotalMois - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois
     const rendementMois = pouvoirAchatMois / CAFactureClientMois * 100

@@ -33,7 +33,7 @@ function afficherDataME(selection, i){
     const formationMois = -0.002 * CAIndependantMois
     const revenuAvantImpotMois = CAIndependantMois + URSSAFMois + formationMois
     const prelevementLiberatoireMois = -0.022 * CAIndependantMois
-    const baremeProgressifMois = calculBaremeProgressif("ME", CAIndependantMois) 
+    const baremeProgressifMois = calculBaremeProgressif("ME", CAIndependantMois)[0]
     let impotSurRevenuMois
     if(selection == "compare" || selection == "calculTJM") impotSurRevenuMois = valueFiscaliteInput ? Math.max(prelevementLiberatoireMois, baremeProgressifMois) : baremeProgressifMois
     if(selection == "affiche") impotSurRevenuMois = valuePrelevementLiberatoire_affiche ? Math.max(prelevementLiberatoireMois, baremeProgressifMois) : baremeProgressifMois

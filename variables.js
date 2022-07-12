@@ -71,7 +71,7 @@ function getInputData(){
     fraisDeplacements = parseInt(inputFraisDeplacements.value)
     revenuConsultantBrut = parseInt(inputRevenuConsultantBrut.value)
     nbParts = parseInt(inputNbParts.value)
-    revenusConjoint = parseInt(inputRevenusConjoint.value)
+    revenusConjoint = parseInt(inputRevenusConjoint.value) * 0.71
     honoraires = parseInt(inputHonoraires.value)
     oldBrutPE = parseInt(inputBrutPE.value)
     dureeIndemnitePE = parseInt(inputIndemnitePE.value)

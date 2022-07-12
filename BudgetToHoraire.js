@@ -425,7 +425,7 @@ function apresCotisations(){
     C47 = -E19
     C48 = -H36
     C49 = C48 + C47 + salaireBrut + cotisationsSalariales
-    E49 = calculBaremeProgressif("PS")
+    E49 = calculBaremeProgressif("PS")[0]
     document.getElementById("E49").innerText = `${E49.toFixed(2)} €`
     E50 = E46 + E49
     document.getElementById("E46").innerText = `${E46.toFixed(2)} €`

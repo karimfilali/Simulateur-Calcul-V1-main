@@ -29,7 +29,7 @@ function afficherDataMod2(){
     const CSGMois = -0.097 * RCAIMois
     const revenuNetAvantImpotMois = RCAIMois + CSGMois
     const salaireNetAvantImpotMois = 12 * salaireBrutMois >= 6000 ? getNetAvantImpot(12 * salaireBrutMois) / 12 : 0
-    const baremeProgressifMois = calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])
+    const baremeProgressifMois = calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0]
     const pouvoirAchatMois = revenuNetAvantImpotMois + salaireNetAvantImpotMois + baremeProgressifMois - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois
     const rendementMois = pouvoirAchatMois / CAFactureClientMois * 100
 

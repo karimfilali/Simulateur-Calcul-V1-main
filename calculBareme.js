@@ -17,10 +17,9 @@ function calculBaremeProgressif(config, inputValues){
     const taux2 = 0.11
     const taux3 = 0.30
     const taux4 = 0.41
-
+    console.log(config);
     let revenusIndependant = calculRevenusIndependant(config, inputValues)
-    let PIAA = (revenusIndependant + revenusConjoint * 0.71) / nbParts
-
+    let PIAA = (revenusIndependant + revenusConjoint) / nbParts
     let surplus1 = Math.max(PIAA - seuil1, 0)
     let surplus2 = Math.max(PIAA - seuil2, 0)
     let surplus3 = Math.max(PIAA - seuil3, 0)
@@ -37,14 +36,15 @@ function calculBaremeProgressif(config, inputValues){
     let totalParParts = impositionTranche1 + impositionTranche2 + impositionTranche3 + impositionTranche4
     let totalImposable = totalParParts * nbParts
 
-    let pourcentageBFI = revenusIndependant / (revenusIndependant + revenusConjoint * 0.71)
-
+    let pourcentageBFI = revenusIndependant / (revenusIndependant + revenusConjoint)
+    let pourcentageBFC = revenusConjoint / (revenusIndependant + revenusConjoint)
     if(config == "PFU"){
         let PFU = 0.3 * inputValues[1] * 12 + totalImposable * pourcentageBFI // inputValues[1] = revenuNetAvantImpotMois
         return -PFU/12
     }
     let bareme = totalImposable * pourcentageBFI
-    return -bareme/12
+    let baremeConjoint = totalImposable * pourcentageBFC
+    return [-bareme / 12, -baremeConjoint / 12, -(bareme + baremeConjoint) / 12]
 }
 
 function calculRevenusIndependant(config, inputValues){
@@ -54,4 +54,10 @@ function calculRevenusIndependant(config, inputValues){
     if(config == "Mod1") return (inputValues[0] + inputValues[1]) * 12 // salaireNetAvantImpotMois + revenuNetAvantImpotMois
     if(config == "Mod2") return (inputValues[0] + inputValues[1]) * 12 // salaireBrutMois + revenuNetAvantImpotMois
     if(config == "PFU") return inputValues[0] * 12 // salaireNetAvantImpotMois
+
+    if(config == "PSscenario") return C49 * 12 * 0.9 + inputValues
+    if(config == "MEScenario") return inputValues[0] * 12 * 0.66 + inputValues[1]
+    if(config == "Mod1Scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
+    if(config == "Mod2Scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
+    if(config == "PFUscenario") return inputValues[0] * 12 + inputValues[2]
 }

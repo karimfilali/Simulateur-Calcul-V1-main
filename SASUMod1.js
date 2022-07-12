@@ -33,7 +33,7 @@ function afficherDataMod1(){
     const revenuNetAvantImpotMois = RCAIMois + ISMois
     const salaireNetAvantImpotMois = 12 * salaireBrutMois >= 6000 ? getNetAvantImpot(12 * salaireBrutMois) / 12 : 0
     const PFUMois = calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])
-    const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) 
+    const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0] 
     const impotSurRevenuMois = Math.max(PFUMois, baremeProgressifMois)
     const revenuNetImpotTotalMois = salaireNetAvantImpotMois + revenuNetAvantImpotMois + impotSurRevenuMois - fraisDeplacementMois - fraisRepasMois - achatsSocieteMois
     const rendementMois = revenuNetImpotTotalMois / CAFactureClientMois * 100
