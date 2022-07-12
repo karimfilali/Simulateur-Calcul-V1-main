@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
+*, ::before, ::after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-decoration: none;
+    outline: none;
+    font-family: "open_sans",Arial,Helvetica,sans-serif;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    background-color:#e5e5e5;
+}
+
+main{
+    background-color:white;
+    margin: 3rem;
+    padding: 1rem;
+}
+
+.mainHeading{
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.chapeau{
+    font-size: 0.7rem;
+    margin: 2rem 0 0;
+    text-align: justify;
+}
+
+.chapeauQuestion{
+    font-size: 0.9rem;
+    margin: 1.5rem 0 0.5rem;
+}
+
+#simulation-select{
+    font-size: 0.8rem;
+}
+
+#simulation-select option{
+    margin: 1rem 0;
+}
+
+#selectDetails{
+    font-size: 1rem;
+    margin-left: 1rem;
+}
+
+.messageAvertissement{
+    font-size: 0.5rem;
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.inputsCompare, .inputsScenario{
+    margin: 1.5rem;
+    display: none;
+}
+
+.rowInput{
+    margin: 2rem 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rowInput select{
+    font-size: 0.9rem;
+}
+
+.inputsCompare label, .inputsCompare input, .inputsScenario label, .inputsScenario input{
+    font-size: 0.8rem;
+}
+
+.inputsCompare input, .inputsScenario input, .nbMois{
+    width: 5rem;
+    padding: 0.1rem;
+}
+
+#submitBtnCalculate, #submitBtnCalculateTJM{
+    font-size: 1rem;
+    display: flex;
+    margin-left: auto;
+    background-color:#002a40;
+    border: none;
+    padding: 0.5rem 1rem;
+    color:white;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    display: none;
+}
+
+.checkInputBox{
+    display: none;
+}
+
+/* Tables */
+
+.bulletins{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+table{
+    display: none;
+    border-collapse: collapse;
+    margin: 1rem 0 3rem;
+}
+
+table caption{
+    text-decoration: underline;
+    margin-bottom: 1rem;
+}
+
+table td, table th{
+    padding: 0.5rem;
+    border: 0.5px solid black;
+    text-align: left;
+}
+
+.tableSimplifiez{
+    margin: 3rem 0 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+
+.bottom-table-caption{
+    margin: 2rem;
+    caption-side: bottom;
+    text-decoration: none;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.sBrut{
+    margin: 2rem;
+}
+
+#garantieFinanciereInput{
+    display: none;
+}
+
+#tableMod1 tr, #tableMod2 tr, #tableME tr, #tableEURL tr{
+    display: table-cell;
+}
+
+#tableMod1 tr td, #tableMod1 tr th, #tableMod2 tr td, #tableMod2 tr th, #tableME tr td, #tableME tr th, #tableEURL tr td, #tableEURL tr th{
+    display: block;
+    padding: 0.5rem;
+}
+
+#tableME .selectME{
+    padding: 0.34rem;
+}
+
+#tableME .select{
+    font-size: 1.02rem;
+}
+
+#tableScenario *{
+    font-size: 1rem;
+}

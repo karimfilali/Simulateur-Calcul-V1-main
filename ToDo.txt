@@ -1,0 +1,9 @@
+Commentaires : 
+- Petite erreur dans rendement SASU Mod 2 : Au lieu de =D47 c'est =C47
+- Formule dans la case Scénario!M21 différente de Scénario!N21 et Scénario!O21
+- Quelle valeur dans scénario pour calculImpotAnnuelEURL ?
+
+To Do :
+- Responsive
+- Continuer le codage de scénario
+- Le budget correspond à la case CA Indépendant Simulation!C22 (mais la case n'est pas modifiée si l'on change le taux horaire)

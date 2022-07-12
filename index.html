@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1 class="mainHeading">Simulateur de ... (de la réforme de ... pour l'année 2022)</h1>
+        <p class="chapeau">
+            80 % des foyers bénéficient de la suppression de leur taxe d'habitation sur leur résidence principale à compter de 2020.
+            À compter de 2021, pour les 20 % de foyers restants, une diminution progressive de la taxe d’habitation sur la résidence principale s’appliquera jusqu’à sa suppression définitive en 2023.
+            <br><br>
+            Ce simulateur permet de déterminer, à titre indicatif, la réduction de votre taxe d’habitation pour 2022.
+        </p>
+        <h2 class="chapeauQuestion">Quel information souhaitez-vous connaître ?</h2>
+        <select name="simulation-select" id="simulation-select">
+            <option value="">--Choisir--</option>
+            <option value="compare">Comparer toutes les options</option>
+            <option value="affiche">Afficher une ou plusieurs options en détail</option>
+            <option value="scenario">Afficher le scénario</option>
+            <option value="calculTJM">Calculer son tarif journalier moyen (TJM)</option>
+        </select>
+
+        <div class="inputsCompare" id="inputsCompare">
+            <p class="messageAvertissement">Attention, toutes les données sont à renseigner.</p>
+            <div class="rowInput" id="facturationTJM">
+                <label for="inputTJM">Facturation HT par jour (en €): </label>
+                <input class="inputInput" type="number" id="inputTJM" name="inputTJM" value="540">
+            </div>
+            <div class="rowInput">
+                <label for="inputNbJoursTravailAn">Nombre de jours de travail par an: </label>
+                <input class="inputInput" type="number" id="inputNbJoursTravailAn" name="inputNbJoursTravailAn" value="228">
+            </div>
+            <div class="rowInput" id="budgetTJM">
+                <label for="inputBudget">Budget (en €): </label>
+                <input class="inputInput" type="number" id="inputBudget" name="inputBudget" value="5000" step="1" min="0">
+            </div>
+            <div class="rowInput" id="PAsouhaiteTJM">
+                <label for="inputBudget">Pouvoir d'achat souhaité (en €): </label>
+                <input class="inputInput" type="number" id="inputPAsouhaiteTJM" name="inputBudget" value="5000" step="1" min="0">
+            </div>
+            <div class="rowInput">
+                <label for="inputAchatSociete">Achat société (par an): </label>
+                <input class="inputInput" type="number" id="inputAchatSociete" name="inputAchatSociete" value="0">
+            </div>
+            <div class="rowInput">
+                <label for="inputFraisRepas">Frais de repas (par mois): </label>
+                <input class="inputInput" type="number" id="inputFraisRepas" name="inputFraisRepas" value="100">
+            </div>
+            <div class="rowInput">
+                <label for="inputFraisDeplacements">Frais de déplacements (par mois): </label>
+                <input class="inputInput" type="number" id="inputFraisDeplacements" name="inputFraisDeplacements" value="50">
+            </div>
+            <div class="rowInput">
+                <label for="inputRevenuConsultantBrut">Revenu consultant brut : </label>
+                <input class="inputInput" type="number" id="inputRevenuConsultantBrut" name="inputRevenuConsultantBrut" value="11424">
+            </div>
+            <div class="rowInput">
+                <label for="inputNbParts">Nombre de parts : </label>
+                <input class="inputInput" type="number" id="inputNbParts" name="inputNbParts" value="2">
+            </div>
+            <div class="rowInput">
+                <label for="inputRevenusConjoint">Revenus brut du conjoint (par an): </label>
+                <input class="inputInput" type="number" id="inputRevenusConjoint" name="inputRevenusConjoint" value="1500">
+            </div>
+            <div class="rowInput">
+                <label for="inputHonoraires">Honoraires (en %): </label>
+                <input class="inputInput" type="number" id="inputHonoraires" name="inputHonoraires" value="8">
+            </div>
+            <div class="rowInput" id="garantieFinanciereInput">
+                <label for="garantieFinanciere">Garantie Financière : </label>
+                <input class="inputInput" type="checkbox" id="inputGarantieFinanciere" name="garantieFinanciere">
+            </div>
+            <div class="rowInput" id="ACRE_TJM">
+                <label for="ACRE">Droit à l'ACRE : </label>
+                <select name="ACRE" id="ACREinput">
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+            <div class="rowInput" id="fiscaliteTJM">
+                <label for="fiscalite">Droit à la fiscalité : </label>
+                <select name="fiscalite" id="fiscaliteInput">
+                    <option value="non">Non</option>
+                    <option value="oui">Oui</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="checkInputBox" id="checkInputBox">
+            <label>Afficher en détail : </label>
+            <select name="details" id="selectDetails">
+                <option value="choose">--Choisir--</option>
+                <option value="PS">Bulletin de salaire</option>
+                <option value="ME">Micro Entreprise</option>
+                <option value="SASUMod1">SASU Mod1</option>
+                <option value="SASUMod2">SASU Mod 2</option>
+                <option value="EURL">EURL IS</option>
+            </select>
+        </div>
+
+        
+        <div class="inputsScenario" id="inputsScenario">
+            <!-- PE signifie Pôle Emploi -->
+            <div class="rowInput">
+                <label for="inputBrutPE">Ancien salaire brut Pôle Emploi (en €): </label>
+                <input type="number" id="inputBrutPE" name="inputBrutPE" value="47808">
+            </div>
+            <div class="rowInput">
+                <label for="inputIndemnitePE">Durée d'indemnité Pôle Emploi (en mois): </label>
+                <input type="number" id="inputIndemnitePE" name="inputIndemnitePE" value="23">
+            </div>
+        </div>
+
+        <button type="submit" value="Envoyer" id="submitBtnCalculate">CALCULER</button>
+        <button type="submit" value="Envoyer" id="submitBtnCalculateTJM">CALCULER SON TJM</button>
+        <!-- Fin du formulaire -->
+
+        <!-- Affichage du bulletin simplifié -->
+        <div class="tableSimplifiez">
+            <table id="tableSimplifiee">
+                <caption>Comparatif des différents récapitulatifs de Paie</caption>
+                <tr>
+                    <td></td>
+                    <td id="A1"></td>
+                    <td id="A2"></td>
+                    <td id="A3"></td>
+                    <td id="A4"></td>
+                    <td id="A5"></td>
+                </tr>
+                <tr>
+                    <td>Chiffre d'affaires</td>
+                    <td class="CA_S">0</td>
+                    <td class="CA_S">0</td>
+                    <td class="CA_S">0</td>
+                    <td class="CA_S">0</td>
+                    <td class="CA_S">0</td>
+                </tr>
+                <tr>
+                    <td>Pouvoir d'achat</td>
+                    <td id="pAchat1">0</td>
+                    <td id="pAchat2">0</td>
+                    <td id="pAchat3">0</td>
+                    <td id="pAchat4">0</td>
+                    <td id="pAchat5">0</td>
+                </tr>
+                <tr>
+                    <td>Rendement</td>
+                    <td id="rendement1">0</td>
+                    <td id="rendement2">0</td>
+                    <td id="rendement3">0</td>
+                    <td id="rendement4">0</td>
+                    <td id="rendement5">0</td>
+                </tr>
+            </table>
+        </div>
+            <!-- Fin affichage du bulletin simplifié -->
+            
+            <!-- Affichage des bulletins -->
+            <section class="bulletins">
+                <!-- Bulletin de salaire -->
+                <table id="tableBulletinSalaire">
+                    <caption>Récapitulatif de Paie - BS Cadre</caption>
+                    <tr>
+                        <th>Code</th>
+                        <th>Libellé</th>
+                        <th>Base S.</th>
+                        <th>Taux S.</th>
+                        <th>Salarial</th>
+                        <th>Base P.</th>
+                        <th>Taux P.</th>
+                        <th>Patronal</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Salaire de base</td>
+                        <td id="C4"></td>
+                    <td id="D4"></td>
+                    <td id="E4"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Jours travaillés (forfait jour)</td>
+                    <td id="C5"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>B01</td>
+                    <td>Indemnité d'apport d'affaires</td>
+                    <td id="C6"></td>
+                    <td id="D6"></td>
+                    <td id="E6"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>B03</td>
+                    <td>Indemnité de congés payés</td>
+                    <td id="C7"></td>
+                    <td id="D7"></td>
+                    <td id="E7"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>I01.1</td>
+                    <td>Constitution de la réserve financière</td>
+                    <td id="C8"></td>
+                    <td id="D8"></td>
+                    <td id="E8"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Salaire Brut</td>
+                    <td colspan="2"></td>
+                    <td class="salaireBrut"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>SS001</td>
+                    <td>Maladie - Maternité - Invalidité - Décès</td>
+                    <td colspan="3"></td>
+                    <td class="salaireBrut"></td>
+                    <td id="G11"></td>
+                    <td id="H11"></td>
+                </tr>
+                <tr>
+                    <td>SS002</td>
+                    <td>Contribution Solidarité Autonomie</td>
+                    <td colspan="3"></td>
+                    <td class="salaireBrut"></td>
+                    <td id="G12"></td>
+                    <td id="H12"></td>
+                </tr>
+                <tr>
+                    <td>SS003</td>
+                    <td>Vieillesse déplafonnée</td>
+                    <td class="salaireBrut"></td>
+                    <td id="D13"></td>
+                    <td id="E13"></td>
+                    <td class="salaireBrut"></td>
+                    <td id="G13"></td>
+                    <td id="H13"></td>
+                </tr>
+                <tr>
+                    <td>SS004</td>
+                    <td>Vieillesse plafonnée</td>
+                    <td id="C14"></td>
+                    <td id="D14"></td>
+                    <td id="E14"></td>
+                    <td id="F14"></td>
+                    <td id="G14"></td>
+                    <td id="H14"></td>
+                </tr>
+                <tr>
+                    <td>SS005</td>
+                    <td>Allocations Familiales</td>
+                    <td colspan="3"></td>
+                    <td class="salaireBrut"></td>
+                    <td id="G15"></td>
+                    <td id="H15"></td>
+                </tr>
+                <tr>
+                    <td>SS006</td>
+                    <td>Accident du travail</td>
+                    <td colspan="3"></td>
+                    <td class="salaireBrut"></td>
+                    <td id="G16"></td>
+                    <td id="H16"></td>
+                </tr>
+                <tr>
+                    <td>SS007</td>
+                    <td>FNAL plafonné</td>
+                    <td colspan="3"></td>
+                    <td id="F17"></td>
+                    <td id="G17"></td>
+                    <td id="H17"></td>
+                </tr>
+                <tr>
+                    <td>SS021</td>
+                    <td>CSG déductible</td>
+                    <td id="C18"></td>
+                    <td id="D18"></td>
+                    <td id="E18"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>SS022</td>
+                    <td>CSG non déductible et CRDS</td>
+                    <td id="C19"></td>
+                    <td id="D19"></td>
+                    <td id="E19"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>CH001</td>
+                    <td>Assurance chômage TrA+TrB</td>
+                    <td colspan="3"></td>
+                    <td id="F20"></td>
+                    <td id="G20"></td>
+                    <td id="H20"></td>
+                </tr>
+                <tr>
+                    <td>CH002</td>
+                    <td>AGS</td>
+                    <td colspan="3"></td>
+                    <td id="F21"></td>
+                    <td id="G21"></td>
+                    <td id="H21"></td>
+                </tr>
+                <tr>
+                    <td>AA201</td>
+                    <td>Retraite TU1</td>
+                    <td id="C22"></td>
+                    <td id="D22"></td>
+                    <td id="E22"></td>
+                    <td id="F22"></td>
+                    <td id="G22"></td>
+                    <td id="H22"></td>
+                </tr>
+                <tr>
+                    <td>AA202</td>
+                    <td>Retraite TU2</td>
+                    <td id="C23"></td>
+                    <td id="D23"></td>
+                    <td id="E23"></td>
+                    <td id="F23"></td>
+                    <td id="G23"></td>
+                    <td id="H23"></td>
+                </tr>
+                <tr>
+                    <td>AA211</td>
+                    <td>Conribution d'Equilibre Général TU1</td>
+                    <td id="C24"></td>
+                    <td id="D24"></td>
+                    <td id="E24"></td>
+                    <td id="F24"></td>
+                    <td id="G24"></td>
+                    <td id="H24"></td>
+                </tr>
+                <tr>
+                    <td>AA212</td>
+                    <td>Contribution d'Equilibre Général TU2</td>
+                    <td id="C25"></td>
+                    <td id="D25"></td>
+                    <td id="E25"></td>
+                    <td id="F25"></td>
+                    <td id="G25"></td>
+                    <td id="H25"></td>
+                </tr>
+                <tr>
+                    <td>AA221</td>
+                    <td>Contribution d'Equilibre Technique TU1</td>
+                    <td id="C26"></td>
+                    <td id="D26"></td>
+                    <td id="E26"></td>
+                    <td id="F26"></td>
+                    <td id="G26"></td>
+                    <td id="H26"></td>
+                </tr>
+                <tr>
+                    <td>AA222</td>
+                    <td>Contribution d'Equilibre Technique TU2</td>
+                    <td id="C27"></td>
+                    <td id="D27"></td>
+                    <td id="E27"></td>
+                    <td id="F27"></td>
+                    <td id="G27"></td>
+                    <td id="H27"></td>
+                </tr>
+            <tr>
+                <td>AA031</td>
+                <td>APEC TrA</td>
+                <td id="C28"></td>
+                <td id="D28"></td>
+                <td id="E28"></td>
+                <td id="F28"></td>
+                <td id="G28"></td>
+                <td id="H28"></td>
+            </tr>
+            <tr>
+                <td>AA035</td>
+                <td>APEC TrB</td>
+                <td id="C29"></td>
+                <td id="D29"></td>
+                <td id="E29"></td>
+                <td id="F29"></td>
+                <td id="G29"></td>
+                <td id="H29"></td>
+            </tr>
+            <tr>
+                <td>SS005</td>
+                <td>Allocations familiales sup.</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G30"></td>
+                <td id="H30"></td>
+            </tr>
+            <tr>
+                <td>SS046</td>
+                <td>Maladie (complément)</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G31"></td>
+                <td id="H31"></td>
+            </tr>
+            <tr>
+                <td>SS050</td>
+                <td>Contribution au dialogue social</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G32"></td>
+                <td id="H32"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Prévoyance TrA</td>
+                <td colspan="3"></td>
+                <td id="F33"></td>
+                <td id="G33"></td>
+                <td id="H33"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Prévoyance TrB</td>
+                <td id="C34"></td>
+                <td id="D34"></td>
+                <td id="E34"></td>
+                <td id="F34"></td>
+                <td id="G34"></td>
+                <td id="H34"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Prévoyance TrC</td>
+                <td id="C35"></td>
+                <td id="D35"></td>
+                <td id="E35"></td>
+                <td id="F35"></td>
+                <td id="G35"></td>
+                <td id="H35"></td>
+            </tr>
+            <tr>
+                <td>PR289</td>
+                <td>Mutuelle</td>
+                <td id="C36"></td>
+                <td id="D36"></td>
+                <td id="E36"></td>
+                <td id="F36"></td>
+                <td id="G36"></td>
+                <td id="H36"></td>
+            </tr>
+            <tr>
+                <td>TC001</td>
+                <td>Contribution à la formation professsionnelle (Légal)</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G37"></td>
+                <td id="H37"></td>
+            </tr>
+            <tr>
+                <td>TC001XX</td>
+                <td>Contribution à la formation professsionnelle (Conventionnel)</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G38"></td>
+                <td id="H38"></td>
+            </tr>
+            <tr>
+                <td>TC004</td>
+                <td>Taxe d'apprentissage</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G39"></td>
+                <td id="H39"></td>
+            </tr>
+            <tr>
+                <td>TC004XX</td>
+                <td>Taxe d'apprentissage (Libératoire)</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G40"></td>
+                <td id="H40"></td>
+            </tr>
+            <tr>
+                <td>TC120</td>
+                <td>Développement du paritarisme</td>
+                <td colspan="3"></td>
+                <td class="salaireBrut"></td>
+                <td id="G41"></td>
+                <td id="H41"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Titres-restaurant</td>
+                <td id="C42"></td>
+                <td id="D42"></td>
+                <td id="E42"></td>
+                <td id="F42"></td>
+                <td id="G42"></td>
+                <td id="H42"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">Total des cotisations et contributions</td>
+                <td colspan="2"></td>
+                <td id="netSalarial"></td>
+                <td colspan="2"></td>
+                <td id="netPatronal"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">Budget à prévoir par l'employeur *</td>
+                <td colspan="2"></td>
+                <td colspan="3"></td>
+                <td id="budgetTotal"></td>
+            </tr>
+            <tr>
+                <td>F06</td>
+                <td>Frais déplacement</td>
+                <td colspan="2"></td>
+                <td id="E44"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>F06</td>
+                <td>Frais professionnels</td>
+                <td colspan="2"></td>
+                <td id="E45"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">Net à payer avant impôt sur le revenu</td>
+                <td colspan="2"></td>
+                <td id="E46"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Retenues non déductibles de l'impôt sur le revenu</td>
+                <td id="C47"></td>
+                <td colspan="2"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Réintégration fiscale</td>
+                <td id="C48"></td>
+                <td colspan="2"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Impôt sur le revenu prélevé à la source - PAS</td>
+                <td id="C49"></td>
+                <td></td>
+                <td id="E49"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-decoration: underline;">Net payé</td>
+                <td colspan="2"></td>
+                <td id="E50"></td>
+                <td colspan="3"></td>
+            </tr>
+            <caption class="bottom-table-caption">* Le budget à prévoir par l'employeur est calculé de la façon suivante : Salaire Brut + Garantie Financière (si cochée) + Frais de déplacements + Frais professionnels + Cotisations Patronales<br><br>
+            * Il se peut que le budget calculé et affiché ne corresponde pas au budget donné en entrée. Cet écart est dû à des cotisations qui s'ajoutent à partir d'un certain salaire brut et qui ne permettent pas d'obtenir le budget demandé.
+            </caption>
+        </table>
+        <!-- Fin de bulletin de salaire -->
+        
+        <!-- MicroEntreprise -->
+        <table id="tableME">
+            <caption>Récapitulatif de Paie - Micro Entreprise</caption>
+            <tr>
+                <td>ACRE</td>
+                <td>Fiscalité (prélèvement libératoire)</td>
+                <th>CA Facturé Client</th>
+                <td>Honoraires Digiwork</td>
+                <td>URSSAF</td>
+                <td>Formation</td>
+                <th>Revenu Net avant impôt</th>
+                <th>Impôt sur le revenu</th>
+                <td>Prélèvement libératoire</td>
+                <td>Barème progressif</td>
+                <th>Revenu net d'impôt total</th>
+                <td>dont achats société</td>
+                <td>dont frais de repas</td>
+                <td>dont frais de déplacements</td>
+                <th>Pouvoir d'achat</th>
+                <td>Rendement</td>
+            </tr>
+            <tr>
+                <td class="selectME">
+                    <select name="ACRE" id="ACRE" class="select">
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </select>
+                </td>
+                <td class="selectME">
+                    <select name="fiscalite" id="fiscalite" class="select">
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                    </select>
+                </td>
+                <th id="CAFactureClientME">0</th>
+                <td id="honorairesDWME">0</td>
+                <td id="URSSAF">0</td>
+                <td id="formation">0</td>
+                <th id="revenuAvantImpotME">0</th>
+                <th id="impotSurRevenuME">0</th>
+                <td id="prelevementLiberatoire">0</td>
+                <td id="baremeProgressifME">0</td>
+                <th id="revenuNetImpotTotalME">0</th>
+                <td id="achatsSocieteME">0</td>
+                <td id="fraisRepasME">0</td>
+                <td id="fraisDeplacementME">0</td>
+                <th id="pouvoirAchatME">0</th>
+                <td id="rendementME">0</td>
+            </tr>
+        </table>
+        <!-- Fin MicroEntreprise -->
+        
+        <!-- SASU Mod 1 -->
+        <table id="tableMod1">
+            <caption>Récapitulatif de Paie - SASU Mod 1</caption>
+            <tr>
+                <td>ACRE</td>
+                <td>Fiscalité</td>
+                <th>CA Facturé Client</th>
+                <td>Honoraires Digiwork</td>
+                <td>Achats Société</td>
+                <td>Frais de repas</td>
+                <td>Frais de déplacements</td>
+                <td>Salaire Brut</td>
+                <th>RCAI</th>
+                <td>IS</td>
+                <th>Revenu Net avant impôt (1)</th>
+                <th>Salaire chargé</th>
+                <th>Salaire Net avant impôt (2)</th>
+                <th>Impôt sur le revenu</th>
+                <td>PFU - Flat Tax</td>
+                <td>Barème progressif</td>
+                <th>Revenu net d'impôt total (1+2)</th>
+                <td>dont achats société</td>
+                <td>dont frais de repas</td>
+                <td>dont frais de déplacements</td>
+                <th>Pouvoir d'achat</th>
+                <td>Rendement</td>
+            </tr>
+            <tr>
+                <td>Non</td>
+                <td>IS</td>
+                <th id="CAFactureClientSASUMod1">0</th>
+                <td id="honorairesDWSASUMod1">0</td>
+                <td id="achatsSocieteSASUMod1_1">0</td>
+                <td id="fraisRepasSASUMod1_1"></td>
+                <td id="fraisDeplacementSASUMod1_1"></td>
+                <td id="salaireBrutSASUMod1">0</td>
+                <th id="RCAISASUMod1">0</th>
+                <td id="IS"></td>
+                <th id="revenuNetAvantImpotSASU1">0</th>
+                <th id="salaireChargeSASUMod1"></th>
+                <th id="salaireNetAvantImpotSASUMod1"></th>
+                <th id="impotSurRevenuSASUMod1">0</th>
+                <td id="PFU">0</td>
+                <td id="baremeProgressifSASUMod1">0</td>
+                <th id="revenuNetImpotTotalSASUMod1">0</th>
+                <td id="achatsSocieteSASUMod1_2">0</td>
+                <td id="fraisRepasSASUMod1_2">0</td>
+                <td id="fraisDeplacementSASUMod1_2">0</td>
+                <th id="pouvoirAchatSASUMod1">0</th>
+                <td id="rendementSASUMod1">0</td>
+            </tr>
+        </table>
+        <!-- Fin SASU Mod 1 -->
+        <!-- SASU Mod 2 -->
+        <table id="tableMod2">
+            <caption>Récapitulatif de Paie - SASU Mod 2</caption>
+            <tr>
+                <td>ACRE</td>
+                <td>Fiscalité</td>
+                <th>CA Facturé Client</th>
+                <td>Honoraires Digiwork</td>
+                <td>Achats Société</td>
+                <td>Frais de repas</td>
+                <td>Frais de déplacements</td>
+                <td>Salaire Brut</td>
+                <th>RCAI</th>
+                <td>CSG/CRDS</td>
+                <th>Revenu Net avant impôt (1)</th>
+                <th>Salaire chargé</th>
+                <th>Salaire Net avant impôt (2)</th>
+                <th>Impôt sur le revenu</th>
+                <td>Barème progressif</td>
+                <th>Revenu net d'impôt total (1+2)</th>
+                <td>dont achats société</td>
+                <td>dont frais de repas</td>
+                <td>dont frais de déplacements</td>
+                <th>Pouvoir d'achat</th>
+                <td>Rendement</td>
+            </tr>
+            <tr>
+                <td>Non</td>
+                <td>IR</td>
+                <th id="CAFactureClientSASUMod2">0</th>
+                <td id="honorairesDWSASUMod2">0</td>
+                <td id="achatsSocieteSASUMod2_1">0</td>
+                <td id="fraisRepasSASUMod2_1"></td>
+                <td id="fraisDeplacementSASUMod2_1"></td>
+                <td id="salaireBrutSASUMod2">0</td>
+                <th id="RCAISASUMod2">0</th>
+                <td id="CSG"></td>
+                <th id="revenuNetAvantImpotSASUMod2">0</th>
+                <th id="salaireChargeSASUMod2"></th>
+                <th id="salaireNetAvantImpotSASUMod2"></th>
+                <th id="impotSurRevenuSASUMod2">0</th>
+                <td id="baremeProgressifSASUMod2">0</td>
+                <th id="revenuNetImpotTotalSASUMod2">0</th>
+                <td id="achatsSocieteSASUMod2_2">0</td>
+                <td id="fraisRepasSASUMod2_2"></td>
+                <td id="fraisDeplacementSASUMod2_2"></td>
+                <th id="pouvoirAchatSASUMod2">0</th>
+                <td id="rendementSASUMod2">0</td>
+            </tr>
+        </table>
+        <!-- Fin SASU Mod 2 -->
+        <!-- EURL -->
+        <table id="tableEURL">
+            <caption>Récapitulatif de Paie - EURL IS</caption>
+            <tr>
+                <td>ACRE</td>
+                <td>Fiscalité</td>
+                <th>CA Facturé Client</th>
+                <td>Honoraires Digiwork</td>
+                <td>Achats Société</td>
+                <td>Frais de repas</td>
+                <td>Frais de déplacements</td>
+                <th>Salaire Brut</th>
+                <td>Cotisations salariales/patronales</td>
+                <th>Salaire Net avant impôt</th>
+                <th>Impôt sur le revenu</th>
+                <td>Barème progressif</td>
+                <th>Revenu net d'impôt total</th>
+                <td>dont achats société</td>
+                <td>dont frais de repas</td>
+                <td>dont frais de déplacements</td>
+                <th>Pouvoir d'achat</th>
+                <td>Rendement</td>
+            </tr>
+            <tr>
+                <td>Non</td>
+                <td>IS</td>
+                <th id="CAFactureClientEURL">0</th>
+                <td id="honorairesDWEURL">0</td>
+                <td id="achatsSocieteEURL_1">0</td>
+                <td id="fraisRepasEURL_1"></td>
+                <td id="fraisDeplacementEURL_1"></td>
+                <td id="salaireBrutEURL">0</td>
+                <td id="cotisationsSalarialesPatronales">0</td>
+                <th id="salaireNetAvantImpotEURL"></th>
+                <th id="impotSurRevenuEURL">0</th>
+                <td id="baremeProgressifEURL">0</td>
+                <th id="revenuNetImpotTotalEURL">0</th>
+                <td id="achatsSocieteEURL_2">0</td>
+                <td id="fraisRepasEURL_2">0</td>
+                <td id="fraisDeplacementEURL_2">0</td>
+                <th id="pouvoirAchatEURL">0</th>
+                <td id="rendementEURL">0</td>
+            </tr>
+        </table>
+        <!-- Fin EURL -->
+
+        <!-- Scénario -->
+        <table id="tableScenario">
+            <tr>
+                <td></td>
+                <td>
+                    <select class="selectInput1" id="select1">
+                        <option value="PS">Portage Salarial</option>
+                        <option value="ME">Micro Entreprise</option>
+                        <option value="SASUMod1">SASU Mod 1</option>
+                        <option value="SASUMod2">SASU Mod 2</option>
+                        <option value="EURL">EURL IS</option>
+                        <option value="rien">Rien</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput1" id="select2">
+                        <option value="PS">Portage Salarial</option>
+                        <option value="ME">Micro Entreprise</option>
+                        <option value="SASUMod1">SASU Mod 1</option>
+                        <option value="SASUMod2">SASU Mod 2</option>
+                        <option value="EURL">EURL IS</option>
+                        <option value="rien">Rien</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput1" id="select3">
+                        <option value="PS">Portage Salarial</option>
+                        <option value="ME">Micro Entreprise</option>
+                        <option value="SASUMod1">SASU Mod 1</option>
+                        <option value="SASUMod2">SASU Mod 2</option>
+                        <option value="EURL">EURL IS</option>
+                        <option value="rien">Rien</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput1" id="select4">
+                        <option value="PS">Portage Salarial</option>
+                        <option value="ME">Micro Entreprise</option>
+                        <option value="SASUMod1">SASU Mod 1</option>
+                        <option value="SASUMod2">SASU Mod 2</option>
+                        <option value="EURL">EURL IS</option>
+                        <option value="rien">Rien</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput1" id="select5">
+                        <option value="PS">Portage Salarial</option>
+                        <option value="ME">Micro Entreprise</option>
+                        <option value="SASUMod1">SASU Mod 1</option>
+                        <option value="SASUMod2">SASU Mod 2</option>
+                        <option value="EURL">EURL IS</option>
+                        <option value="rien">Rien</option>
+                    </select>
+                </td>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <th>Nombre de mois</th>
+                <td><input type="number" class="nbMois" value="12"></td>
+                <td><input type="number" class="nbMois" value="12"></td>
+                <td><input type="number" class="nbMois" value="12"></td>
+                <td><input type="number" class="nbMois" value="12"></td>
+                <td><input type="number" class="nbMois" value="12"></td>
+                <td id="totalMoisScenario"></td>
+            </tr>
+            <tr>
+                <td>Droit à l'ARCE</td>
+                <td class="select">
+                    <select class="ACREselect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledARCE" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="ACREselect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledARCE" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="ACREselect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledARCE" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="ACREselect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledARCE" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="ACREselect">
+                        <option value="non" >Non</option>
+                        <option value="oui" class="disabledARCE" disabled>Oui</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Droit à la fiscalité</td>
+                <td class="select">
+                    <select class="fiscaliteSelect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledFiscalite" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="fiscaliteSelect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledFiscalite" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="fiscaliteSelect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledFiscalite" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="fiscaliteSelect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledFiscalite" disabled>Oui</option>
+                    </select>
+                </td>
+                <td class="select">
+                    <select class="fiscaliteSelect">
+                        <option value="non">Non</option>
+                        <option value="oui" class="disabledFiscalite" disabled>Oui</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>Moyenne</th>
+            </tr>
+            <tr>
+                <th>Salaire mensuel</th>
+                <td class="salaireMois"></td>
+                <td class="salaireMois"></td>
+                <td class="salaireMois"></td>
+                <td class="salaireMois"></td>
+                <td class="salaireMois"></td>
+                <th id="salaireMoisMoyenne"></th>
+            </tr>
+            <tr>
+                <th>Cumul de la période</th>
+                <td class="cumulPeriode"></td>
+                <td class="cumulPeriode"></td>
+                <td class="cumulPeriode"></td>
+                <td class="cumulPeriode"></td>
+                <td class="cumulPeriode"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Droit Pôle Emploi</th>
+                <td>
+                    <select class="selectInput2">
+                        <option value="aucun">Aucun</option>
+                        <option value="ARCE" class="disabledARCE_droitsPE" disabled>ARCE</option>
+                        <option value="ARE" class="disabledARE_droitsPE" disabled>ARE</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput2">
+                        <option value="aucun">Aucun</option>
+                        <option value="ARCE" class="disabledARCE_droitsPE" disabled>ARCE</option>
+                        <option value="ARE" class="disabledARE_droitsPE" disabled>ARE</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput2">
+                        <option value="aucun">Aucun</option>
+                        <option value="ARCE" class="disabledARCE_droitsPE" disabled>ARCE</option>
+                        <option value="ARE" class="disabledARE_droitsPE" disabled>ARE</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput2">
+                        <option value="aucun">Aucun</option>
+                        <option value="ARCE" class="disabledARCE_droitsPE" disabled>ARCE</option>
+                        <option value="ARE" class="disabledARE_droitsPE" disabled>ARE</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="selectInput2">
+                        <option value="aucun">Aucun</option>
+                        <option value="ARCE" class="disabledARCE_droitsPE" disabled>ARCE</option>
+                        <option value="ARE" class="disabledARE_droitsPE" disabled>ARE</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Indémnité Net Mensuel</th>
+                <td class="indemniteNetMensuel"></td>
+                <td class="indemniteNetMensuel"></td>
+                <td class="indemniteNetMensuel"></td>
+                <td class="indemniteNetMensuel"></td>
+                <td class="indemniteNetMensuel"></td>
+                <th id="indemniteMoisMoyenne"></th>
+            </tr>
+            <tr>
+                <td>Indémnité Net Période</td>
+                <td class="indemniteNetPeriode"></td>
+                <td class="indemniteNetPeriode"></td>
+                <td class="indemniteNetPeriode"></td>
+                <td class="indemniteNetPeriode"></td>
+                <td class="indemniteNetPeriode"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Pouvoir d'achat Mensuel</th>
+                <td class="PAMois"></td>
+                <td class="PAMois"></td>
+                <td class="PAMois"></td>
+                <td class="PAMois"></td>
+                <td class="PAMois"></td>
+                <th id="PAMoisMoyenne"></th>
+            </tr>
+            <tr>
+                <td>Pouvoir d'achat Période</td>
+                <td class="PAPeriode"></td>
+                <td class="PAPeriode"></td>
+                <td class="PAPeriode"></td>
+                <td class="PAPeriode"></td>
+                <td class="PAPeriode"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Impôt Annuel</td>
+                <td class="impotAnnuelScenario"></td>
+                <td class="impotAnnuelScenario"></td>
+                <td class="impotAnnuelScenario"></td>
+                <td class="impotAnnuelScenario"></td>
+                <td class="impotAnnuelScenario"></td>
+                <td></td>
+            </tr>
+        </table>
+        <!-- Fin scénario -->
+
+        <!-- Début calculTJM -->
+        <table id="calculTJMTable">
+            <caption>Comparatif des différents récapitulatifs de Paie</caption>
+                <tr>
+                    <td></td>
+                    <td id="nameCalcTJM_1"></td>
+                    <td id="nameCalcTJM_2"></td>
+                    <td id="nameCalcTJM_3"></td>
+                    <td id="nameCalcTJM_4"></td>
+                    <td id="nameCalcTJM_5"></td>
+                </tr>
+                <tr>
+                    <td>TJM</td>
+                    <td id="TJM_A1">0</td>
+                    <td id="TJM_A2">0</td>
+                    <td id="TJM_A3">0</td>
+                    <td id="TJM_A4">0</td>
+                    <td id="TJM_A5">0</td>
+                </tr>
+                <tr>
+                    <td>Rendement</td>
+                    <td id="rendementCalcTJM_B1">0</td>
+                    <td id="rendementCalcTJM_B2">0</td>
+                    <td id="rendementCalcTJM_B3">0</td>
+                    <td id="rendementCalcTJM_B4">0</td>
+                    <td id="rendementCalcTJM_B5">0</td>
+                </tr>
+                <tr>
+                    <td>Pouvoir d'achat</td>
+                    <td id="PACalcTJM_C1">0</td>
+                    <td id="PACalcTJM_C2">0</td>
+                    <td id="PACalcTJM_C3">0</td>
+                    <td id="PACalcTJM_C4">0</td>
+                    <td id="PACalcTJM_C5">0</td>
+                </tr>
+                <tr>
+                    <td>Chiffre d'affaires</td>
+                    <td id="CACalcTJM_D1">0</td>
+                    <td id="CACalcTJM_D2">0</td>
+                    <td id="CACalcTJM_D3">0</td>
+                    <td id="CACalcTJM_D4">0</td>
+                    <td id="CACalcTJM_D5">0</td>
+                </tr>
+        </table>
+    </section>
+    </main>
+
+    <script src="variables.js"></script>
+    <script src="BudgetToHoraire.js"></script>
+    <script src="calculBareme.js"></script>
+    <script src="ME.js"></script>
+    <script src="SASUMod1.js"></script>
+    <script src="SASUMod2.js"></script>
+    <script src="EURL.js"></script>
+    <script src="scenario.js"></script>
+    <script src="calculTJM.js"></script>
+</body>
+</html>
