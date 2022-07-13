@@ -21,7 +21,7 @@ const fraisDeplacementSASUMod1_2 = document.getElementById("fraisDeplacementSASU
 const pouvoirAchatSASUMod1 = document.getElementById("pouvoirAchatSASUMod1")
 const rendementSASUMod1 = document.getElementById("rendementSASUMod1")
 
-function afficherDataMod1(){
+function afficherDataMod1(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
     const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
@@ -32,11 +32,13 @@ function afficherDataMod1(){
     const ISMois = RCAIMois > varISMois ? (-0.25 * (RCAIMois - varISMois) - 0.15 * varISMois) : (-0.15 * RCAIMois)
     const revenuNetAvantImpotMois = RCAIMois + ISMois
     const salaireNetAvantImpotMois = 12 * salaireBrutMois >= 6000 ? getNetAvantImpot(12 * salaireBrutMois) / 12 : 0
-    const PFUMois = calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])
-    const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0] 
+    const PFUMois = calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) // Calcul du PFU
+    const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0] // Calcul du barème progressif. On récupère la première valeur
     const impotSurRevenuMois = Math.max(PFUMois, baremeProgressifMois)
     const revenuNetImpotTotalMois = salaireNetAvantImpotMois + revenuNetAvantImpotMois + impotSurRevenuMois - fraisDeplacementMois - fraisRepasMois - achatsSocieteMois
     const rendementMois = revenuNetImpotTotalMois / CAFactureClientMois * 100
+
+    // Affichage des éléments dans la fiche de paie simplifiée (pas nécessairement d'affichage)
     CAFactureClientSASUMod1.innerText = `${CAFactureClientMois.toFixed(2)} €`
     honorairesDWSASUMod1.innerText = `${honorairesDWMois.toFixed(2)} €`
     achatsSocieteSASUMod1_1.innerText = `${achatsSocieteMois.toFixed(2)} €`
@@ -62,7 +64,7 @@ function afficherDataMod1(){
 }
 
 
-function getNetAvantImpot(salaireBr){
+function getNetAvantImpot(salaireBr){ // Récupération du Net Avant Impot (ligne 9) en fonction du salaire brut dans le fichier data.json (BDD)
     var xhReq = new XMLHttpRequest();
     xhReq.open("GET", 'data.json', false);
     xhReq.send(null);

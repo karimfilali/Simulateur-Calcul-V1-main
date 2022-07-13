@@ -10,10 +10,6 @@
     font-family: "open_sans",Arial,Helvetica,sans-serif;
 }
 
-html{
-    font-size: 62.5%;
-}
-
 body{
     background-color:#e5e5e5;
 }
@@ -25,23 +21,23 @@ main{
 }
 
 .mainHeading{
-    font-size: 1.1rem;
+    font-size: 1.6rem;
     text-align: center;
 }
 
 .chapeau{
-    font-size: 0.7rem;
+    font-size: 1rem;
     margin: 2rem 0 0;
     text-align: justify;
 }
 
 .chapeauQuestion{
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     margin: 1.5rem 0 0.5rem;
 }
 
 #simulation-select{
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 #simulation-select option{
@@ -49,12 +45,12 @@ main{
 }
 
 #selectDetails{
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-left: 1rem;
 }
 
 .messageAvertissement{
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     margin: 0.5rem 0;
     text-align: center;
 }
@@ -73,11 +69,11 @@ main{
 }
 
 .rowInput select{
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }
 
 .inputsCompare label, .inputsCompare input, .inputsScenario label, .inputsScenario input{
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 .inputsCompare input, .inputsScenario input, .nbMois{
@@ -86,7 +82,7 @@ main{
 }
 
 #submitBtnCalculate, #submitBtnCalculateTJM{
-    font-size: 1rem;
+    font-size: 1.3rem;
     display: flex;
     margin-left: auto;
     background-color:#002a40;
@@ -138,7 +134,7 @@ table td, table th{
     margin: 2rem;
     caption-side: bottom;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: left;
 }
 
@@ -164,9 +160,9 @@ table td, table th{
 }
 
 #tableME .select{
-    font-size: 1.02rem;
+    font-size: 1.08rem;
 }
 
 #tableScenario *{
-    font-size: 1rem;
+    font-size: 1.1rem;
 }

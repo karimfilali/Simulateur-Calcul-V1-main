@@ -1,3 +1,4 @@
+// Récupération des différentes tables
 const tableBulletinSalaire = document.getElementById("tableBulletinSalaire")
 const tableME = document.getElementById("tableME")
 const tableMod1 = document.getElementById("tableMod1")
@@ -6,8 +7,9 @@ const tableEURL = document.getElementById("tableEURL")
 const tableScenario = document.getElementById("tableScenario")
 const calculTJMTable = document.getElementById("calculTJMTable")
 
-const simulationSelect = document.getElementById("simulation-select")
+const simulationSelect = document.getElementById("simulation-select") // Select qui permet de sélectionner Comparer, Afficher, Scénario, calculTJM
 
+// Toutes les entrées
 const inputTJM = document.getElementById("inputTJM")
 const inputNbJoursTravailAn = document.getElementById("inputNbJoursTravailAn")
 const inputBudget = document.getElementById("inputBudget")
@@ -25,10 +27,10 @@ const inputIndemnitePE = document.getElementById("inputIndemnitePE")
 const ACREInput = document.getElementById("ACREinput")
 const fiscaliteInput = document.getElementById("fiscaliteInput")
 
-const submitBtnCalculate = document.getElementById("submitBtnCalculate")
-const submitBtnCalculateTJM = document.getElementById("submitBtnCalculateTJM")
+const submitBtnCalculate = document.getElementById("submitBtnCalculate") // Bouton de calcul du comparatif
+const submitBtnCalculateTJM = document.getElementById("submitBtnCalculateTJM") // Bouton de calcul du TJM
 
-const selectDetails = document.getElementById("selectDetails")
+const selectDetails = document.getElementById("selectDetails") // Select qui permet de sélectionner PS, ME, SASU ou EURL dans le cas de l'affichage du bulletin de paie simplifié
 
 let valueACREinput
 let valueFiscaliteInput

@@ -145,6 +145,7 @@ function calculateShowData(){
     console.log("ligne4 : " + ligne4);
     console.log("ligne5 : " + ligne5);
     console.log("ligne6 : " + ligne6);
+    console.log("impotAnnuelTab : " + impotAnnuelTab)
 }
 
 // Renvoie la moyenne des valeurs d'un tableau pour la colonne Moyenne
@@ -154,8 +155,7 @@ function calculateMoyenneTableau(tableau){
     return moy / tableau.length
 }
 
-// Les cinq fonctions suivantes calculent les indémnités net Période
-function calculIndemniteNetPeriodePS(i){
+function calculIndemniteNetPeriodePS(i){ // Calcul des indémnités Net Période Portage Salarial
     if(i == 0){
         ligne3.push(0)
         ligne4.push(0)
@@ -170,7 +170,7 @@ function calculIndemniteNetPeriodePS(i){
     return 0
 }
 
-function calculIndemniteNetPeriodeME(i){
+function calculIndemniteNetPeriodeME(i){ // Calcul des indémnités Net Période Micro Entreprise
     if(i == 0){
         ligne3.push(capitalInitial * 0.45)
         ligne4.push(0)
@@ -190,7 +190,7 @@ function calculIndemniteNetPeriodeME(i){
     return ligne3[i]
 }
 
-function calculIndemniteNetPeriodeSASUMod1(i){
+function calculIndemniteNetPeriodeSASUMod1(i){ // Calcul des indémnités Net Période SASU Mod 1
     if(i == 0){
         ligne3.push(0)
         ligne5.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
@@ -212,7 +212,7 @@ function calculIndemniteNetPeriodeSASUMod1(i){
     return ligne4[i]
 }
 
-function calculIndemniteNetPeriodeSASUMod2(i){
+function calculIndemniteNetPeriodeSASUMod2(i){ // Calcul des indémnités Net Période SASU Mod 2
     if(i == 0){
         ligne3.push(0)
         ligne4.push(0)
@@ -227,7 +227,7 @@ function calculIndemniteNetPeriodeSASUMod2(i){
     return 0
 }
 
-function calculIndemniteNetPeriodeEURL(i){
+function calculIndemniteNetPeriodeEURL(i){ // Calcul des indémnités Net Période EURL
     if(i == 0){
         ligne3.push(0)
         ligne4.push(0)
@@ -242,9 +242,8 @@ function calculIndemniteNetPeriodeEURL(i){
     return 0
 }
 
-// Les cinq fonctions suivantes calculent les impôts annuels
 // A compléter
-function calculImpotAnnuelPS(i, indemniteNetPeriodeTab){
+function calculImpotAnnuelPS(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels Portage Salarial
     if(indemniteNetPeriodeTab[i] == 0) return 0
     let indemniteNetTotal = indemniteNetPeriodeTab.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
 
@@ -253,26 +252,26 @@ function calculImpotAnnuelPS(i, indemniteNetPeriodeTab){
     return O71 - I71 // BSsansGF_O73
 }
 
-function calculImpotAnnuelME(i, indemniteNetPeriodeTab){
+function calculImpotAnnuelME(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels Micro Entreprise
     if(indemniteNetPeriodeTab[i] == 0) return 0
     let indemniteNetTotal = indemniteNetPeriodeTab.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
 
-    const CAClientMois = nbJoursTravailAn * TJM / 12 // Cellule C28
-    const honorairesMois = -CAClientMois * honoraires / 100  // Cellule C29
+    const CAClientMois = nbJoursTravailAn * TJM / 12 // ME!C28
+    const honorairesMois = -CAClientMois * honoraires / 100  // ME!C29
     const CAIndependantMois = CAClientMois + honorairesMois
     let W24 = calculBaremeProgressif("MEScenario", [CAIndependantMois, indemniteNetTotal])[2]
 
-    if(fiscaliteSelects[i].value == "oui"){
+    if(fiscaliteSelects[i].value == "oui"){ // Si l'on accepte la fiscalité dans la colonne
         let U6 = CAIndependantMois * 0.66 * 12 + indemniteNetTotal
         let W27 = W24 / (U6 + revenusConjoint)
         return calculCapitalInitialEtJ5() * W27 // ME!W28
-    } else {
+    } else { // Si l'on n'accepte pas la fiscalité dans la colonne
         let P24 = calculBaremeProgressif("ME", CAIndependantMois)[2]
         return W24 - P24 //ME!W30
     }
 }
 
-function calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab){
+function calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels SASU Mod 1
     if(indemniteNetPeriodeTab[i] == 0) return 0
     let indemniteNetTotal = indemniteNetPeriodeTab.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
 
@@ -297,7 +296,7 @@ function calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab){
     return Math.min(AJ23, AC23) // SASU IS!AD27
 }
 
-function calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab){
+function calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab){  // Calcul des impôts annuels SASU Mod 2
     if(indemniteNetPeriodeTab[i] == 0) return 0
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
@@ -315,7 +314,7 @@ function calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab){
 }
 
 // A compléter
-function calculImpotAnnuelEURL(i, indemniteNetPeriodeTab){
+function calculImpotAnnuelEURL(i, indemniteNetPeriodeTab){  // Calcul des impôts annuels EURL
     if(indemniteNetPeriodeTab[i] == 0) return 0
     // return ??
     return 7051.08

@@ -18,7 +18,7 @@ const fraisDeplacementSASUMod2_2 = document.getElementById("fraisDeplacementSASU
 const pouvoirAchatSASUMod2 = document.getElementById("pouvoirAchatSASUMod2")
 const rendementSASUMod2 = document.getElementById("rendementSASUMod2")
 
-function afficherDataMod2(){
+function afficherDataMod2(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
     const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
@@ -33,6 +33,7 @@ function afficherDataMod2(){
     const pouvoirAchatMois = revenuNetAvantImpotMois + salaireNetAvantImpotMois + baremeProgressifMois - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois
     const rendementMois = pouvoirAchatMois / CAFactureClientMois * 100
 
+    // Affichage des éléments dans la fiche de paie simplifiée (pas nécessairement d'affichage)
     CAFactureClientSASUMod2.innerText = `${CAFactureClientMois.toFixed(2)} €`
     honorairesDWSASUMod2.innerText = `${honorairesDWMois.toFixed(2)} €`
     achatsSocieteSASUMod2_1.innerText = `${achatsSocieteMois.toFixed(2)} €`
@@ -57,7 +58,7 @@ function afficherDataMod2(){
 }
 
 
-function getNetAvantImpot(salaireBr){
+function getNetAvantImpot(salaireBr){ // Récupération du Net Avant Impot (ligne 9) en fonction du salaire brut dans le fichier data.json (BDD)
     var xhReq = new XMLHttpRequest();
     xhReq.open("GET", 'data.json', false);
     xhReq.send(null);
