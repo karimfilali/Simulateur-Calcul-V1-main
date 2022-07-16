@@ -17,7 +17,6 @@ function calculBaremeProgressif(config, inputValues){
     const taux2 = 0.11
     const taux3 = 0.30
     const taux4 = 0.41
-    console.log(config);
     let revenusIndependant = calculRevenusIndependant(config, inputValues)
     let PIAA = (revenusIndependant + revenusConjoint) / nbParts
     let surplus1 = Math.max(PIAA - seuil1, 0)

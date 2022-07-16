@@ -447,10 +447,6 @@ function apresCotisations(){ // Calcul et affichage des élements APRES salaire 
 
 function calculTauxHoraireFromBudget(){ // Fonction de calcul du taux horaire à partir du budget
     recherche_dichotomie_Budget(budget, 0, budget, 100)
-
-    if(garantieFinanciereChecked) tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095 - 0.1)) // Détermination du taux Horaire en fonction du salaire Brut
-    else tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095)) // La différence avec la ligne au dessus est que l'on soustrait 10% (d'où le -0.1)
-    calculateBeforeSalaireBrut()
 }
 
 function recherche_dichotomie_Budget(budget, a, b, n){
@@ -467,7 +463,11 @@ function recherche_dichotomie_Budget(budget, a, b, n){
     calculateBaseSalariale()
     calculSalarial()
     calculateCotisations() // Calcul de la fiche de paie en fonction du salaire Brut supposé
-    
+
+    if(garantieFinanciereChecked) tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095 - 0.1)) // Détermination du taux Horaire en fonction du salaire Brut
+    else tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095)) // La différence avec la ligne au dessus est que l'on soustrait 10% (d'où le -0.1)
+    calculateBeforeSalaireBrut()
+
     budgetTotal = salaireBrut - cotisationsPatronales + fraisDeplacements + fraisProfessionnels - E8
     if(budgetTotal < budget) recherche_dichotomie_Budget(budget, salaireBrut, b, n-1)
     else recherche_dichotomie_Budget(budget, a, salaireBrut, n-1)

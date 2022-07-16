@@ -12,7 +12,6 @@ const simulationSelect = document.getElementById("simulation-select") // Select 
 // Toutes les entrées
 const inputTJM = document.getElementById("inputTJM")
 const inputNbJoursTravailAn = document.getElementById("inputNbJoursTravailAn")
-const inputBudget = document.getElementById("inputBudget")
 const inputPouvoirAchatSouhaite = document.getElementById("inputPAsouhaiteTJM")
 const inputAchatSociete = document.getElementById("inputAchatSociete")
 const inputFraisRepas = document.getElementById("inputFraisRepas")
@@ -66,7 +65,9 @@ function getInputData(){
     TJM = parseInt(inputTJM.value)
     nbJoursTravailAn = parseInt(inputNbJoursTravailAn.value)
     nbJoursTravailMois = nbJoursTravailAn / 12
-    budget = parseInt(inputBudget.value)
+    honoraires = parseInt(inputHonoraires.value)
+    budget = TJM * nbJoursTravailMois * (1 - honoraires / 100)
+    console.log("CA Prévisionnel : " + budget);
     pouvoirAchatSouhaite = parseInt(inputPouvoirAchatSouhaite.value)
     achatSociete = parseInt(inputAchatSociete.value)
     fraisRepas = parseInt(inputFraisRepas.value)
@@ -74,7 +75,6 @@ function getInputData(){
     revenuConsultantBrut = parseInt(inputRevenuConsultantBrut.value)
     nbParts = parseInt(inputNbParts.value)
     revenusConjoint = parseInt(inputRevenusConjoint.value) * 0.71
-    honoraires = parseInt(inputHonoraires.value)
     oldBrutPE = parseInt(inputBrutPE.value)
     dureeIndemnitePE = parseInt(inputIndemnitePE.value)
     fraisProfessionnels = achatSociete / 12 + fraisRepas
@@ -113,7 +113,6 @@ simulationSelect.addEventListener("change", () => {
     document.getElementById("PAsouhaiteTJM").style.display = 'none'
     document.getElementById("ACRE_TJM").style.display = 'none'
     document.getElementById("fiscaliteTJM").style.display = 'none'
-    document.getElementById("budgetTJM").style.display = 'flex'
     
     if(simulationSelect.value == "compare"){
         document.getElementById("inputsCompare").style.display = 'block'
