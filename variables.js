@@ -146,7 +146,6 @@ simulationSelect.addEventListener("change", () => {
         document.getElementById("PAsouhaiteTJM").style.display = 'flex'
         document.getElementById("ACRE_TJM").style.display = 'flex'
         document.getElementById("fiscaliteTJM").style.display = 'flex'
-        document.getElementById("budgetTJM").style.display = 'none'
     }
 })
 

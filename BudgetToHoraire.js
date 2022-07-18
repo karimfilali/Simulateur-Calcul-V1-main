@@ -163,25 +163,24 @@ let cotisationsSalariales
 let cotisationsPatronales
 
 function createFichePaie(){
-    calculTauxHoraireFromBudget()
+    calculTauxHoraireFromBudget() // Calcul du taux horaire en fonction du CA prévisionnel
     sB.forEach(cell => cell.innerText = `${salaireBrut.toFixed(2)} €`) // Afficher tous les Salaires Bruts dans les cases correspondantes
-    showTauxPatronaux()
-    calculateBasePatronale()
-    showBasePatronale()
-    calculPatronal()
-    showPatronal()
+    showTauxPatronaux() // Affichage des élements colonne G
+    calculateBasePatronale() // Calcul des éléments colonne F
+    showBasePatronale() // Affichage des éléments colonne F
+    calculPatronal() // Calcul des éléments colonne H
+    showPatronal() // Affichage des éléments colonne H
 
-    showTauxSalariaux()
-    calculateBaseSalariale()
-    showBaseSalariale()
-    calculSalarial()
-    showSalarial()
+    showTauxSalariaux() // Affichage des éléments colonne D
+    calculateBaseSalariale() // Calcul des éléments colonne C
+    showBaseSalariale() // Affichage des éléments colonne C
+    calculSalarial() // Calcul des éléments colonne E
+    showSalarial() // Affichage des éléments colonne E
 
-    calculateCotisations()
+    calculateCotisations() // Calcul et affichage des cotisations patronales et salariales
     apresCotisations()
 
-    let outputs = sendDataSimplifiee()
-    return outputs
+    return sendDataSimplifiee() // Renvoi du pouvoir d'achat et du rendement en fonction des données entrées pour la partie 'affiche' et 'calculTJM'
 }
 
 function calculateBeforeSalaireBrut(){ // Calcul des éléments colonne C et E AVANT salaire Brut en fonction du tauxHoraire
