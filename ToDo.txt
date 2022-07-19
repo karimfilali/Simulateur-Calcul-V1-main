@@ -3,9 +3,11 @@ Commentaires :
 - Formule dans la case Scénario!M21 différente de Scénario!N21 et Scénario!O21
 - Quelle valeur dans scénario pour calculImpotAnnuelEURL ?
 - Erreur en cellule SASU IS!AI20
+
 To Do :
 - Responsive
 - Continuer le codage de scénario
-- Le budget correspond à la case CA Indépendant Simulation!C22 (mais la case n'est pas modifiée si l'on change le taux horaire)
 
 - N'y a-t-il pas une répétition des const dans scénario.js calcul des impôts avec getInputData() ?
+
+- Scénario Ligne 16, expliquer SI(). De plus, indemnisation = 0 si PS ou SASU IR ?

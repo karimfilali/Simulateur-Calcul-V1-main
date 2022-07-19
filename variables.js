@@ -67,7 +67,6 @@ function getInputData(){
     nbJoursTravailMois = nbJoursTravailAn / 12
     honoraires = parseInt(inputHonoraires.value)
     budget = TJM * nbJoursTravailMois * (1 - honoraires / 100)
-    console.log("CA Prévisionnel : " + budget);
     pouvoirAchatSouhaite = parseInt(inputPouvoirAchatSouhaite.value)
     achatSociete = parseInt(inputAchatSociete.value)
     fraisRepas = parseInt(inputFraisRepas.value)
@@ -75,11 +74,13 @@ function getInputData(){
     revenuConsultantBrut = parseInt(inputRevenuConsultantBrut.value)
     nbParts = parseInt(inputNbParts.value)
     revenusConjoint = parseInt(inputRevenusConjoint.value) * 0.71
-    oldBrutPE = parseInt(inputBrutPE.value)
-    dureeIndemnitePE = parseInt(inputIndemnitePE.value)
-    fraisProfessionnels = achatSociete / 12 + fraisRepas
 
-    garantieFinanciereChecked = document.getElementById("inputGarantieFinanciere").checked
+    oldBrutPE = parseInt(inputBrutPE.value) // Partie Scénario
+    dureeIndemnitePE = parseInt(inputIndemnitePE.value) // Partie Scénario
+    
+    fraisProfessionnels = achatSociete / 12 + fraisRepas // Utilisé dans le calcul de la fiche de paie Portage Salarial
+
+    garantieFinanciereChecked = document.getElementById("inputGarantieFinanciere").checked // La garantie financière a-t-elle été cochée?
     garantieFinanciere = garantieFinanciereChecked ? 10 : 0
 
     valueACREinput = (ACREInput.value === "oui")

@@ -18,9 +18,6 @@ const disabledARCE_droitsPE = document.querySelectorAll(".disabledARCE_droitsPE"
 const disabledARE_droitsPE = document.querySelectorAll(".disabledARE_droitsPE")
 
 let capitalInitial
-const capitalJour = 23
-
-// calculateShowData()
 
 document.getElementById("inputBrutPE").addEventListener("change", calculateShowData)
 document.getElementById("inputIndemnitePE").addEventListener("change", calculateShowData)
@@ -31,8 +28,8 @@ ACREselects.forEach(select => select.addEventListener("change", calculateShowDat
 fiscaliteSelects.forEach(select => select.addEventListener("change", calculateShowData))
 
 
-let ligne3
-let ligne4
+let ligneARCE
+let ligneARE
 let ligne5
 let ligne6
 
@@ -42,6 +39,18 @@ function calculCapitalInitialEtJ5(){
     return capitalInitial * 12 / dureeIndemnitePE // Return Départ!J5
 }
 
+function calculLigneARCEetARE(){
+    ligneARCE = [0, 0, 0, 0, 0]
+    ligneARE = []
+    for(let i = 0 ; i < 5 ; i++){
+        if(selectInputs1[i].value != "ME") ACREselects[i].value = "non"
+        if(selectInputs1[i].value != "ME") fiscaliteSelects[i].value = "non"
+        if(ACREselects[i].value === "oui" && !ligneARCE.includes(1)) ligneARCE[i] = 1 // Si l'on sélectionne l'ARCE à la colonne i et qu'il n'a pas été sélecionné aux colonnes avant
+        if(fiscaliteSelects[i].value == "oui") ligneARE.push(Math.min(nbMois[i].value, parseInt(dureeIndemnitePE - ligneARE.reduce((partialSum, a) => partialSum + a, 0))))
+        else ligneARE.push(0)
+    }
+}
+
 function calculateShowData(){
     let indemniteNetPeriodeTab = []
     let salaireMoisTab = []
@@ -49,21 +58,18 @@ function calculateShowData(){
     let pouvoirAchatMoisTab = []
 
     calculCapitalInitialEtJ5()
-    
-    ligne3 = []
-    ligne4 = []
+    calculLigneARCEetARE()
+
     ligne5 = []
     ligne6 = [] // Réinitialisation des valeurs pour chaque changement de valeur
 
     for(let i = 0 ; i < 5 ; i++){
         disabledARCE[i].disabled = true
-        disabledFiscalite[i].disabled = true
+        disabledFiscalite[i].disabled = true // On empêche la sélection de l'ARCE et de la fiscalité si l'on n'est pas dans ME
         disabledARCE_droitsPE[i].disabled = true
-        disabledARE_droitsPE[i].disabled = true // On désélectionne le ARCE et Fiscalité pour ME et on désélectionne ARCE et ARE pour les droits Pôle Emploi
+        disabledARE_droitsPE[i].disabled = true // On empêche la sélection de l'ARCE et de l'ARE pour les droits Pôle Emploi
 
         if(selectInputs1[i].value == "PS"){
-            ACREselects[i].value = "non"
-            fiscaliteSelects[i].value = "non"
             selectInputs2[i].value = "aucun"
             
             createFichePaie()
@@ -75,9 +81,9 @@ function calculateShowData(){
         if(selectInputs1[i].value == "ME"){
             disabledARCE[i].disabled = false
             disabledFiscalite[i].disabled = false
-            disabledARCE_droitsPE[i].disabled = false
+            disabledARCE_droitsPE[i].disabled = false // On réactive la possibilité de sélectionner l'ARCE, la fiscalité et l'ARCE Pôle Emploi
             if(selectInputs2[i].value == "ARE") selectInputs2[i].value = "aucun"
-            
+
             salaireMoisTab.push(afficherDataME("scenario", i)[1])
             indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeME(i))
             impotAnnuelTab.push(calculImpotAnnuelME(i, indemniteNetPeriodeTab))
@@ -86,8 +92,6 @@ function calculateShowData(){
         if(selectInputs1[i].value == "SASUMod1"){
             disabledARCE_droitsPE[i].disabled = false
             disabledARE_droitsPE[i].disabled = false
-            ACREselects[i].value = "non"
-            fiscaliteSelects[i].value = "non"
             
             salaireMoisTab.push(afficherDataMod1()[1])
             indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeSASUMod1(i))
@@ -96,8 +100,6 @@ function calculateShowData(){
         
         if(selectInputs1[i].value == "SASUMod2"){
             disabledARCE_droitsPE[i].disabled = false
-            ACREselects[i].value = "non"
-            fiscaliteSelects[i].value = "non"
             if(selectInputs2[i].value == "ARE") selectInputs2[i].value = "aucun"
 
             salaireMoisTab.push(afficherDataMod2()[1])
@@ -106,10 +108,9 @@ function calculateShowData(){
         }
 
         if(selectInputs1[i].value == "EURL"){
-            ACREselects[i].value = "non"
-            fiscaliteSelects[i].value = "non"
             disabledARCE_droitsPE[i].disabled = false
             disabledARE_droitsPE[i].disabled = false
+
             salaireMoisTab.push(afficherDataEURL()[1])
             indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeEURL(i))
             impotAnnuelTab.push(calculImpotAnnuelEURL(i, indemniteNetPeriodeTab))
@@ -141,8 +142,6 @@ function calculateShowData(){
     document.getElementById("indemniteMoisMoyenne").innerText = `${calculateMoyenneTableau(indemniteNetPeriodeTab).toFixed(1)} €`
     document.getElementById("PAMoisMoyenne").innerText = `${calculateMoyenneTableau(pouvoirAchatMoisTab).toFixed(1)} €`
 
-    console.log("ligne3 : " + ligne3);
-    console.log("ligne4 : " + ligne4);
     console.log("ligne5 : " + ligne5);
     console.log("ligne6 : " + ligne6);
     console.log("impotAnnuelTab : " + impotAnnuelTab)
@@ -156,91 +155,25 @@ function calculateMoyenneTableau(tableau){
 }
 
 function calculIndemniteNetPeriodePS(i){ // Calcul des indémnités Net Période Portage Salarial
-    if(i == 0){
-        ligne3.push(0)
-        ligne4.push(0)
-        ligne5.push(capitalJour - parseInt(nbMois[i].value))
-        ligne6.push(capitalJour - parseInt(nbMois[i].value))
-        return 0
-    }
-    ligne3.push(0)
-    ligne4.push(0)
-    ligne5.push(Math.max(ligne5[i-1] - parseInt(nbMois[i].value), 0))
-    ligne6.push(ligne6[i-1] == 0 ? 0 : ligne5[i-1])
-    return 0
+    
 }
 
 function calculIndemniteNetPeriodeME(i){ // Calcul des indémnités Net Période Micro Entreprise
-    if(i == 0){
-        ligne3.push(capitalInitial * 0.45)
-        ligne4.push(0)
-        ligne5.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        ligne6.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        return ligne3[0]
-    }
-    ligne4.push(0)
-    ligne5.push(Math.max(ligne5[i-1] - parseInt(nbMois[i].value), 0))
-    ligne6.push(ligne6[i-1] == 0 ? 0 : ligne5[i-1])
-    let ligne3Value = 0
-    if(selectInputs2[i].value == "ARCE"){
-        for(let j = 0 ; j < i ; j++) ligne3Value += ligne3[j] + ligne4[j]
-        ligne3Value = (capitalInitial - ligne3Value) * 0.45
-    }
-    ligne3.push(ligne3Value)
-    return ligne3[i]
+    
 }
 
 function calculIndemniteNetPeriodeSASUMod1(i){ // Calcul des indémnités Net Période SASU Mod 1
-    if(i == 0){
-        ligne3.push(0)
-        ligne5.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        ligne6.push(capitalJour - parseInt(nbMois[i].value))
-        ligne4.push((selectInputs2[i].value == "ARE" && capitalJour - ligne6[0] > 0) ? (capitalJour - ligne6[0]) * capitalInitial / capitalJour : 0)
-        return ligne4[0]
-    }
-    ligne3.push(0)
-    ligne5.push(Math.max(ligne5[i-1] - parseInt(nbMois[i].value), 0))
-    ligne6.push(ligne6[i-1] == 0 ? 0 : Math.max(ligne6[i-1] - parseInt(nbMois[i].value), 0))
-    let ligne4Value = 0
-    if(selectInputs2[i].value == "ARE" && ligne6[i-1] - ligne6[i] > 0){
-        for(let j = 0 ; j < i ; j++) {
-            ligne4Value += (ligne3[j] + ligne4[j])
-        }
-        ligne4Value = (capitalInitial - ligne4Value)/ligne6[i-1] * (ligne6[i-1] - ligne6[i])
-    }
-    ligne4.push(ligne4Value)
-    return ligne4[i]
+    
 }
 
 function calculIndemniteNetPeriodeSASUMod2(i){ // Calcul des indémnités Net Période SASU Mod 2
-    if(i == 0){
-        ligne3.push(0)
-        ligne4.push(0)
-        ligne5.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        ligne6.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        return 0
-    }
-    ligne3.push(0)
-    ligne4.push(0)
-    ligne5.push(Math.max(ligne5[i-1] - parseInt(nbMois[i].value), 0))
-    ligne6.push(ligne6[i-1] == 0 ? 0 : ligne5[i-1])
-    return 0
+    
 }
 
 function calculIndemniteNetPeriodeEURL(i){ // Calcul des indémnités Net Période EURL
-    if(i == 0){
-        ligne3.push(0)
-        ligne4.push(0)
-        ligne5.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        ligne6.push(selectInputs2[0].value == "ARCE" ? capitalJour * 0.55 : capitalJour - parseInt(nbMois[i].value))
-        return 0
-    }
-    ligne3.push(0)
-    ligne4.push(0)
-    ligne5.push(Math.max(ligne5[i-1] - parseInt(nbMois[i].value), 0))
-    ligne6.push(ligne6[i-1] == 0 ? 0 : ligne5[i-1])
-    return 0
+    
 }
+
 
 // A compléter
 function calculImpotAnnuelPS(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels Portage Salarial
