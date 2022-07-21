@@ -51,7 +51,7 @@ function calculRevenusIndependant(config, inputValues){
     if(config == "ME") return inputValues * 12 * 0.66 // CAIndependantMois
     if(config == "EURL") return inputValues * 12 // salaireNetAvantImpotMois
     if(config == "Mod1") return (inputValues[0] + inputValues[1]) * 12 // salaireNetAvantImpotMois + revenuNetAvantImpotMois
-    if(config == "Mod2") return (inputValues[0] + inputValues[1]) * 12 // salaireBrutMois + revenuNetAvantImpotMois
+    if(config == "Mod2") return (inputValues[0] * 0.95 + inputValues[1]) * 12 // salaireBrutMois + revenuNetAvantImpotMois
     if(config == "PFU") return inputValues[0] * 12 // salaireNetAvantImpotMois
 
     if(config == "PSscenario") return C49 * 12 * 0.9 + inputValues

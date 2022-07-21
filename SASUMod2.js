@@ -30,7 +30,8 @@ function afficherDataMod2(){ // Fonction de calcul du pouvoir d'achat et du rend
     const revenuNetAvantImpotMois = RCAIMois + CSGMois
     const salaireNetAvantImpotMois = 12 * salaireBrutMois >= 6000 ? getNetAvantImpot(12 * salaireBrutMois) / 12 : 0
     const baremeProgressifMois = calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0]
-    const pouvoirAchatMois = revenuNetAvantImpotMois + salaireNetAvantImpotMois + baremeProgressifMois - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois
+    const revenuNetImpotTotal = revenuNetAvantImpotMois + salaireNetAvantImpotMois + baremeProgressifMois
+    const pouvoirAchatMois = revenuNetImpotTotal - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois
     const rendementMois = pouvoirAchatMois / CAFactureClientMois * 100
 
     // Affichage des éléments dans la fiche de paie simplifiée (pas nécessairement d'affichage)
@@ -43,11 +44,11 @@ function afficherDataMod2(){ // Fonction de calcul du pouvoir d'achat et du rend
     RCAISASUMod2.innerText = `${RCAIMois.toFixed(2)} €`
     CSG.innerText = `${CSGMois.toFixed(2)} €`
     revenuNetAvantImpotSASUMod2.innerText = `${revenuNetAvantImpotMois.toFixed(2)} €`
-    salaireChargeSASUMod2.innerText = `${salaireBrutMois.toFixed(2)} €`
+    salaireChargeSASUMod2.innerText = `${CSGMois.toFixed(2)} €`
     salaireNetAvantImpotSASUMod2.innerText = `${salaireNetAvantImpotMois.toFixed(2)} €`
     impotSurRevenuSASUMod2.innerText = `${baremeProgressifMois.toFixed(2)} €`
     baremeProgressifSASUMod2.innerText = `${baremeProgressifMois.toFixed(2)} €`
-    revenuNetImpotTotalSASUMod2.innerText = `${pouvoirAchatMois.toFixed(2)} €`
+    revenuNetImpotTotalSASUMod2.innerText = `${revenuNetImpotTotal.toFixed(2)} €`
     achatsSocieteSASUMod2_2.innerText = `${-achatsSocieteMois.toFixed(2)} €`
     fraisRepasSASUMod2_2.innerText = `${-fraisRepasMois.toFixed(2)} €`
     fraisDeplacementSASUMod2_2.innerText = `${-fraisDeplacementMois.toFixed(2)} €`

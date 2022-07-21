@@ -120,7 +120,7 @@
 
         <!-- Affichage du bulletin simplifié -->
         <div class="tableSimplifiez">
-            <table id="tableComparatifSimplifiee">
+            <table id="tableComparatifSimplifie">
                 <caption>Comparatif des différents récapitulatifs de Paie</caption>
                 <tr>
                     <td></td>
@@ -829,11 +829,11 @@
             </tr>
             <tr>
                 <th>Nombre de mois</th>
-                <td><input type="number" class="nbMois" value="12" min="0"></td>
-                <td><input type="number" class="nbMois" value="12" min="0"></td>
-                <td><input type="number" class="nbMois" value="12" min="0"></td>
-                <td><input type="number" class="nbMois" value="12" min="0"></td>
-                <td><input type="number" class="nbMois" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
                 <td id="totalMoisScenario"></td>
             </tr>
             <tr>
@@ -1068,8 +1068,11 @@
         <table id="tableMeilleurRegime"></table>
         <!-- Fin calcul meilleur régime -->
     </section>
-    </main>
+    <div id="meilleurRegimeChart">
+        <canvas id="chart"></canvas>
+    </div>
 
+    </main>
     <script src="variables.js"></script>
     <script src="BudgetToHoraire.js"></script>
     <script src="calculBareme.js"></script>
@@ -1080,5 +1083,6 @@
     <script src="scenario.js"></script>
     <script src="calculTJM.js"></script>
     <script src="meilleurRegime.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

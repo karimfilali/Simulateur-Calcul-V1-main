@@ -76,7 +76,7 @@ main{
     font-size: 1rem;
 }
 
-.inputsCompare input, .inputsScenario input, .nbMois{
+.inputsCompare input, .inputsScenario input, .nbMoisInput{
     width: 5rem;
     padding: 0.1rem;
 }
@@ -165,4 +165,10 @@ table td, table th{
 
 #tableScenario *{
     font-size: 1.1rem;
+}
+
+/* Graphique */
+
+#meilleurRegimeChart{
+    display: none;
 }

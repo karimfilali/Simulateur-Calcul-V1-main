@@ -1,5 +1,5 @@
 const selectInputs1 = document.querySelectorAll(".selectInput1")
-const nbMois = document.querySelectorAll(".nbMois")
+const nbMoisInput = document.querySelectorAll(".nbMoisInput")
 const salairesMois = document.querySelectorAll(".salaireMois")
 const cumulsPeriode = document.querySelectorAll(".cumulPeriode")
 const selectInputs2 = document.querySelectorAll(".selectInput2")
@@ -19,14 +19,13 @@ const disabledARE_droitsPE = document.querySelectorAll(".disabledARE_droitsPE")
 
 let capitalInitial
 
-document.getElementById("inputBrutPE").addEventListener("change", calculateShowData)
-document.getElementById("inputIndemnitePE").addEventListener("change", calculateShowData)
-selectInputs1.forEach(select => select.addEventListener("change", calculateShowData))
-nbMois.forEach(select => select.addEventListener("change", calculateShowData))
-selectInputs2.forEach(select => select.addEventListener("change", calculateShowData))
-ACREselects.forEach(select => select.addEventListener("change", calculateShowData))
-fiscaliteSelects.forEach(select => select.addEventListener("change", calculateShowData))
-
+document.getElementById("inputBrutPE").addEventListener("change", calculateScenario) // Recalcul de la page scénario lorsque l'on modifie n'importe quelle valeur
+document.getElementById("inputIndemnitePE").addEventListener("change", calculateScenario)
+selectInputs1.forEach(input => input.addEventListener("change", calculateScenario))
+nbMoisInput.forEach(input => input.addEventListener("change", calculateScenario))
+selectInputs2.forEach(input => input.addEventListener("change", calculateScenario))
+ACREselects.forEach(select => select.addEventListener("change", calculateScenario))
+fiscaliteSelects.forEach(select => select.addEventListener("change", calculateScenario)) // Recalcul de la page scénario lorsque l'on modifie n'importe quelle valeur
 
 let ligneARCE
 let ligneARE
@@ -52,7 +51,8 @@ function calculLigneARCEetARE(){
     }
 }
 
-function calculateShowData(){
+function calculateScenario(){
+    let nbMois = [parseInt(nbMoisInput[0].value), parseInt(nbMoisInput[1].value), parseInt(nbMoisInput[2].value), parseInt(nbMoisInput[3].value), parseInt(nbMoisInput[4].value)]
     let indemniteNetPeriodeTab = []
     let salaireMoisTab = []
     let impotAnnuelTab = []
@@ -76,8 +76,8 @@ function calculateShowData(){
             
             createFichePaie()
             salaireMoisTab.push(sendDataSimplifiee()[1])
-            indemniteNetPeriodeTab.push(calculIndemniteNetPeriodePS(i))
-            impotAnnuelTab.push(calculImpotAnnuelPS(i, indemniteNetPeriodeTab))
+            // indemniteNetPeriodeTab.push(calculIndemniteNetPeriodePS(i))
+            // impotAnnuelTab.push(calculImpotAnnuelPS(i, indemniteNetPeriodeTab))
         }
 
         if(selectInputs1[i].value == "ME"){
@@ -87,8 +87,8 @@ function calculateShowData(){
             if(selectInputs2[i].value == "ARE") selectInputs2[i].value = "aucun"
 
             salaireMoisTab.push(afficherDataME("scenario", i)[1])
-            indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeME(i))
-            impotAnnuelTab.push(calculImpotAnnuelME(i, indemniteNetPeriodeTab))
+            // indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeME(i))
+            // impotAnnuelTab.push(calculImpotAnnuelME(i, indemniteNetPeriodeTab))
         }
 
         if(selectInputs1[i].value == "SASUMod1"){
@@ -96,8 +96,8 @@ function calculateShowData(){
             disabledARE_droitsPE[i].disabled = false
             
             salaireMoisTab.push(afficherDataMod1()[1])
-            indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeSASUMod1(i))
-            impotAnnuelTab.push(calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab))
+            // indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeSASUMod1(i))
+            // impotAnnuelTab.push(calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab))
         }
         
         if(selectInputs1[i].value == "SASUMod2"){
@@ -105,8 +105,8 @@ function calculateShowData(){
             if(selectInputs2[i].value == "ARE") selectInputs2[i].value = "aucun"
 
             salaireMoisTab.push(afficherDataMod2()[1])
-            indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeSASUMod2(i))
-            impotAnnuelTab.push(calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab))
+            // indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeSASUMod2(i))
+            // impotAnnuelTab.push(calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab))
         }
 
         if(selectInputs1[i].value == "EURL"){
@@ -114,21 +114,25 @@ function calculateShowData(){
             disabledARE_droitsPE[i].disabled = false
 
             salaireMoisTab.push(afficherDataEURL()[1])
-            indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeEURL(i))
-            impotAnnuelTab.push(calculImpotAnnuelEURL(i, indemniteNetPeriodeTab))
+            // indemniteNetPeriodeTab.push(calculIndemniteNetPeriodeEURL(i))
+            // impotAnnuelTab.push(calculImpotAnnuelEURL(i, indemniteNetPeriodeTab))
         }
+        // =SI(Scenario!C4="ME";C5*ME!$B$17/12;
+        // SI(Scenario!C4="PS";Scenario!C5*Simulation!$C$33
+        // ;SI(Scenario!C4="SASU IR";Scenario!C5*'SASU IR'!$B$23/12;
+        // SI(Scenario!C4="SASU IS";Scenario!C5*'SASU IS '!$B$25/12;0))))
+        let cumulPeriode = salaireMoisTab[i] * nbMois[i]
+        console.log(cumulPeriode, salaireMoisTab[i], nbMois[i]);
+        // let pouvoirAchatPeriodeValue = cumulPeriode + indemniteNetPeriodeTab[i] - (impotAnnuelTab[i] * parseInt(nbMois[i].value) / 12)
+        // pouvoirAchatMoisTab.push(pouvoirAchatPeriodeValue / parseInt(nbMois[i].value))
 
-        let cumulPeriode = salaireMoisTab[i] * parseInt(nbMois[i].value)
-        let pouvoirAchatPeriodeValue = cumulPeriode + indemniteNetPeriodeTab[i] - (impotAnnuelTab[i] * parseInt(nbMois[i].value) / 12)
-        pouvoirAchatMoisTab.push(pouvoirAchatPeriodeValue / parseInt(nbMois[i].value))
-
-        salairesMois[i].innerText = `${salaireMoisTab[i].toFixed(1)} €`
-        cumulsPeriode[i].innerText = `${cumulPeriode.toFixed(1)} €`
+        // salairesMois[i].innerText = `${salaireMoisTab[i].toFixed(1)} €`
+        // cumulsPeriode[i].innerText = `${cumulPeriode.toFixed(1)} €`
         // indemnitesNetPeriode[i].innerText = `${indemniteNetPeriodeTab[i].toFixed(1)} €`
         // indemnitesNetMensuel[i].innerText = `${(indemniteNetPeriodeTab[i] / parseInt(nbMois[i].value)).toFixed(1)} €`
-        pouvoirAchatMois[i].innerText = `${pouvoirAchatMoisTab[i].toFixed(1)} €`
-        impotAnnuel[i].innerText = `${impotAnnuelTab[i].toFixed(1)} €`
-        pouvoirAchatPeriode[i].innerText = `${pouvoirAchatPeriodeValue.toFixed(1)} €`
+        // pouvoirAchatMois[i].innerText = `${pouvoirAchatMoisTab[i].toFixed(1)} €`
+        // impotAnnuel[i].innerText = `${impotAnnuelTab[i].toFixed(1)} €`
+        // pouvoirAchatPeriode[i].innerText = `${pouvoirAchatPeriodeValue.toFixed(1)} €`
 
         if(selectInputs1[i].value == "rien"){
             salairesMois[i].innerText = `0 €`
@@ -144,7 +148,6 @@ function calculateShowData(){
     document.getElementById("indemniteMoisMoyenne").innerText = `${calculateMoyenneTableau(indemniteNetPeriodeTab).toFixed(1)} €`
     document.getElementById("PAMoisMoyenne").innerText = `${calculateMoyenneTableau(pouvoirAchatMoisTab).toFixed(1)} €`
 
-    console.log("impotAnnuelTab : " + impotAnnuelTab)
 }
 
 // Renvoie la moyenne des valeurs d'un tableau pour la colonne Moyenne

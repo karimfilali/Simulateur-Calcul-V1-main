@@ -5,6 +5,7 @@ const tableMod1 = document.getElementById("tableMod1")
 const tableMod2 = document.getElementById("tableMod2")
 const tableEURL = document.getElementById("tableEURL")
 const tableScenario = document.getElementById("tableScenario")
+const tableComparatifSimplifie = document.getElementById("tableComparatifSimplifie")
 const calculTJMTable = document.getElementById("calculTJMTable")
 const tableMeilleurRegime = document.getElementById("tableMeilleurRegime")
 
@@ -32,6 +33,7 @@ const submitBtnCalculateTJM = document.getElementById("submitBtnCalculateTJM") /
 const submitBtnMeilleurRegime = document.getElementById("submitBtnMeilleurRegime") // Bouton de calcul du meilleur régime
 
 const selectDetails = document.getElementById("selectDetails") // Select qui permet de sélectionner PS, ME, SASU ou EURL dans le cas de l'affichage du bulletin de paie simplifié
+const meilleurRegimeChart = document.getElementById("meilleurRegimeChart")
 
 let valueACREinput
 let valueFiscaliteInput
@@ -92,15 +94,15 @@ function getInputData(situation = []){ // Permet de récupérer toutes les donn�
 }
 
 simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une option dans la liste de départ
-    document.getElementById("tableBulletinSalaire").style.display = 'none'
-    document.getElementById("tableME").style.display = 'none'
-    document.getElementById("tableMod1").style.display = 'none'
-    document.getElementById("tableMod2").style.display = 'none'
-    document.getElementById("tableEURL").style.display = 'none'
-    document.getElementById("tableScenario").style.display = 'none'
-    document.getElementById("calculTJMTable").style.display = 'none'
+    tableBulletinSalaire.style.display = 'none'
+    tableME.style.display = 'none'
+    tableMod1.style.display = 'none'
+    tableMod2.style.display = 'none'
+    tableEURL.style.display = 'none'
+    tableScenario.style.display = 'none'
+    calculTJMTable.style.display = 'none'
     document.getElementById("checkInputBox").style.display = 'none'
-    document.getElementById("tableComparatifSimplifiee").style.display = 'none'
+    tableComparatifSimplifie.style.display = 'none'
     tableMeilleurRegime.style.display = 'none'
     document.getElementById("inputsCompare").style.display = 'none'
     document.getElementById("garantieFinanciereInput").style.display = 'none' // Masquer le choix de la garantie financiere
@@ -111,6 +113,7 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
     document.getElementById("PAsouhaiteTJM").style.display = 'none'
     document.getElementById("ACRE_TJM").style.display = 'none'
     document.getElementById("fiscaliteTJM").style.display = 'none'
+    meilleurRegimeChart.style.display = 'none'
     
     if(simulationSelect.value == "compare"){ // Si 'Comparer les différents status juridiques' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
@@ -134,7 +137,7 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
         document.getElementById("inputsScenario").style.display = 'block'
         
         getInputData()
-        calculateShowData()
+        calculateScenario()
     }
     if(simulationSelect.value == "calculTJM"){ // Si 'Calculer son TJM' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
@@ -145,7 +148,7 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
         document.getElementById("ACRE_TJM").style.display = 'flex'
         document.getElementById("fiscaliteTJM").style.display = 'flex'
     }
-    if(simulationSelect.value == "meilleurRegime"){
+    if(simulationSelect.value == "meilleurRegime"){ // Si 'Calculer le meilleur régime' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
         document.getElementById("facturationTJM").style.display = 'none'
         document.getElementById("inputGarantieFinanciere").checked = false // Décocher la case si elle a été cochée dans l'affichage
@@ -156,23 +159,23 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
 })
 
 submitBtnCalculate.addEventListener("click", () => {
-    getInputData()
+    getInputData() // Récupération des données en entrées et calcul du CA prévisionnel
     
     let PSOutputs = createFichePaie()
     let MEOutputs = afficherDataME("compare")
     let SASUMod1Outputs = afficherDataMod1()
     let SASUMod2Outputs = afficherDataMod2()
-    let EURLOutputs = afficherDataEURL()
+    let EURLOutputs = afficherDataEURL() // Calcul des différents rendements et pouvoirs d'achats
 
-    let valuesToTri = [PSOutputs, MEOutputs, SASUMod1Outputs, SASUMod2Outputs, EURLOutputs]
-    displayValuesTri(valuesToTri)
+    let valuesToTri = [PSOutputs, MEOutputs, SASUMod1Outputs, SASUMod2Outputs, EURLOutputs] // Liste contenant tous les rendements et pouvoirs d'achats
+    displayValuesTri(valuesToTri) // Tri des éléments de la liste selon un rendement décroissant
 
     document.querySelectorAll(".CA_S").forEach(CA => {
         CAFactureClientMois = nbJoursTravailAn * TJM / 12
-        CA.innerText = `${CAFactureClientMois.toFixed(0)} €`
+        CA.innerText = `${CAFactureClientMois.toFixed(0)} €` // Affichage du chiffre d'affaire dans chaque case de la ligne 'Chiffre d'affaires'
     })
 
-    document.getElementById("tableComparatifSimplifiee").style.display = 'block'
+    tableComparatifSimplifie.style.display = 'block' // Affichage de la table comparative des statuts rangés par colonne triés selon un rendement décroissant
 })
 
 function displayValuesTri(values){
