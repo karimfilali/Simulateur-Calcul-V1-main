@@ -1,4 +1,10 @@
-function calculTJMFromBudget(){ // Calcul dichotomique du TJM pour le PS, ME, EURL, SASU
+submitBtnCalculateTJM.addEventListener("click", () => {
+    getInputData() // On récupère les données en entrée
+    calculTJMFromPA() // On calcule les différents rendements, TJM, pouvoirs d'achat
+    calculTJMTable.style.display = 'block' // On affiche la table avec les résultats
+})
+
+function calculTJMFromPA(){ // Calcul dichotomique du TJM pour le PS, ME, EURL, SASU
     recherche_dichotomie_TJM_PS(0, 1000, 70) // Calcul du TJM pour le Portage Salarial
     valuesPS = [TJM].concat(createFichePaie())
 

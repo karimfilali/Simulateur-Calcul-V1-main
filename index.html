@@ -19,57 +19,58 @@
         <h2 class="chapeauQuestion">Quel information souhaitez-vous connaître ?</h2>
         <select name="simulation-select" id="simulation-select">
             <option value="">--Choisir--</option>
-            <option value="compare">Comparer toutes les options</option>
-            <option value="affiche">Afficher une ou plusieurs options en détail</option>
+            <option value="compare">Comparer les différents status juridiques</option>
+            <option value="affiche">Connaître les détails d'un bulletin de paie d'un statut juridique</option>
             <option value="scenario">Afficher le scénario</option>
             <option value="calculTJM">Calculer son tarif journalier moyen (TJM)</option>
+            <option value="meilleurRegime">Trouver le meilleur régime</option>
         </select>
 
         <div class="inputsCompare" id="inputsCompare">
             <p class="messageAvertissement">Attention, toutes les données sont à renseigner.</p>
             <div class="rowInput" id="facturationTJM">
                 <label for="inputTJM">Facturation HT par jour (en €): </label>
-                <input class="inputInput" type="number" id="inputTJM" name="inputTJM" value="540">
+                <input class="inputDepart" type="number" id="inputTJM" name="inputTJM"value="540" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputNbJoursTravailAn">Nombre de jours de travail par an: </label>
-                <input class="inputInput" type="number" id="inputNbJoursTravailAn" name="inputNbJoursTravailAn" value="228">
+                <input class="inputDepart" type="number" id="inputNbJoursTravailAn" name="inputNbJoursTravailAn" value="228" min="0">
             </div>
             <div class="rowInput" id="PAsouhaiteTJM">
                 <label for="inputPA">Pouvoir d'achat souhaité (en €): </label>
-                <input class="inputInput" type="number" id="inputPAsouhaiteTJM" name="inputPA" value="5000" step="1" min="0">
+                <input class="inputDepart" type="number" id="inputPAsouhaiteTJM" name="inputPA" value="5000" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputAchatSociete">Achat société (par an): </label>
-                <input class="inputInput" type="number" id="inputAchatSociete" name="inputAchatSociete" value="0">
+                <input class="inputDepart" type="number" id="inputAchatSociete" name="inputAchatSociete" value="0" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputFraisRepas">Frais de repas (par mois): </label>
-                <input class="inputInput" type="number" id="inputFraisRepas" name="inputFraisRepas" value="100">
+                <input class="inputDepart" type="number" id="inputFraisRepas" name="inputFraisRepas" value="100" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputFraisDeplacements">Frais de déplacements (par mois): </label>
-                <input class="inputInput" type="number" id="inputFraisDeplacements" name="inputFraisDeplacements" value="50">
+                <input class="inputDepart" type="number" id="inputFraisDeplacements" name="inputFraisDeplacements" value="50" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputRevenuConsultantBrut">Revenu consultant brut : </label>
-                <input class="inputInput" type="number" id="inputRevenuConsultantBrut" name="inputRevenuConsultantBrut" value="11424">
+                <input class="inputDepart" type="number" id="inputRevenuConsultantBrut" name="inputRevenuConsultantBrut" value="11424" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputNbParts">Nombre de parts : </label>
-                <input class="inputInput" type="number" id="inputNbParts" name="inputNbParts" value="2">
+                <input class="inputDepart" type="number" id="inputNbParts" name="inputNbParts" value="2" min="1">
             </div>
             <div class="rowInput">
                 <label for="inputRevenusConjoint">Revenus brut du conjoint (par an): </label>
-                <input class="inputInput" type="number" id="inputRevenusConjoint" name="inputRevenusConjoint" value="1500">
+                <input class="inputDepart" type="number" id="inputRevenusConjoint" name="inputRevenusConjoint" value="1500" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputHonoraires">Honoraires (en %): </label>
-                <input class="inputInput" type="number" id="inputHonoraires" name="inputHonoraires" value="8">
+                <input class="inputDepart" type="number" id="inputHonoraires" name="inputHonoraires" value="8" min="0">
             </div>
             <div class="rowInput" id="garantieFinanciereInput">
                 <label for="garantieFinanciere">Garantie Financière : </label>
-                <input class="inputInput" type="checkbox" id="inputGarantieFinanciere" name="garantieFinanciere">
+                <input class="inputDepart" type="checkbox" id="inputGarantieFinanciere" name="garantieFinanciere">
             </div>
             <div class="rowInput" id="ACRE_TJM">
                 <label for="ACRE">Droit à l'ACRE : </label>
@@ -114,11 +115,12 @@
 
         <button type="submit" value="Envoyer" id="submitBtnCalculate">CALCULER</button>
         <button type="submit" value="Envoyer" id="submitBtnCalculateTJM">CALCULER SON TJM</button>
+        <button type="submit" value="Envoyer" id="submitBtnMeilleurRegime">Trouver le meilleur régime</button>
         <!-- Fin du formulaire -->
 
         <!-- Affichage du bulletin simplifié -->
         <div class="tableSimplifiez">
-            <table id="tableSimplifiee">
+            <table id="tableComparatifSimplifiee">
                 <caption>Comparatif des différents récapitulatifs de Paie</caption>
                 <tr>
                     <td></td>
@@ -1060,6 +1062,11 @@
                     <td id="CACalcTJM_D5">0</td>
                 </tr>
         </table>
+        <!-- Fin calcul TJM -->
+
+        <!-- Début calcul meilleur régime -->
+        <table id="tableMeilleurRegime"></table>
+        <!-- Fin calcul meilleur régime -->
     </section>
     </main>
 
@@ -1072,5 +1079,6 @@
     <script src="EURL.js"></script>
     <script src="scenario.js"></script>
     <script src="calculTJM.js"></script>
+    <script src="meilleurRegime.js"></script>
 </body>
 </html>

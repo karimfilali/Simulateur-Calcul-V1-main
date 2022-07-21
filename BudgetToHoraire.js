@@ -195,7 +195,6 @@ function calculateBeforeSalaireBrut(){ // Calcul des éléments colonne C et E A
 
 function showTauxSalariaux(){ // Affiche les taux salariaux dans la fiche de paie (colonne D)
     document.getElementById("D4").innerText = `${tauxHoraire.toFixed(2)} €`
-    console.log("Taux Horaire : " + tauxHoraire);
     document.getElementById("D6").innerText = `${D6.toFixed(2)} %`
     document.getElementById("D7").innerText = `${D7.toFixed(2)} %`
     document.getElementById("D13").innerText = `${D13.toFixed(2)} %`
@@ -445,7 +444,7 @@ function apresCotisations(){ // Calcul et affichage des élements APRES salaire 
 }
 
 function calculTauxHoraireFromBudget(){ // Fonction de calcul du taux horaire à partir du budget
-    recherche_dichotomie_Budget(budget, 0, budget, 100)
+    recherche_dichotomie_Budget(budget, 0, budget, 50)
 }
 
 function recherche_dichotomie_Budget(budget, a, b, n){

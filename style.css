@@ -81,7 +81,7 @@ main{
     padding: 0.1rem;
 }
 
-#submitBtnCalculate, #submitBtnCalculateTJM{
+#submitBtnCalculate, #submitBtnCalculateTJM, #submitBtnMeilleurRegime{
     font-size: 1.3rem;
     display: flex;
     margin-left: auto;

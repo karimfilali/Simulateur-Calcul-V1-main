@@ -30,8 +30,9 @@ fiscaliteSelects.forEach(select => select.addEventListener("change", calculateSh
 
 let ligneARCE
 let ligneARE
-let ligne5
-let ligne6
+let ligneSoldeDroits
+let ligneIndemnisationPeriode
+let ligneImpotAnnuel
 
 function calculCapitalInitialEtJ5(){
     if(oldBrutPE < 54000) capitalInitial = oldBrutPE * 0.57 * dureeIndemnitePE / 12
@@ -40,8 +41,8 @@ function calculCapitalInitialEtJ5(){
 }
 
 function calculLigneARCEetARE(){
-    ligneARCE = [0, 0, 0, 0, 0]
-    ligneARE = []
+    ligneARCE = [0, 0, 0, 0, 0] // Réinitialisation pour chaque changement de valeur
+    ligneARE = [] // Réinitialisation pour chaque changement de valeur
     for(let i = 0 ; i < 5 ; i++){
         if(selectInputs1[i].value != "ME") ACREselects[i].value = "non"
         if(selectInputs1[i].value != "ME") fiscaliteSelects[i].value = "non"
@@ -60,8 +61,9 @@ function calculateShowData(){
     calculCapitalInitialEtJ5()
     calculLigneARCEetARE()
 
-    ligne5 = []
-    ligne6 = [] // Réinitialisation des valeurs pour chaque changement de valeur
+    ligneSoldeDroits = [capitalInitial]
+    ligneIndemnisationPeriode = []
+    ligneImpotAnnuel = []
 
     for(let i = 0 ; i < 5 ; i++){
         disabledARCE[i].disabled = true
@@ -122,8 +124,8 @@ function calculateShowData(){
 
         salairesMois[i].innerText = `${salaireMoisTab[i].toFixed(1)} €`
         cumulsPeriode[i].innerText = `${cumulPeriode.toFixed(1)} €`
-        indemnitesNetPeriode[i].innerText = `${indemniteNetPeriodeTab[i].toFixed(1)} €`
-        indemnitesNetMensuel[i].innerText = `${(indemniteNetPeriodeTab[i] / parseInt(nbMois[i].value)).toFixed(1)} €`
+        // indemnitesNetPeriode[i].innerText = `${indemniteNetPeriodeTab[i].toFixed(1)} €`
+        // indemnitesNetMensuel[i].innerText = `${(indemniteNetPeriodeTab[i] / parseInt(nbMois[i].value)).toFixed(1)} €`
         pouvoirAchatMois[i].innerText = `${pouvoirAchatMoisTab[i].toFixed(1)} €`
         impotAnnuel[i].innerText = `${impotAnnuelTab[i].toFixed(1)} €`
         pouvoirAchatPeriode[i].innerText = `${pouvoirAchatPeriodeValue.toFixed(1)} €`
@@ -142,8 +144,6 @@ function calculateShowData(){
     document.getElementById("indemniteMoisMoyenne").innerText = `${calculateMoyenneTableau(indemniteNetPeriodeTab).toFixed(1)} €`
     document.getElementById("PAMoisMoyenne").innerText = `${calculateMoyenneTableau(pouvoirAchatMoisTab).toFixed(1)} €`
 
-    console.log("ligne5 : " + ligne5);
-    console.log("ligne6 : " + ligne6);
     console.log("impotAnnuelTab : " + impotAnnuelTab)
 }
 
@@ -155,39 +155,46 @@ function calculateMoyenneTableau(tableau){
 }
 
 function calculIndemniteNetPeriodePS(i){ // Calcul des indémnités Net Période Portage Salarial
+    ligneIndemnisationPeriode.push(0)
+    ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
     
 }
 
 function calculIndemniteNetPeriodeME(i){ // Calcul des indémnités Net Période Micro Entreprise
-    
+    if(ligneARCE[i] == 1) ligneIndemnisationPeriode.push(ligneSoldeDroits[i] * 0.45)
+    else ligneIndemnisationPeriode.push(Math.min(ligneSoldeDroits[i], ligneARE[i] * ligneSoldeDroits[i] / parseInt(nbMois[i].value)))
+    ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
 }
 
 function calculIndemniteNetPeriodeSASUMod1(i){ // Calcul des indémnités Net Période SASU Mod 1
-    
+    if(ligneARCE[i] == 1) ligneIndemnisationPeriode.push(ligneSoldeDroits[i] * 0.45)
+    else ligneIndemnisationPeriode.push(Math.min(ligneSoldeDroits[i], ligneARE[i] * ligneSoldeDroits[i] / parseInt(nbMois[i].value)))
+    ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
 }
 
 function calculIndemniteNetPeriodeSASUMod2(i){ // Calcul des indémnités Net Période SASU Mod 2
-    
+    ligneIndemnisationPeriode.push(0)
+    ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
 }
 
 function calculIndemniteNetPeriodeEURL(i){ // Calcul des indémnités Net Période EURL
-    
+    if(ligneARCE[i] == 1) ligneIndemnisationPeriode.push(ligneSoldeDroits[i] * 0.45)
+    else ligneIndemnisationPeriode.push(Math.min(ligneSoldeDroits[i], ligneARE[i] * ligneSoldeDroits[i] / parseInt(nbMois[i].value)))
+    ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
 }
 
 
 // A compléter
-function calculImpotAnnuelPS(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels Portage Salarial
-    if(indemniteNetPeriodeTab[i] == 0) return 0
-    let indemniteNetTotal = indemniteNetPeriodeTab.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
+function calculImpotAnnuelPS(i){ // Calcul des impôts annuels Portage Salarial
+    let indemniteNetTotal = ligneIndemnisationPeriode.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
 
     let I71 = calculBaremeProgressif("PS")[2]
     let O71 = calculBaremeProgressif("PSscenario", indemniteNetTotal)[2]
     return O71 - I71 // BSsansGF_O73
 }
 
-function calculImpotAnnuelME(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels Micro Entreprise
-    if(indemniteNetPeriodeTab[i] == 0) return 0
-    let indemniteNetTotal = indemniteNetPeriodeTab.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
+function calculImpotAnnuelME(i){ // Calcul des impôts annuels Micro Entreprise
+    let indemniteNetTotal = ligneIndemnisationPeriode.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
 
     const CAClientMois = nbJoursTravailAn * TJM / 12 // ME!C28
     const honorairesMois = -CAClientMois * honoraires / 100  // ME!C29
@@ -204,9 +211,8 @@ function calculImpotAnnuelME(i, indemniteNetPeriodeTab){ // Calcul des impôts a
     }
 }
 
-function calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab){ // Calcul des impôts annuels SASU Mod 1
-    if(indemniteNetPeriodeTab[i] == 0) return 0
-    let indemniteNetTotal = indemniteNetPeriodeTab.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
+function calculImpotAnnuelSASUMod1(i){ // Calcul des impôts annuels SASU Mod 1
+    let indemniteNetTotal = ligneIndemnisationPeriode.reduce((partialSum, a) => partialSum + a, 0) // Calcul de la somme des indémnités net
 
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
@@ -229,8 +235,7 @@ function calculImpotAnnuelSASUMod1(i, indemniteNetPeriodeTab){ // Calcul des imp
     return Math.min(AJ23, AC23) // SASU IS!AD27
 }
 
-function calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab){  // Calcul des impôts annuels SASU Mod 2
-    if(indemniteNetPeriodeTab[i] == 0) return 0
+function calculImpotAnnuelSASUMod2(i){  // Calcul des impôts annuels SASU Mod 2
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
     const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
@@ -250,5 +255,5 @@ function calculImpotAnnuelSASUMod2(i, indemniteNetPeriodeTab){  // Calcul des im
 function calculImpotAnnuelEURL(i, indemniteNetPeriodeTab){  // Calcul des impôts annuels EURL
     if(indemniteNetPeriodeTab[i] == 0) return 0
     // return ??
-    return 7051.08
+    return 7051.08 // EURL IS!Y27
 }

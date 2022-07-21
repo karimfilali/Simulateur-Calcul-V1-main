@@ -1,8 +1,8 @@
 Commentaires : 
-- (Petite erreur dans rendement SASU Mod 2 : Au lieu de =D47 c'est =C47)
-- Formule dans la case Scénario!M21 différente de Scénario!N21 et Scénario!O21
+- Petite erreur dans rendement SASU Mod 2 : Au lieu de =D47 c'est =C47
 - Quelle valeur dans scénario pour calculImpotAnnuelEURL ?
-- Erreur en cellule SASU IS!AI20
+- Erreur en cellule SASU IS!AI20 ?
+- Scénarion!L17 : l'impôt Annuel vaut forcément 0 si l'on est dans du PS ou SASU IR
 
 To Do :
 - Responsive
@@ -11,3 +11,5 @@ To Do :
 - N'y a-t-il pas une répétition des const dans scénario.js calcul des impôts avec getInputData() ?
 
 - Scénario Ligne 16, expliquer SI(). De plus, indemnisation = 0 si PS ou SASU IR ?
+
+- simulationSelect.addEventListener Améliorer lisibilité
