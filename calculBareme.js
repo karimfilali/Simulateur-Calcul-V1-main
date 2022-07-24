@@ -37,14 +37,16 @@ function calculBaremeProgressif(config, inputValues){
 
     let pourcentageBFI = revenusIndependant / (revenusIndependant + revenusConjoint)
     let pourcentageBFC = revenusConjoint / (revenusIndependant + revenusConjoint)
-    if(config == "PFU"){
+    if(config == "PFU" || config == "PFUscenario"){
         let PFU = 0.3 * inputValues[1] * 12 + totalImposable * pourcentageBFI // inputValues[1] = revenuNetAvantImpotMois
-        return -PFU/12
+        return -PFU / 12
     }
     let bareme = totalImposable * pourcentageBFI
     let baremeConjoint = totalImposable * pourcentageBFC
     return [-bareme / 12, -baremeConjoint / 12, -(bareme + baremeConjoint) / 12]
 }
+
+// =B10*0,66+SI(Scenario!C4="ME";Scenario!L16;0)+SI(Scenario!D4="ME";Scenario!M16;0)+SI(Scenario!E4="ME";Scenario!N16;0)+SI(Scenario!F4="ME";Scenario!O16;0)
 
 function calculRevenusIndependant(config, inputValues){
     if(config == "PS") return C49 * 12 * 0.9 // C49
@@ -55,8 +57,8 @@ function calculRevenusIndependant(config, inputValues){
     if(config == "PFU") return inputValues[0] * 12 // salaireNetAvantImpotMois
 
     if(config == "PSscenario") return C49 * 12 * 0.9 + inputValues
-    if(config == "MEScenario") return inputValues[0] * 12 * 0.66 + inputValues[1]
-    if(config == "Mod1Scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
-    if(config == "Mod2Scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
+    if(config == "MEscenario") return inputValues[0] * 12 * 0.66 + inputValues[1]
+    if(config == "Mod1scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
+    if(config == "Mod2scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
     if(config == "PFUscenario") return inputValues[0] * 12 + inputValues[2]
 }

@@ -4,7 +4,13 @@ Commentaires :
 
 To Do :
 - Responsive
-- Continuer le codage de scénario
+- Important : SASU Mod 1.js Ligne 34 et 35 salaireNetAvantImpotMois
+- Important : EURL 1.js Ligne 32 et 33 salaireNetAvantImpotMois
+- Important : SASU Mod 2.js Ligne 31 et 32 salaireNetAvantImpotMois
+- Important : scenario.js Ligne 214 salaireNetAvantImpotMois
+
+- Erreur benchmark SASU Mod 1 affichage achats société, frais de repas et frais de déplacement affichés à l'année alors que c'est au mois
+- BS Assimilé Salarié E34 : Manque la formule
 
 - N'y a-t-il pas une répétition des const dans scénario.js calcul des impôts avec getInputData() ?
 

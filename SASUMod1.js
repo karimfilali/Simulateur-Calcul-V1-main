@@ -1,5 +1,3 @@
-
-
 const CAFactureClientSASUMod1 = document.getElementById("CAFactureClientSASUMod1")
 const honorairesDWSASUMod1 = document.getElementById("honorairesDWSASUMod1")
 const achatsSocieteSASUMod1_1 = document.getElementById("achatsSocieteSASUMod1_1")
@@ -24,19 +22,21 @@ const rendementSASUMod1 = document.getElementById("rendementSASUMod1")
 function afficherDataMod1(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
-    const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
-    const fraisRepasMois = - parseInt(inputFraisRepas.value)
-    const fraisDeplacementMois = - parseInt(inputFraisDeplacements.value)
-    const salaireBrutMois = parseInt(inputRevenuConsultantBrut.value) / 12
+    const achatsSocieteMois = - achatSociete / 12
+    const fraisRepasMois = - fraisRepas
+    const fraisDeplacementMois = - fraisDeplacements
+    const salaireBrutMois = revenuConsultantBrut / 12
     const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const ISMois = RCAIMois > varISMois ? (-0.25 * (RCAIMois - varISMois) - 0.15 * varISMois) : (-0.15 * RCAIMois)
     const revenuNetAvantImpotMois = RCAIMois + ISMois
-    const salaireNetAvantImpotMois = 12 * salaireBrutMois >= 6000 ? getNetAvantImpot(12 * salaireBrutMois) / 12 : 0
+    const salaireNetAvantImpotMois = 7444 / 12
+    // const salaireNetAvantImpotMois = createFichePaie("BSAssimileSalarie", 686)
     const PFUMois = calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) // Calcul du PFU
     const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0] // Calcul du barème progressif. On récupère la première valeur
     const impotSurRevenuMois = Math.max(PFUMois, baremeProgressifMois)
-    const revenuNetImpotTotalMois = salaireNetAvantImpotMois + revenuNetAvantImpotMois + impotSurRevenuMois - fraisDeplacementMois - fraisRepasMois - achatsSocieteMois
-    const rendementMois = revenuNetImpotTotalMois / CAFactureClientMois * 100
+    const revenuNetImpotTotalMois = salaireNetAvantImpotMois + revenuNetAvantImpotMois + impotSurRevenuMois
+    const pouvoirAchatMois = revenuNetImpotTotalMois - fraisDeplacementMois - fraisRepasMois - achatsSocieteMois
+    const rendementMois = pouvoirAchatMois / CAFactureClientMois * 100
 
     // Affichage des éléments dans la fiche de paie simplifiée (pas nécessairement d'affichage)
     CAFactureClientSASUMod1.innerText = `${CAFactureClientMois.toFixed(2)} €`
@@ -57,10 +57,10 @@ function afficherDataMod1(){ // Fonction de calcul du pouvoir d'achat et du rend
     achatsSocieteSASUMod1_2.innerText = `${-achatsSocieteMois.toFixed(2)} €`
     fraisRepasSASUMod1_2.innerText = `${-fraisRepasMois.toFixed(2)} €`
     fraisDeplacementSASUMod1_2.innerText = `${-fraisDeplacementMois.toFixed(2)} €`
-    pouvoirAchatSASUMod1.innerText = `${revenuNetImpotTotalMois.toFixed(2)} €`
+    pouvoirAchatSASUMod1.innerText = `${pouvoirAchatMois.toFixed(2)} €`
     rendementSASUMod1.innerText = `${rendementMois.toFixed(2)}%`
 
-    return ["SASU Mod 1", revenuNetImpotTotalMois, rendementMois]
+    return ["SASU Mod 1", pouvoirAchatMois, rendementMois]
 }
 
 

@@ -36,8 +36,7 @@ function afficherDataME(selection, i){ // Fonction de calcul du pouvoir d'achat 
     const formationMois = -0.002 * CAIndependantMois
     const revenuAvantImpotMois = CAIndependantMois + URSSAFMois + formationMois
     const prelevementLiberatoireMois = -0.022 * CAIndependantMois
-    //const baremeProgressifMois = calculBaremeProgressif("ME", CAIndependantMois)[0]
-    const baremeProgressifMois = calculBaremeProgressif("ME", CAClientMois)[0]
+    const baremeProgressifMois = calculBaremeProgressif("ME", CAIndependantMois)[0]
     let impotSurRevenuMois
     // Les trois cas suivants permettent de savoir si l'on change la valeur du bouton Fiscalité dans le cas du comparatif, de l'affichage, du calcul TJM ou du scénario
     // Il faut donc récupérer le bon bouton et la bonne valeur en fonction du cas

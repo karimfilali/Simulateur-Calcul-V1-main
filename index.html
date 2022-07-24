@@ -19,7 +19,7 @@
         <h2 class="chapeauQuestion">Quel information souhaitez-vous connaître ?</h2>
         <select name="simulation-select" id="simulation-select">
             <option value="">--Choisir--</option>
-            <option value="compare">Comparer les différents status juridiques</option>
+            <option value="compare">Comparer les différents statuts juridiques</option>
             <option value="affiche">Connaître les détails d'un bulletin de paie d'un statut juridique</option>
             <option value="scenario">Afficher le scénario</option>
             <option value="calculTJM">Calculer son tarif journalier moyen (TJM)</option>
@@ -30,7 +30,7 @@
             <p class="messageAvertissement">Attention, toutes les données sont à renseigner.</p>
             <div class="rowInput" id="facturationTJM">
                 <label for="inputTJM">Facturation HT par jour (en €): </label>
-                <input class="inputDepart" type="number" id="inputTJM" name="inputTJM"value="540" min="0">
+                <input class="inputDepart" type="number" id="inputTJM" name="inputTJM"value="1000" min="0">
             </div>
             <div class="rowInput">
                 <label for="inputNbJoursTravailAn">Nombre de jours de travail par an: </label>
@@ -94,7 +94,7 @@
                 <option value="choose">--Choisir--</option>
                 <option value="PS">Bulletin de salaire</option>
                 <option value="ME">Micro Entreprise</option>
-                <option value="SASUMod1">SASU Mod1</option>
+                <option value="SASUMod1">SASU Mod 1</option>
                 <option value="SASUMod2">SASU Mod 2</option>
                 <option value="EURL">EURL IS</option>
             </select>
@@ -651,29 +651,30 @@
             <tr>
                 <td>Non</td>
                 <td>IS</td>
-                <th id="CAFactureClientSASUMod1">0</th>
-                <td id="honorairesDWSASUMod1">0</td>
-                <td id="achatsSocieteSASUMod1_1">0</td>
+                <th id="CAFactureClientSASUMod1"></th>
+                <td id="honorairesDWSASUMod1"></td>
+                <td id="achatsSocieteSASUMod1_1"></td>
                 <td id="fraisRepasSASUMod1_1"></td>
                 <td id="fraisDeplacementSASUMod1_1"></td>
-                <td id="salaireBrutSASUMod1">0</td>
-                <th id="RCAISASUMod1">0</th>
+                <td id="salaireBrutSASUMod1"></td>
+                <th id="RCAISASUMod1"></th>
                 <td id="IS"></td>
-                <th id="revenuNetAvantImpotSASU1">0</th>
+                <th id="revenuNetAvantImpotSASU1"></th>
                 <th id="salaireChargeSASUMod1"></th>
                 <th id="salaireNetAvantImpotSASUMod1"></th>
-                <th id="impotSurRevenuSASUMod1">0</th>
-                <td id="PFU">0</td>
-                <td id="baremeProgressifSASUMod1">0</td>
-                <th id="revenuNetImpotTotalSASUMod1">0</th>
-                <td id="achatsSocieteSASUMod1_2">0</td>
-                <td id="fraisRepasSASUMod1_2">0</td>
-                <td id="fraisDeplacementSASUMod1_2">0</td>
-                <th id="pouvoirAchatSASUMod1">0</th>
-                <td id="rendementSASUMod1">0</td>
+                <th id="impotSurRevenuSASUMod1"></th>
+                <td id="PFU"></td>
+                <td id="baremeProgressifSASUMod1"></td>
+                <th id="revenuNetImpotTotalSASUMod1"></th>
+                <td id="achatsSocieteSASUMod1_2"></td>
+                <td id="fraisRepasSASUMod1_2"></td>
+                <td id="fraisDeplacementSASUMod1_2"></td>
+                <th id="pouvoirAchatSASUMod1"></th>
+                <td id="rendementSASUMod1"></td>
             </tr>
         </table>
         <!-- Fin SASU Mod 1 -->
+
         <!-- SASU Mod 2 -->
         <table id="tableMod2">
             <caption>Récapitulatif de Paie - SASU Mod 2</caption>
@@ -703,31 +704,32 @@
             <tr>
                 <td>Non</td>
                 <td>IR</td>
-                <th id="CAFactureClientSASUMod2">0</th>
-                <td id="honorairesDWSASUMod2">0</td>
-                <td id="achatsSocieteSASUMod2_1">0</td>
+                <th id="CAFactureClientSASUMod2"></th>
+                <td id="honorairesDWSASUMod2"></td>
+                <td id="achatsSocieteSASUMod2_1"></td>
                 <td id="fraisRepasSASUMod2_1"></td>
                 <td id="fraisDeplacementSASUMod2_1"></td>
-                <td id="salaireBrutSASUMod2">0</td>
-                <th id="RCAISASUMod2">0</th>
+                <td id="salaireBrutSASUMod2"></td>
+                <th id="RCAISASUMod2"></th>
                 <td id="CSG"></td>
-                <th id="revenuNetAvantImpotSASUMod2">0</th>
+                <th id="revenuNetAvantImpotSASUMod2"></th>
                 <th id="salaireChargeSASUMod2"></th>
                 <th id="salaireNetAvantImpotSASUMod2"></th>
-                <th id="impotSurRevenuSASUMod2">0</th>
-                <td id="baremeProgressifSASUMod2">0</td>
-                <th id="revenuNetImpotTotalSASUMod2">0</th>
-                <td id="achatsSocieteSASUMod2_2">0</td>
+                <th id="impotSurRevenuSASUMod2"></th>
+                <td id="baremeProgressifSASUMod2"></td>
+                <th id="revenuNetImpotTotalSASUMod2"></th>
+                <td id="achatsSocieteSASUMod2_2"></td>
                 <td id="fraisRepasSASUMod2_2"></td>
                 <td id="fraisDeplacementSASUMod2_2"></td>
-                <th id="pouvoirAchatSASUMod2">0</th>
-                <td id="rendementSASUMod2">0</td>
+                <th id="pouvoirAchatSASUMod2"></th>
+                <td id="rendementSASUMod2"></td>
             </tr>
         </table>
         <!-- Fin SASU Mod 2 -->
-        <!-- EURL -->
+
+        <!-- Table EURL -->
         <table id="tableEURL">
-            <caption>Récapitulatif de Paie - EURL IS</caption>
+            <caption>Récapitulatif de Paie - SASU Mod 1</caption>
             <tr>
                 <td>ACRE</td>
                 <td>Fiscalité</td>
@@ -736,12 +738,16 @@
                 <td>Achats Société</td>
                 <td>Frais de repas</td>
                 <td>Frais de déplacements</td>
-                <th>Salaire Brut</th>
-                <td>Cotisations salariales/patronales</td>
-                <th>Salaire Net avant impôt</th>
+                <td>Salaire Brut</td>
+                <th>RCAI</th>
+                <td>IS</td>
+                <th>Revenu Net avant impôt (1)</th>
+                <th>Salaire chargé</th>
+                <th>Salaire Net avant impôt (2)</th>
                 <th>Impôt sur le revenu</th>
+                <td>PFU - Flat Tax</td>
                 <td>Barème progressif</td>
-                <th>Revenu net d'impôt total</th>
+                <th>Revenu net d'impôt total (1+2)</th>
                 <td>dont achats société</td>
                 <td>dont frais de repas</td>
                 <td>dont frais de déplacements</td>
@@ -751,22 +757,26 @@
             <tr>
                 <td>Non</td>
                 <td>IS</td>
-                <th id="CAFactureClientEURL">0</th>
-                <td id="honorairesDWEURL">0</td>
-                <td id="achatsSocieteEURL_1">0</td>
+                <th id="CAFactureClientEURL"></th>
+                <td id="honorairesDWEURL"></td>
+                <td id="achatsSocieteEURL_1"></td>
                 <td id="fraisRepasEURL_1"></td>
                 <td id="fraisDeplacementEURL_1"></td>
-                <td id="salaireBrutEURL">0</td>
-                <td id="cotisationsSalarialesPatronales">0</td>
+                <td id="salaireBrutEURL"></td>
+                <th id="RCAIEURL"></th>
+                <td id="IS_EURL"></td>
+                <th id="revenuNetAvantImpotEURL"></th>
+                <th id="salaireChargeEURL"></th>
                 <th id="salaireNetAvantImpotEURL"></th>
-                <th id="impotSurRevenuEURL">0</th>
-                <td id="baremeProgressifEURL">0</td>
-                <th id="revenuNetImpotTotalEURL">0</th>
-                <td id="achatsSocieteEURL_2">0</td>
-                <td id="fraisRepasEURL_2">0</td>
-                <td id="fraisDeplacementEURL_2">0</td>
-                <th id="pouvoirAchatEURL">0</th>
-                <td id="rendementEURL">0</td>
+                <th id="impotSurRevenuEURL"></th>
+                <td id="PFU_EURL"></td>
+                <td id="baremeProgressifEURL"></td>
+                <th id="revenuNetImpotTotalEURL"></th>
+                <td id="achatsSocieteEURL_2"></td>
+                <td id="fraisRepasEURL_2"></td>
+                <td id="fraisDeplacementEURL_2"></td>
+                <th id="pouvoirAchatEURL"></th>
+                <td id="rendementEURL"></td>
             </tr>
         </table>
         <!-- Fin EURL -->
@@ -777,9 +787,9 @@
                 <td></td>
                 <td>
                     <select class="selectInput1" id="select1">
-                        <option value="PS">Portage Salarial</option>
-                        <option value="ME">Micro Entreprise</option>
                         <option value="SASUMod1">SASU Mod 1</option>
+                        <option value="ME">Micro Entreprise</option>
+                        <option value="PS">Portage Salarial</option>
                         <option value="SASUMod2">SASU Mod 2</option>
                         <option value="EURL">EURL IS</option>
                         <option value="rien">Rien</option>
@@ -787,19 +797,19 @@
                 </td>
                 <td>
                     <select class="selectInput1" id="select2">
+                        <option value="SASUMod2">SASU Mod 2</option>
                         <option value="PS">Portage Salarial</option>
                         <option value="ME">Micro Entreprise</option>
                         <option value="SASUMod1">SASU Mod 1</option>
-                        <option value="SASUMod2">SASU Mod 2</option>
                         <option value="EURL">EURL IS</option>
                         <option value="rien">Rien</option>
                     </select>
                 </td>
                 <td>
                     <select class="selectInput1" id="select3">
+                        <option value="SASUMod1">SASU Mod 1</option>
                         <option value="PS">Portage Salarial</option>
                         <option value="ME">Micro Entreprise</option>
-                        <option value="SASUMod1">SASU Mod 1</option>
                         <option value="SASUMod2">SASU Mod 2</option>
                         <option value="EURL">EURL IS</option>
                         <option value="rien">Rien</option>
@@ -829,8 +839,8 @@
             </tr>
             <tr>
                 <th>Nombre de mois</th>
-                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
-                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="2" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="10" min="0"></td>
                 <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
                 <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
                 <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
@@ -1006,15 +1016,6 @@
                 <td class="PAPeriode"></td>
                 <td></td>
             </tr>
-            <tr>
-                <td>Impôt Annuel</td>
-                <td class="impotAnnuelScenario"></td>
-                <td class="impotAnnuelScenario"></td>
-                <td class="impotAnnuelScenario"></td>
-                <td class="impotAnnuelScenario"></td>
-                <td class="impotAnnuelScenario"></td>
-                <td></td>
-            </tr>
         </table>
         <!-- Fin scénario -->
 
@@ -1074,7 +1075,7 @@
 
     </main>
     <script src="variables.js"></script>
-    <script src="BudgetToHoraire.js"></script>
+    <script src="portageSalarial.js"></script>
     <script src="calculBareme.js"></script>
     <script src="ME.js"></script>
     <script src="SASUMod1.js"></script>

@@ -21,14 +21,15 @@ const rendementSASUMod2 = document.getElementById("rendementSASUMod2")
 function afficherDataMod2(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
     const CAFactureClientMois = nbJoursTravailAn * TJM / 12
     const honorairesDWMois = - CAFactureClientMois * honoraires / 100
-    const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
-    const fraisRepasMois = - parseInt(inputFraisRepas.value)
-    const fraisDeplacementMois = - parseInt(inputFraisDeplacements.value)
-    const salaireBrutMois = parseInt(inputRevenuConsultantBrut.value) / 12
+    const achatsSocieteMois = - achatSociete / 12
+    const fraisRepasMois = - fraisRepas
+    const fraisDeplacementMois = - fraisDeplacements
+    const salaireBrutMois = revenuConsultantBrut / 12
     const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const CSGMois = -0.097 * RCAIMois
     const revenuNetAvantImpotMois = RCAIMois + CSGMois
-    const salaireNetAvantImpotMois = 12 * salaireBrutMois >= 6000 ? getNetAvantImpot(12 * salaireBrutMois) / 12 : 0
+    const salaireNetAvantImpotMois = 7444 / 12
+    // const salaireNetAvantImpotMois = ??
     const baremeProgressifMois = calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0]
     const revenuNetImpotTotal = revenuNetAvantImpotMois + salaireNetAvantImpotMois + baremeProgressifMois
     const pouvoirAchatMois = revenuNetImpotTotal - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois
@@ -44,7 +45,7 @@ function afficherDataMod2(){ // Fonction de calcul du pouvoir d'achat et du rend
     RCAISASUMod2.innerText = `${RCAIMois.toFixed(2)} €`
     CSG.innerText = `${CSGMois.toFixed(2)} €`
     revenuNetAvantImpotSASUMod2.innerText = `${revenuNetAvantImpotMois.toFixed(2)} €`
-    salaireChargeSASUMod2.innerText = `${CSGMois.toFixed(2)} €`
+    salaireChargeSASUMod2.innerText = `${salaireBrutMois.toFixed(2)} €`
     salaireNetAvantImpotSASUMod2.innerText = `${salaireNetAvantImpotMois.toFixed(2)} €`
     impotSurRevenuSASUMod2.innerText = `${baremeProgressifMois.toFixed(2)} €`
     baremeProgressifSASUMod2.innerText = `${baremeProgressifMois.toFixed(2)} €`

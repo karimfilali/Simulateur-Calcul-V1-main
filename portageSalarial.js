@@ -180,7 +180,7 @@ function createFichePaie(){
     calculateCotisations() // Calcul et affichage des cotisations patronales et salariales
     apresCotisations()
 
-    return sendDataSimplifiee() // Renvoi du pouvoir d'achat et du rendement en fonction des données entrées pour la partie 'affiche' et 'calculTJM'
+    return sendDataSimplifieePS() // Renvoi du pouvoir d'achat et du rendement en fonction des données entrées pour la partie 'affiche' et 'calculTJM'
 }
 
 function calculateBeforeSalaireBrut(){ // Calcul des éléments colonne C et E AVANT salaire Brut en fonction du tauxHoraire
@@ -419,7 +419,7 @@ function showPatronal(){ // Affichage des éléments colonne H
 }
 
 function calculateCotisations(){ // Calcul et affichage des cotisations salariales et patronales
-    cotisationsSalariales = E13 + E14 + E18 + E19 + E22 + E23 + E24 + E25 + E26 + E27 + E28 + E29 + E34 + E35 + E36 + E42 
+    cotisationsSalariales = E13 + E14 + E18 + E19 + E22 + E23 + E24 + E25 + E26 + E27 + E28 + E29 + E34 + E35 + E36 + E42
     cotisationsPatronales = H11 + H12 + H13 + H14 + H15 + H16 + H17 + H20 + H21 + H22 + H23 + H24 + H25 + H26 + H27 + H28 + H29 + H30 + H31 + H32 + H33 + H34 + H36 + H37 + H38 + H39 + H40 + H41 + H42 
     document.getElementById("netSalarial").innerText = `${cotisationsSalariales.toFixed(2)} €`
     document.getElementById("netPatronal").innerText = `${cotisationsPatronales.toFixed(2)} €`
@@ -471,7 +471,7 @@ function recherche_dichotomie_Budget(budget, a, b, n){
     else recherche_dichotomie_Budget(budget, a, salaireBrut, n-1)
 }
 
-function sendDataSimplifiee(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
+function sendDataSimplifieePS(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
     const hypotheseFacturation = nbJoursTravailMois * TJM
     const honorairesGestion = hypotheseFacturation * (parseInt(inputHonoraires.value) - 2.2) / 100
     const avanceFacturation = hypotheseFacturation / 100
@@ -484,7 +484,6 @@ function sendDataSimplifiee(){ // Fonction de calcul du pouvoir d'achat et du re
     const salaireBrutMois = CAIndependantMois + cotisationsPatronales + fraisInrefacturables
     const revenuNetAvantImpotMois = salaireBrutMois + cotisationsSalariales
     const salaireNetAvantImpotMois = revenuNetAvantImpotMois - TitreRestauMois
-
     const pouvoirAchatMois = baremeProgressif + salaireNetAvantImpotMois
     const rendementMois = pouvoirAchatMois / hypotheseFacturation * 100
     return ["Portage Salarial", pouvoirAchatMois, rendementMois]
