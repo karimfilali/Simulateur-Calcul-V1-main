@@ -3,7 +3,7 @@
 // inputValues correspond aux entrées nécessaires pour chaque config.
 // PS requiert C49 mais est une variable globale
 // ME requiert CAIndependantMois
-// EURL requiert salaireNetAvantImpotMois
+// EURL requiert salaireNetAvantImpotMois et revenuNetAvantImpotMois
 // Mod1 requiert salaireNetAvantImpotMois et revenuNetAvantImpotMois
 // Mod2 requiert salaireBrutMois et revenuNetAvantImpotMois
 // PFUMois dans Mod1 requiert salaireNetAvantImpotMois et revenuNetAvantImpotMois
@@ -46,19 +46,19 @@ function calculBaremeProgressif(config, inputValues){
     return [-bareme / 12, -baremeConjoint / 12, -(bareme + baremeConjoint) / 12]
 }
 
-// =B10*0,66+SI(Scenario!C4="ME";Scenario!L16;0)+SI(Scenario!D4="ME";Scenario!M16;0)+SI(Scenario!E4="ME";Scenario!N16;0)+SI(Scenario!F4="ME";Scenario!O16;0)
-
 function calculRevenusIndependant(config, inputValues){
     if(config == "PS") return C49 * 12 * 0.9 // C49
     if(config == "ME") return inputValues * 12 * 0.66 // CAIndependantMois
-    if(config == "EURL") return inputValues * 12 // salaireNetAvantImpotMois
+    if(config == "EURL") return (inputValues[0] + inputValues[1]) * 12 // salaireNetAvantImpotMois + revenuNetAvantImpotMois
     if(config == "Mod1") return (inputValues[0] + inputValues[1]) * 12 // salaireNetAvantImpotMois + revenuNetAvantImpotMois
     if(config == "Mod2") return (inputValues[0] * 0.95 + inputValues[1]) * 12 // salaireBrutMois + revenuNetAvantImpotMois
     if(config == "PFU") return inputValues[0] * 12 // salaireNetAvantImpotMois
 
+    // Les lignes si dessous font référence au calcul de la partie Scénario calcul Impot Période
     if(config == "PSscenario") return C49 * 12 * 0.9 + inputValues
     if(config == "MEscenario") return inputValues[0] * 12 * 0.66 + inputValues[1]
     if(config == "Mod1scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
     if(config == "Mod2scenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
+    if(config == "EURLscenario") return (inputValues[0] + inputValues[1]) * 12 + inputValues[2]
     if(config == "PFUscenario") return inputValues[0] * 12 + inputValues[2]
 }

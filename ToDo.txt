@@ -1,20 +1,16 @@
-Commentaires : 
-- Erreur en cellule SASU IS!AI20 ?
-- Scénario!L17 : l'impôt Annuel vaut forcément 0 si l'on est dans du PS ou SASU IR
-
 To Do :
 - Responsive
-- Important : SASU Mod 1.js Ligne 34 et 35 salaireNetAvantImpotMois
-- Important : EURL 1.js Ligne 32 et 33 salaireNetAvantImpotMois
-- Important : SASU Mod 2.js Ligne 31 et 32 salaireNetAvantImpotMois
-- Important : scenario.js Ligne 214 salaireNetAvantImpotMois
-
+- Important : SASU Mod 1.js Ligne 34 salaireNetAvantImpotMois
+- Important : EURL 1.js Ligne 32 salaireNetAvantImpotMois
+- Important : SASU Mod 2.js Ligne 31 salaireNetAvantImpotMois
+- Important : scenario.js Ligne 197 salaireNetAvantImpotMois
+- Important : scenario.js Ligne 221 salaireNetAvantImpotMois
+- Important : scenario.js Ligne 241 salaireNetAvantImpotMois
+- Scénario!L17 : l'impôt Période vaut forcément 0 si l'on est dans du PS (Morceau de formule inutile)
 - Erreur benchmark SASU Mod 1 affichage achats société, frais de repas et frais de déplacement affichés à l'année alors que c'est au mois
-- BS Assimilé Salarié E34 : Manque la formule
+- BS Assimilé Salarié : Manque la formule salaire Brut
+
 
 - N'y a-t-il pas une répétition des const dans scénario.js calcul des impôts avec getInputData() ?
 
 - simulationSelect.addEventListener Améliorer lisibilité
-- ME!G5, avant les révenus indépendant étaient égal au CA indépendant et non au CA client (ligne 39 ME.js)
--Benchmark SASU Mod 2 : CSG/CRDS et Salaire Chargé référence à la même case, normal?
-- Benchmark EURL IS : N'est pas complètement faux? 
