@@ -84,7 +84,6 @@ function calculateScenario(){
             ligneIndemnisationPeriode.push(0)
             ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
         }
-
         if(selectInputs1[i].value == "ME"){
             disabledARCE[i].disabled = false
             disabledFiscalite[i].disabled = false
@@ -95,7 +94,6 @@ function calculateScenario(){
             else ligneIndemnisationPeriode.push(Math.min(ligneSoldeDroits[i], ligneARE[i] * capitalInitial / dureeIndemnitePE))
             ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
         }
-
         if(selectInputs1[i].value == "SASUMod1"){
             disabledARCE_droitsPE[i].disabled = false
             disabledARE_droitsPE[i].disabled = false
@@ -105,7 +103,6 @@ function calculateScenario(){
             else ligneIndemnisationPeriode.push(Math.min(ligneSoldeDroits[i], ligneARE[i] * capitalInitial / dureeIndemnitePE))
             ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
         }
-        
         if(selectInputs1[i].value == "SASUMod2"){
             disabledARCE_droitsPE[i].disabled = false
 
@@ -114,7 +111,6 @@ function calculateScenario(){
             else ligneIndemnisationPeriode.push(0)
             ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
         }
-
         if(selectInputs1[i].value == "EURL"){
             disabledARCE_droitsPE[i].disabled = false
             disabledARE_droitsPE[i].disabled = false
@@ -124,7 +120,6 @@ function calculateScenario(){
             else ligneIndemnisationPeriode.push(Math.min(ligneSoldeDroits[i], ligneARE[i] * capitalInitial / dureeIndemnitePE))
             ligneSoldeDroits.push(ligneSoldeDroits[i] - ligneIndemnisationPeriode[i])
         }
-
         if(selectInputs1[i].value == "rien"){
             ligneIndemnisationPeriode.push(0)
             salaireMoisTab.push(0)
@@ -133,13 +128,14 @@ function calculateScenario(){
             ligneImpotPeriode.push(0)
         }
     }
+
     for(let i = 0 ; i < 5 ; i++){
         if(ligneIndemnisationPeriode[i] > 0){
             if(selectInputs1[i].value == "ME") calculImpotPeriodeME(i)
             if(selectInputs1[i].value == "SASUMod1") calculImpotPeriodeSASUMod1()
             if(selectInputs1[i].value == "SASUMod2") calculImpotPeriodeSASUMod2()
             if(selectInputs1[i].value == "EURL") calculImpotPeriodeEURL()
-        } else ligneImpotPeriode.push(0)
+        } else ligneImpotPeriode.push(0) // Les impôts valent automatiquement 0 dans le cas du Portage Salarial ou si l'indemnisation période pour le statut choisi est nul
         indemniteNetPeriodeTab.push(ligneIndemnisationPeriode[i] - ligneImpotPeriode[i])
         indemniteNetMoisTab.push(indemniteNetPeriodeTab[i] / nbMois[i])
         let cumulPeriode = salaireMoisTab[i] * nbMois[i]
@@ -151,16 +147,15 @@ function calculateScenario(){
         pouvoirAchatMois[i].innerText = `${pouvoirAchatMoisTab[i].toFixed(1)} €`
         pouvoirAchatPeriode[i].innerText = `${(cumulPeriode + indemniteNetPeriodeTab[i]).toFixed(1)} €`
     }
-    console.log("Lignes Indemnisation période, impot période: ", ligneIndemnisationPeriode, ligneImpotPeriode);
     
-    // Colonne Moyenne
+    // Affichage des éléments de la colonne Moyenne
     document.getElementById("totalMoisScenario").innerText = `${nbMois.reduce((partialSum, a) => partialSum + a, 0)} mois`
     document.getElementById("salaireMoisMoyenne").innerText = `${calculateMoyenneTableau(salaireMoisTab).toFixed(1)} €`
     document.getElementById("indemniteMoisMoyenne").innerText = `${calculateMoyenneTableau(indemniteNetMoisTab).toFixed(1)} €`
     document.getElementById("PAMoisMoyenne").innerText = `${calculateMoyenneTableau(pouvoirAchatMoisTab).toFixed(1)} €`
 }
 
-// Renvoie la moyenne des valeurs d'un tableau pour la colonne Moyenne
+// La fonction renvoie la moyenne des valeurs d'un tableau (utilisée pour les élements de la colonne Moyenne)
 function calculateMoyenneTableau(tableau){
     let moy = 0
     tableau.forEach(value => moy += value)
@@ -169,12 +164,14 @@ function calculateMoyenneTableau(tableau){
 
 function calculImpotPeriodeME(i){
     const CAIndependantMois = CAFactureClientMois + honorairesDWMois
-    const I23 = -calculBaremeProgressif("ME", CAIndependantMois)[2] * 12
     let sumIndemnisationPeriodeME = 0
     for(let i = 0 ; i < ligneIndemnisationPeriode.length ; i++)
         if(selectInputs1[i].value == "ME") sumIndemnisationPeriodeME += ligneIndemnisationPeriode[i]
     const P23 = -calculBaremeProgressif("MEscenario", [CAIndependantMois, sumIndemnisationPeriodeME])[2] * 12
-    if(ACREselects[i].value == "non") ligneImpotPeriode.push(P23 - I23) // ME!P29
+    if(ACREselects[i].value == "non"){
+        const I23 = -calculBaremeProgressif("ME", CAIndependantMois)[2] * 12
+        ligneImpotPeriode.push(P23 - I23) // ME!P29
+    } 
     else {
         let revenusIndependantN5 = CAIndependantMois * 12 * 0.66 + sumIndemnisationPeriodeME
         let P26 = P23 / (revenusIndependantN5 + revenusConjoint)
