@@ -168,86 +168,60 @@ function calculateMoyenneTableau(tableau){
 }
 
 function calculImpotPeriodeME(i){
-    const CAClientMois = nbJoursTravailAn * TJM / 12 // ME!C28
-    const honorairesMois = -CAClientMois * honoraires / 100  // ME!C29
-    const CAIndependantMois = CAClientMois + honorairesMois
+    const CAIndependantMois = CAFactureClientMois + honorairesDWMois
     const I23 = -calculBaremeProgressif("ME", CAIndependantMois)[2] * 12
     let sumIndemnisationPeriodeME = 0
     for(let i = 0 ; i < ligneIndemnisationPeriode.length ; i++)
         if(selectInputs1[i].value == "ME") sumIndemnisationPeriodeME += ligneIndemnisationPeriode[i]
     const P23 = -calculBaremeProgressif("MEscenario", [CAIndependantMois, sumIndemnisationPeriodeME])[2] * 12
-    if(ACREselects[i].value == "non") ligneImpotPeriode.push(P23 - I23)
+    if(ACREselects[i].value == "non") ligneImpotPeriode.push(P23 - I23) // ME!P29
     else {
         let revenusIndependantN5 = CAIndependantMois * 12 * 0.66 + sumIndemnisationPeriodeME
         let P26 = P23 / (revenusIndependantN5 + revenusConjoint)
-        ligneImpotPeriode.push(J5 * P26)
+        ligneImpotPeriode.push(J5 * P26) // J5 référence à Départ!J5, ME!P27
     }
 }
 
 function calculImpotPeriodeSASUMod1(){ // Calcul des impôts annuels SASU Mod 1
-    const CAFactureClientMois = nbJoursTravailAn * TJM / 12
-    const honorairesDWMois = - CAFactureClientMois * honoraires / 100
-    const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
-    const fraisRepasMois = - parseInt(inputFraisRepas.value)
-    const fraisDeplacementMois = - parseInt(inputFraisDeplacements.value)
-    const salaireBrutMois = parseInt(inputRevenuConsultantBrut.value) / 12
-    const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const ISMois = RCAIMois > varISMois ? (-0.25 * (RCAIMois - varISMois) - 0.15 * varISMois) : (-0.15 * RCAIMois)
     const revenuNetAvantImpotMois = RCAIMois + ISMois
-    const salaireNetAvantImpotMois = 7444 / 12
-    // const salaireNetAvantImpotMois = ??
+    const salaireNetAvantImpotMois = salaireNetAvantImpot_AssimileSalarie()
     let sumIndemnisationPeriodeSASUMod1 = 0
     for(let i = 0 ; i < ligneIndemnisationPeriode.length ; i++)
         if(selectInputs1[i].value == "SASUMod1") sumIndemnisationPeriodeSASUMod1 += ligneIndemnisationPeriode[i]
-    let P21 = - calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) * 12
+    let P19 = - calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) * 12
     let AD19 = - calculBaremeProgressif("PFUscenario", [salaireNetAvantImpotMois, revenuNetAvantImpotMois, sumIndemnisationPeriodeSASUMod1]) * 12
-    let AJ23 = AD19 - P21
+    let AD23 = AD19 - P19
     let I21 = - calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[2] * 12
     let W21 = - calculBaremeProgressif("Mod1scenario", [salaireNetAvantImpotMois, revenuNetAvantImpotMois, sumIndemnisationPeriodeSASUMod1])[2] * 12
-    let AC23 = W21 - I21
-    ligneImpotPeriode.push(Math.min(AJ23, AC23)) // SASU IS!AD27
+    let W23 = W21 - I21
+    ligneImpotPeriode.push(Math.min(AD23, W23)) // SASU IS!Y27
 }
 
 function calculImpotPeriodeSASUMod2(){  // Calcul des impôts annuels SASU Mod 2
-    const CAFactureClientMois = nbJoursTravailAn * TJM / 12
-    const honorairesDWMois = - CAFactureClientMois * honoraires / 100
-    const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
-    const fraisRepasMois = - parseInt(inputFraisRepas.value)
-    const fraisDeplacementMois = - parseInt(inputFraisDeplacements.value)
-    const salaireBrutMois = parseInt(inputRevenuConsultantBrut.value) / 12
-    const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const CSGMois = -0.097 * RCAIMois
     const revenuNetAvantImpotMois = RCAIMois + CSGMois
-    const salaireNetAvantImpotMois = 7444 / 12
-    // const salaireNetAvantImpotMois = ??
+    const salaireNetAvantImpotMois = salaireNetAvantImpot_AssimileSalarie()
     let sumIndemnisationPeriodeSASUMod2 = 0
     for(let i = 0 ; i < ligneIndemnisationPeriode.length ; i++)
         if(selectInputs1[i].value == "SASUMod2") sumIndemnisationPeriodeSASUMod2 += ligneIndemnisationPeriode[i]
-    let W20 = -calculBaremeProgressif("Mod2scenario", [salaireNetAvantImpotMois, revenuNetAvantImpotMois, sumIndemnisationPeriodeSASUMod2])[2] * 12
-    let P20 = -calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[2] * 12
-    ligneImpotPeriode.push(W20 - P20) // SASU IR!W22
+    let P20 = -calculBaremeProgressif("Mod2scenario", [salaireNetAvantImpotMois, revenuNetAvantImpotMois, sumIndemnisationPeriodeSASUMod2])[2] * 12
+    let I20 = -calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[2] * 12
+    ligneImpotPeriode.push(P20 - I20) // SASU IR!P22
 }
 
 function calculImpotPeriodeEURL(){  // Calcul des impôts annuels EURL
-    const CAFactureClientMois = nbJoursTravailAn * TJM / 12
-    const honorairesDWMois = - CAFactureClientMois * honoraires / 100
-    const achatsSocieteMois = - parseInt(inputAchatSociete.value) / 12
-    const fraisRepasMois = - parseInt(inputFraisRepas.value)
-    const fraisDeplacementMois = - parseInt(inputFraisDeplacements.value)
-    const salaireBrutMois = parseInt(inputRevenuConsultantBrut.value) / 12
-    const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const ISMois = RCAIMois > varISMois ? (-0.25 * (RCAIMois - varISMois) - 0.15 * varISMois) : (-0.15 * RCAIMois)
     const revenuNetAvantImpotMois = RCAIMois + ISMois
-    const salaireNetAvantImpotMois = 7989 / 12
-    // const salaireNetAvantImpotMois = ??
+    const salaireNetAvantImpotMois = salaireNetAvantImpot_TNS()
     let sumIndemnisationPeriodeEURL = 0
     for(let i = 0 ; i < ligneIndemnisationPeriode.length ; i++)
         if(selectInputs1[i].value == "EURL") sumIndemnisationPeriodeEURL += ligneIndemnisationPeriode[i]
     let P21 = - calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) * 12
     let AD19 = - calculBaremeProgressif("PFUscenario", [salaireNetAvantImpotMois, revenuNetAvantImpotMois, sumIndemnisationPeriodeEURL]) * 12
-    let AJ23 = AD19 - P21
+    let AD23 = AD19 - P21
     let I21 = - calculBaremeProgressif("EURL", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[2] * 12
     let W21 = - calculBaremeProgressif("EURLscenario", [salaireNetAvantImpotMois, revenuNetAvantImpotMois, sumIndemnisationPeriodeEURL])[2] * 12
-    let AC23 = W21 - I21
-    ligneImpotPeriode.push(Math.min(AJ23, AC23)) // SASU IS!AD27
+    let W23 = W21 - I21
+    ligneImpotPeriode.push(Math.min(AD23, W23)) // EURL!Y27
 }

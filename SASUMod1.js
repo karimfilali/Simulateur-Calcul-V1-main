@@ -20,17 +20,13 @@ const pouvoirAchatSASUMod1 = document.getElementById("pouvoirAchatSASUMod1")
 const rendementSASUMod1 = document.getElementById("rendementSASUMod1")
 
 function afficherDataMod1(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
-    const CAFactureClientMois = nbJoursTravailAn * TJM / 12
-    const honorairesDWMois = - CAFactureClientMois * honoraires / 100
     const achatsSocieteMois = - achatSociete / 12
     const fraisRepasMois = - fraisRepas
     const fraisDeplacementMois = - fraisDeplacements
     const salaireBrutMois = revenuConsultantBrut / 12
-    const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const ISMois = RCAIMois > varISMois ? (-0.25 * (RCAIMois - varISMois) - 0.15 * varISMois) : (-0.15 * RCAIMois)
     const revenuNetAvantImpotMois = RCAIMois + ISMois
-    const salaireNetAvantImpotMois = 7444 / 12
-    // const salaireNetAvantImpotMois = createFichePaie("BSAssimileSalarie", 686)
+    const salaireNetAvantImpotMois = salaireNetAvantImpot_AssimileSalarie()
     const PFUMois = calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) // Calcul du PFU
     const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0] // Calcul du barème progressif. On récupère la première valeur
     const impotSurRevenuMois = Math.max(PFUMois, baremeProgressifMois)

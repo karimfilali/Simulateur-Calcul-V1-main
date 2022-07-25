@@ -28,6 +28,11 @@ const inputIndemnitePE = document.getElementById("inputIndemnitePE")
 const ACREInput = document.getElementById("ACREinput")
 const fiscaliteInput = document.getElementById("fiscaliteInput")
 
+// Affichage bulletin de paie détaillé
+let CAFactureClientMois
+let honorairesDWMois
+let RCAIMois
+
 const submitBtnCalculate = document.getElementById("submitBtnCalculate") // Bouton de calcul du comparatif
 const submitBtnCalculateTJM = document.getElementById("submitBtnCalculateTJM") // Bouton de calcul du TJM
 const submitBtnMeilleurRegime = document.getElementById("submitBtnMeilleurRegime") // Bouton de calcul du meilleur régime
@@ -70,7 +75,7 @@ function getInputData(situation = []){ // Permet de récupérer toutes les donn�
     nbJoursTravailAn = parseInt(inputNbJoursTravailAn.value)
     nbJoursTravailMois = nbJoursTravailAn / 12
     honoraires = parseInt(inputHonoraires.value)
-    budget = TJM * nbJoursTravailMois * (1 - honoraires / 100)
+    budget = TJM * nbJoursTravailMois * (1 - honoraires / 100) // Budget (CA Indépendant) calculé en cellule Départ!C6
     pouvoirAchatSouhaite = parseInt(inputPouvoirAchatSouhaite.value) // Pouvoir d'achat souhaité dans le cas calcul du TJM
     achatSociete = parseInt(inputAchatSociete.value)
     fraisRepas = parseInt(inputFraisRepas.value)
@@ -79,18 +84,22 @@ function getInputData(situation = []){ // Permet de récupérer toutes les donn�
     nbParts = parseInt(inputNbParts.value)
     revenusConjoint = parseInt(inputRevenusConjoint.value) * 0.71
 
-    oldBrutPE = parseInt(inputBrutPE.value) // Partie Scénario
-    dureeIndemnitePE = parseInt(inputIndemnitePE.value) // Partie Scénario
+    oldBrutPE = parseInt(inputBrutPE.value) // Ancien Brut Pôle Emploi (Partie Scénario)
+    dureeIndemnitePE = parseInt(inputIndemnitePE.value) // Durée d'indemnité Pôle Emploi (Partie Scénario)
     
     fraisProfessionnels = achatSociete / 12 + fraisRepas // Utilisé dans le calcul de la fiche de paie Portage Salarial
 
     garantieFinanciere = document.getElementById("inputGarantieFinanciere").checked ? 10 : 0 // 10% si la case garantie financière a été cochée, 0% sinon.
 
-    valueACREinput = (ACREInput.value === "oui")
-    valueFiscaliteInput = (fiscaliteInput.value === "oui")
+    valueACREinput = (ACREInput.value === "oui") // Input de départ
+    valueFiscaliteInput = (fiscaliteInput.value === "oui") // Input de départ
 
-    valueACRE_affiche = (ACRE.value === "oui")
-    valuePrelevementLiberatoire_affiche = (fiscalite.value === "oui")
+    valueACRE_affiche = (ACRE.value === "oui") // Utilisé dans l'affichage du bulletin de paie détaillé ME
+    valuePrelevementLiberatoire_affiche = (fiscalite.value === "oui") // Utilisé dans l'affichage du bulletin de paie détaillé ME
+
+    CAFactureClientMois = nbJoursTravailAn * TJM / 12
+    honorairesDWMois = - CAFactureClientMois * honoraires / 100
+    RCAIMois = CAFactureClientMois + honorairesDWMois + (achatSociete / 12) + fraisRepas + fraisDeplacements - (revenuConsultantBrut / 12)
 }
 
 simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une option dans la liste de départ
@@ -117,7 +126,7 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
     
     if(simulationSelect.value == "compare"){ // Si 'Comparer les différents status juridiques' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
-        document.getElementById("facturationTJM").style.display = 'flex'
+        document.getElementById("TJMinput").style.display = 'flex'
         document.getElementById("inputGarantieFinanciere").checked = false // Décocher la case si elle a été cochée dans l'affichage
         document.getElementById("ACRE_TJM").style.display = 'flex'
         document.getElementById("fiscaliteTJM").style.display = 'flex'
@@ -125,14 +134,14 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
     }
     if(simulationSelect.value == "affiche"){ // Si 'Connaître les détails d'un bulletin de paie d'un statut juridique' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
-        document.getElementById("facturationTJM").style.display = 'flex'
+        document.getElementById("TJMinput").style.display = 'flex'
         document.getElementById("garantieFinanciereInput").style.display = 'flex'
         document.getElementById("checkInputBox").style.display = 'block'
         document.getElementById("selectDetails").value = 'choose'
     }
     if(simulationSelect.value == "scenario"){ // Si 'Afficher le scénario' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
-        document.getElementById("facturationTJM").style.display = 'flex'
+        document.getElementById("TJMinput").style.display = 'flex'
         document.getElementById("tableScenario").style.display = 'block'
         document.getElementById("inputsScenario").style.display = 'block'
         
@@ -143,14 +152,14 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
         document.getElementById("inputsCompare").style.display = 'block'
         document.getElementById("garantieFinanciereInput").checked = false // Décocher la case si elle a été cochée dans l'affichage
         submitBtnCalculateTJM.style.display = 'block'
-        document.getElementById("facturationTJM").style.display = 'none'
+        document.getElementById("TJMinput").style.display = 'none'
         document.getElementById("PAsouhaiteTJM").style.display = 'flex'
         document.getElementById("ACRE_TJM").style.display = 'flex'
         document.getElementById("fiscaliteTJM").style.display = 'flex'
     }
     if(simulationSelect.value == "meilleurRegime"){ // Si 'Calculer le meilleur régime' est sélectionné
         document.getElementById("inputsCompare").style.display = 'block'
-        document.getElementById("facturationTJM").style.display = 'none'
+        document.getElementById("TJMinput").style.display = 'none'
         document.getElementById("inputGarantieFinanciere").checked = false // Décocher la case si elle a été cochée dans l'affichage
         document.getElementById("ACRE_TJM").style.display = 'flex'
         document.getElementById("fiscaliteTJM").style.display = 'flex'
@@ -170,35 +179,33 @@ submitBtnCalculate.addEventListener("click", () => {
     let valuesToTri = [PSOutputs, MEOutputs, SASUMod1Outputs, SASUMod2Outputs, EURLOutputs] // Liste contenant tous les rendements et pouvoirs d'achats
     displayValuesTri(valuesToTri) // Tri des éléments de la liste selon un rendement décroissant
 
-    document.querySelectorAll(".CA_S").forEach(CA => {
-        CAFactureClientMois = nbJoursTravailAn * TJM / 12
-        CA.innerText = `${CAFactureClientMois.toFixed(0)} €` // Affichage du chiffre d'affaire dans chaque case de la ligne 'Chiffre d'affaires'
-    })
+    document.querySelectorAll(".CA_S").forEach(CA => CA.innerText = `${CAFactureClientMois.toFixed(0)} €`)
+    // Affichage du chiffre d'affaire dans chaque case de la ligne 'Chiffre d'affaires'
 
     tableComparatifSimplifie.style.display = 'block' // Affichage de la table comparative des statuts rangés par colonne triés selon un rendement décroissant
 })
 
-function displayValuesTri(values){
-    values.sort((x, y) => y[2] - x[2]) // Cette ligne permet de trier les rendements de chaque statut juridique
+function displayValuesTri(values){ // Cette fonction est appelée lors de l'affichage simplifié des pouvoirs d'achats et rendements pour chaque statut juridique. 
+    values.sort((x, y) => y[2] - x[2]) // Cette ligne permet de trier chaque statut juridique dans l'ordre décroissant de leur rendement
     document.getElementById("A1").innerText = values[0][0]
     document.getElementById("pAchat1").innerText = `${values[0][1].toFixed(0)} €`
-    document.getElementById("rendement1").innerText = `${values[0][2].toFixed(1)} %` // On affiche le statut juridique, le pouvoir d'achat et le meilleur rendement dans la première colonne
+    document.getElementById("rendement1").innerText = `${values[0][2].toFixed(1)} %` // On affiche le meilleur statut juridique, le pouvoir d'achat et le meilleur rendement dans la première colonne
 
     document.getElementById("A2").innerText = values[1][0]
     document.getElementById("pAchat2").innerText = `${values[1][1].toFixed(0)} €`
-    document.getElementById("rendement2").innerText = `${values[1][2].toFixed(1)} %` // On affiche le statut juridique, le pouvoir d'achat et le rendement dans la deuxième colonne
+    document.getElementById("rendement2").innerText = `${values[1][2].toFixed(1)} %` // On affiche le deuxième meilleur statut juridique, le pouvoir d'achat et le rendement dans la deuxième colonne
     
     document.getElementById("A3").innerText = values[2][0]
     document.getElementById("pAchat3").innerText = `${values[2][1].toFixed(0)} €`
-    document.getElementById("rendement3").innerText = `${values[2][2].toFixed(1)} %` // On affiche le statut juridique, le pouvoir d'achat et le rendement dans la troisième colonne
+    document.getElementById("rendement3").innerText = `${values[2][2].toFixed(1)} %` // On affiche le troisième meilleur statut juridique statut juridique, le pouvoir d'achat et le rendement dans la troisième colonne
     
     document.getElementById("A4").innerText = values[3][0]
     document.getElementById("pAchat4").innerText = `${values[3][1].toFixed(0)} €`
-    document.getElementById("rendement4").innerText = `${values[3][2].toFixed(1)} %` // On affiche le statut juridique, le pouvoir d'achat et le rendement dans la quatrième colonne
+    document.getElementById("rendement4").innerText = `${values[3][2].toFixed(1)} %` // On affiche le quatrième meilleur statut juridique statut juridique, le pouvoir d'achat et le rendement dans la quatrième colonne
     
     document.getElementById("A5").innerText = values[4][0]
     document.getElementById("pAchat5").innerText = `${values[4][1].toFixed(0)} €`
-    document.getElementById("rendement5").innerText = `${values[4][2].toFixed(1)} %` // On affiche le statut juridique, le pouvoir d'achat et le rendement dans la cinquième colonne
+    document.getElementById("rendement5").innerText = `${values[4][2].toFixed(1)} %` // On affiche le cinquième meilleur (dernier) statut juridique, le pouvoir d'achat et le rendement dans la cinquième colonne
 }
 
 selectDetails.addEventListener("change", showDetailedTables) // Lorsque l'on souhaite afficher en détail un bulletin de paie
@@ -206,7 +213,7 @@ document.querySelectorAll(".inputDepart").forEach(input => input.addEventListene
     if(simulationSelect.value == "affiche") showDetailedTables() // Si l'on modifie un champ d'entrée, le bulletin de paie est recalculé automatiquement lorsque l'on affiche en détail un bulletin de paie
 }))
 
-function showDetailedTables(){
+function showDetailedTables(){ // Fonction qui affiche le bulletin de paie détaillé d'un statut juridique si 'Connaître les détails d'un bulletin de paie d'un statut juridique' est sélectionné
     getInputData() // On récupère les données en entrée et l'on calcule le CA prévisionnel (budget)
     if(selectDetails.value == "PS"){ // On calcule et affiche la fiche de paie pour le PS
         createFichePaie()

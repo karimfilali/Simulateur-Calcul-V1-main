@@ -28,7 +28,7 @@
 
         <div class="inputsCompare" id="inputsCompare">
             <p class="messageAvertissement">Attention, toutes les données sont à renseigner.</p>
-            <div class="rowInput" id="facturationTJM">
+            <div class="rowInput" id="TJMinput">
                 <label for="inputTJM">Facturation HT par jour (en €): </label>
                 <input class="inputDepart" type="number" id="inputTJM" name="inputTJM"value="1000" min="0">
             </div>
@@ -564,7 +564,7 @@
                 <td colspan="3"></td>
             </tr>
             <caption class="bottom-table-caption">* Le budget à prévoir par l'employeur est calculé de la façon suivante : Salaire Brut + Garantie Financière (si cochée) + Frais de déplacements + Frais professionnels + Cotisations Patronales<br><br>
-            * Il se peut que le budget calculé et affiché ne corresponde pas au budget donné en entrée. Cet écart est dû à des cotisations qui s'ajoutent à partir d'un certain salaire brut et qui ne permettent pas d'obtenir le budget demandé.
+            * Il se peut que le budget calculé et affiché ne corresponde pas au budget donné en entrée. Cet écart est dû à des cotisations patronales qui s'ajoutent à partir d'un salaire brut seuil et qui ne permettent pas d'obtenir exactement le budget demandé.
             </caption>
         </table>
         <!-- Fin de bulletin de salaire -->
@@ -1084,6 +1084,7 @@
     <script src="scenario.js"></script>
     <script src="calculTJM.js"></script>
     <script src="meilleurRegime.js"></script>
+    <script src="BS_AssimileSalarie_TNS.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

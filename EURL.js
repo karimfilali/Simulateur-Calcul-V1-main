@@ -20,17 +20,13 @@ const pouvoirAchatEURL = document.getElementById("pouvoirAchatEURL")
 const rendementEURL = document.getElementById("rendementEURL")
 
 function afficherDataEURL(){
-    const CAFactureClientMois = nbJoursTravailAn * TJM / 12
-    const honorairesDWMois = - CAFactureClientMois * honoraires / 100
     const achatsSocieteMois = - achatSociete / 12
     const fraisRepasMois = - fraisRepas
     const fraisDeplacementMois = - fraisDeplacements
     const salaireBrutMois = revenuConsultantBrut / 12
-    const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const ISMois = RCAIMois > varISMois ? (-0.25 * (RCAIMois - varISMois) - 0.15 * varISMois) : (-0.15 * RCAIMois)
     const revenuNetAvantImpotMois = RCAIMois + ISMois
-    const salaireNetAvantImpotMois = 7989 / 12
-    // const salaireNetAvantImpotMois = ??
+    const salaireNetAvantImpotMois = salaireNetAvantImpot_TNS()
     const PFUMois = calculBaremeProgressif("PFU", [salaireNetAvantImpotMois, revenuNetAvantImpotMois]) // Calcul du PFU
     const baremeProgressifMois = calculBaremeProgressif("Mod1", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0] // Calcul du barème progressif. On récupère la première valeur
     const impotSurRevenuMois = Math.max(PFUMois, baremeProgressifMois)

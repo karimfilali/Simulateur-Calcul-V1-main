@@ -19,17 +19,13 @@ const pouvoirAchatSASUMod2 = document.getElementById("pouvoirAchatSASUMod2")
 const rendementSASUMod2 = document.getElementById("rendementSASUMod2")
 
 function afficherDataMod2(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
-    const CAFactureClientMois = nbJoursTravailAn * TJM / 12
-    const honorairesDWMois = - CAFactureClientMois * honoraires / 100
     const achatsSocieteMois = - achatSociete / 12
     const fraisRepasMois = - fraisRepas
     const fraisDeplacementMois = - fraisDeplacements
     const salaireBrutMois = revenuConsultantBrut / 12
-    const RCAIMois = CAFactureClientMois + honorairesDWMois + achatsSocieteMois + fraisRepasMois + fraisDeplacementMois - salaireBrutMois
     const CSGMois = -0.097 * RCAIMois
     const revenuNetAvantImpotMois = RCAIMois + CSGMois
-    const salaireNetAvantImpotMois = 7444 / 12
-    // const salaireNetAvantImpotMois = ??
+    const salaireNetAvantImpotMois = salaireNetAvantImpot_AssimileSalarie()
     const baremeProgressifMois = calculBaremeProgressif("Mod2", [salaireNetAvantImpotMois, revenuNetAvantImpotMois])[0]
     const revenuNetImpotTotal = revenuNetAvantImpotMois + salaireNetAvantImpotMois + baremeProgressifMois
     const pouvoirAchatMois = revenuNetImpotTotal - achatsSocieteMois - fraisDeplacementMois - fraisRepasMois

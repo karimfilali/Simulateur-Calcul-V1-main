@@ -1,5 +1,8 @@
+// Ce fichier permet le calcul complet de la fiche de paie dans le cas du Portage Salarial et de l'assimilé Salarié
+// ATTENTION : Les nombreuses variables (type C5, C6, D6, D7, etc.) font référence au nom des cases de la feuille 'BS avec BF 10%' de la feuille Excel
+
 const sB = document.querySelectorAll(".salaireBrut") // Sélectionne toutes les cases qui doivent afficher le salaire brut
-let budgetTotal // Utilisé dans la dichotomie
+let budgetTotal // Variable utilisée dans la dichotomie
 
 // Colonne C
 const baseHeure = 151.67
@@ -93,8 +96,8 @@ const G14 = 8.55
 const G15 = 3.45
 const G16 = 0.77
 const G17 = 0.1
-const G20 = 4.05
-const G21 = 0.15
+let G20 = 4.05
+let G21 = 0.15
 const G22 = 4.72
 const G23 = 12.95
 const G24 = 1.29
@@ -105,14 +108,14 @@ const G28 = 0.036
 const G29 = 0.036
 let G30
 let G31
-const G32 = 0.016
-const G33 = 0.77
-const G34 = 0.73
+let G32 = 0.016
+let G33 = 0.77
+let G34 = 0.73
 const G37 = 0.55
-const G38 = 1.05
+let G38 = 1.05
 const G39 = 0.59
 const G40 = 0.09
-const G41 = 0.01
+let G41 = 0.01
 const G42 = 5.69
 
 // Colonne H
@@ -162,7 +165,7 @@ const L10 = 8 * L4
 let cotisationsSalariales
 let cotisationsPatronales
 
-function createFichePaie(){
+function createFichePaie(){ // Calcul de la fiche de paie dans le cas du Portage Salarial uniquement
     calculTauxHoraireFromBudget() // Calcul du taux horaire en fonction du CA prévisionnel
     sB.forEach(cell => cell.innerText = `${salaireBrut.toFixed(2)} €`) // Afficher tous les Salaires Bruts dans les cases correspondantes
     showTauxPatronaux() // Affichage des élements colonne G
@@ -180,7 +183,7 @@ function createFichePaie(){
     calculateCotisations() // Calcul et affichage des cotisations patronales et salariales
     apresCotisations()
 
-    return sendDataSimplifieePS() // Renvoi du pouvoir d'achat et du rendement en fonction des données entrées pour la partie 'affiche' et 'calculTJM'
+    return sendDataSimplifieePS() // Renvoi du pouvoir d'achat et du rendement en fonction des données entrées pour les parties 'Affiche tous les bulletins de paie simplifiés' et 'calculTJM'
 }
 
 function calculateBeforeSalaireBrut(){ // Calcul des éléments colonne C et E AVANT salaire Brut en fonction du tauxHoraire
@@ -214,15 +217,15 @@ function showTauxSalariaux(){ // Affiche les taux salariaux dans la fiche de pai
     document.getElementById("D42").innerText = `${D42.toFixed(2)} %`
 }
 
-function calculateBaseSalariale(){ // Calcul des éléments colonne C APRES le salaire brut
-    C14 = C22 = C24 = C26 = C28 = L5
+function calculateBaseSalariale(config){ // Calcul des éléments colonne C APRES le salaire brut
+    C14 = C22 = C24 = C28 = L5
     C26 = salaireBrut > L4 ? L5 : 0
     C18 = C19 = salaireBrut > L7 ? (L7 * 0.9825 + salaireBrut - L7 - H33 - H34 - H36) : (salaireBrut * 0.9825 - H33 - H34 - H36)
-    C23 = C25 = C27 = C29 = Math.max(salaireBrut - L4, 0)
     C34 = (salaireBrut > L4 && (salaireBrut - L4) < L6) ? salaireBrut - L4 : L6
     C35 = (salaireBrut > L6 && salaireBrut - L6 < L7) ? salaireBrut - L6 : ((salaireBrut > L6 && salaireBrut - L6 > L7) ? L7 : 0)
     C23 = C25 = C27 = Math.max(salaireBrut - L4, 0)
     C29 = salaireBrut < L4 ? 0 : (salaireBrut <= 9 * L4 ? salaireBrut - L4 : 0)
+    if(config == "Assimile Salarie") C26 = C27 = 0
 }
 
 function showBaseSalariale(){ // Affichage des éléments colonne C
@@ -248,7 +251,7 @@ function showBaseSalariale(){ // Affichage des éléments colonne C
     document.getElementById("C42").innerText = nbJoursTravailMois
 }
 
-function calculSalarial(){ // Calcul des éléments colonne E APRES le salaire brut
+function calculSalarial(config){ // Calcul des éléments colonne E APRES le salaire brut
     E13 = - salaireBrut * D13 / 100
     E14 = - C14 * D14 / 100
     E18 = - C18 * D18 / 100
@@ -263,8 +266,8 @@ function calculSalarial(){ // Calcul des éléments colonne E APRES le salaire b
     E29 = - C29 * D29 / 100
     E34 = - C34 * D34 / 100
     E35 = - C35 * D35 / 100
-    E36 = - C36
-    E42 = - nbJoursTravailMois * D42
+    E36 = (config == "Assimile Salarie") ? 0 : -C36
+    E42 = (config == "Assimile Salarie") ? 0 : - nbJoursTravailMois * D42
 }
 
 function showSalarial(){ // Affichage des éléments colonne E
@@ -354,7 +357,33 @@ function showBasePatronale(){ // Affichage des éléments colonne F
     document.getElementById("F42").innerText = F42
 }
 
-function calculPatronal(){ // Calcul des éléments colonne H
+function calculPatronal(config){ // Calcul des éléments colonne H
+    if(config == "Assimile Salarie"){ // Différences dans les pourcentages dans le cas assimilé salarié et Portage Salarial
+        G20 = 0
+        G21 = 0
+        G26 = 0
+        G27 = 0
+        G30 = 1.8
+        G31 = 6
+        G32 = 0.76
+        G33 = 0.74
+        G34 = 0
+        G38 = 0.025
+        G41 = 0.02
+    } else {
+        G20 = 4.05
+        G21 = 0.15
+        G26 = salaireBrut < L4 ? 0 : 0.21
+        G27 = salaireBrut < L4 ? 0 : 0.21
+        G30 = salaireBrut > L9 ? 1.8 : 0
+        G31 = salaireBrut > L8 ? 6 : 0 // Ces quatre cases dépendent de la valeur du salaire Brut
+        G32 = 0.016
+        G33 = 0.77
+        G34 = 0.73
+        G38 = 1.05
+        G41 = 0.01
+    }
+
     H11 = - salaireBrut * G11 / 100
     H12 = - salaireBrut * G12 / 100
     H13 = - salaireBrut * G13 / 100
@@ -377,13 +406,13 @@ function calculPatronal(){ // Calcul des éléments colonne H
     H32 = - salaireBrut * G32 / 100
     H33 = - F33 * G33 / 100
     H34 = - F34 * G34 / 100
-    H36 = - F36
+    H36 = (config == "Assimile Salarie") ? 0 : -F36 // Suppression de la mutuelle en cas d'assimilé salarié
     H37 = - salaireBrut * G37 / 100
     H38 = - salaireBrut * G38 / 100
     H39 = - salaireBrut * G39 / 100
     H40 = - salaireBrut * G40 / 100
     H41 = - salaireBrut * G41 / 100
-    H42 = - F42 * G42
+    H42 = (config == "Assimile Salarie") ? 0 : - F42 * G42 // Suppression des tickets restaurants en cas d'assimilé salarié
 }
 
 function showPatronal(){ // Affichage des éléments colonne H
@@ -420,7 +449,7 @@ function showPatronal(){ // Affichage des éléments colonne H
 
 function calculateCotisations(){ // Calcul et affichage des cotisations salariales et patronales
     cotisationsSalariales = E13 + E14 + E18 + E19 + E22 + E23 + E24 + E25 + E26 + E27 + E28 + E29 + E34 + E35 + E36 + E42
-    cotisationsPatronales = H11 + H12 + H13 + H14 + H15 + H16 + H17 + H20 + H21 + H22 + H23 + H24 + H25 + H26 + H27 + H28 + H29 + H30 + H31 + H32 + H33 + H34 + H36 + H37 + H38 + H39 + H40 + H41 + H42 
+    cotisationsPatronales = H11 + H12 + H13 + H14 + H15 + H16 + H17 + H20 + H21 + H22 + H23 + H24 + H25 + H26 + H27 + H28 + H29 + H30 + H31 + H32 + H33 + H34 + H36 + H37 + H38 + H39 + H40 + H41 + H42
     document.getElementById("netSalarial").innerText = `${cotisationsSalariales.toFixed(2)} €`
     document.getElementById("netPatronal").innerText = `${cotisationsPatronales.toFixed(2)} €`
 }
@@ -443,11 +472,11 @@ function apresCotisations(){ // Calcul et affichage des élements APRES salaire 
     document.getElementById("budgetTotal").innerText = `${budgetTotal.toFixed(2)} €`
 }
 
-function calculTauxHoraireFromBudget(){ // Fonction de calcul du taux horaire à partir du budget
-    recherche_dichotomie_Budget(budget, 0, budget, 50)
+function calculTauxHoraireFromBudget(config = ""){ // Fonction de calcul du taux horaire à partir du budget
+    recherche_dichotomie_Budget(budget, 0, budget, 50, config)
 }
 
-function recherche_dichotomie_Budget(budget, a, b, n){
+function recherche_dichotomie_Budget(budget, a, b, n, config){
     if(n == 0) return;
     salaireBrut = (a + b) / 2
     L5 = Math.min(salaireBrut, L4)
@@ -456,10 +485,10 @@ function recherche_dichotomie_Budget(budget, a, b, n){
     G31 = salaireBrut > L8 ? 6 : 0 // Ces quatre cases dépendent de la valeur du salaire Brut
 
     calculateBasePatronale()
-    calculPatronal()
+    calculPatronal(config)
     
-    calculateBaseSalariale()
-    calculSalarial()
+    calculateBaseSalariale(config)
+    calculSalarial(config)
     calculateCotisations() // Calcul de la fiche de paie en fonction du salaire Brut supposé
 
     if(garantieFinanciereChecked) tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095 - 0.1)) // Détermination du taux Horaire en fonction du salaire Brut
@@ -467,8 +496,10 @@ function recherche_dichotomie_Budget(budget, a, b, n){
     calculateBeforeSalaireBrut()
 
     budgetTotal = salaireBrut - cotisationsPatronales + fraisDeplacements + fraisProfessionnels - E8
-    if(budgetTotal < budget) recherche_dichotomie_Budget(budget, salaireBrut, b, n-1)
-    else recherche_dichotomie_Budget(budget, a, salaireBrut, n-1)
+    if(config == "Assimile Salarie") budgetTotal = salaireBrut - cotisationsPatronales
+    console.log("Budget total : " + budgetTotal, budget, config == "Assimile Salarie", salaireBrut, cotisationsPatronales);
+    if(budgetTotal < budget) recherche_dichotomie_Budget(budget, salaireBrut, b, n-1, config)
+    else recherche_dichotomie_Budget(budget, a, salaireBrut, n-1, config)
 }
 
 function sendDataSimplifieePS(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
