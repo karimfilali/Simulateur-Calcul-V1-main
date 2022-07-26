@@ -99,7 +99,8 @@ function getInputData(situation = []){ // Permet de récupérer toutes les donn�
 
     CAFactureClientMois = nbJoursTravailAn * TJM / 12
     honorairesDWMois = - CAFactureClientMois * honoraires / 100
-    RCAIMois = CAFactureClientMois + honorairesDWMois + (achatSociete / 12) + fraisRepas + fraisDeplacements - (revenuConsultantBrut / 12)
+    RCAIMois = CAFactureClientMois + honorairesDWMois - (achatSociete / 12) - fraisRepas - fraisDeplacements - (revenuConsultantBrut / 12)
+    console.log(RCAIMois, CAFactureClientMois, honorairesDWMois, (achatSociete / 12), fraisRepas, fraisDeplacements, (revenuConsultantBrut / 12));
 }
 
 simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une option dans la liste de départ
