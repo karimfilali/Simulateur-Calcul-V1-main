@@ -8,23 +8,20 @@ let submitBtnMeilleurRegimeAlreadyClicked = false
 let myChart
 
 submitBtnMeilleurRegime.addEventListener("click", () => {
-    resetValues()
-    values = calculMeilleurRegime()
+    calculMeilleurRegime() // Récupération du tableau contenant tous les TJMs
     tableMeilleurRegime.style.display = 'block'
-    displayChart(values)
+    displayChart(TJMs)
     submitBtnMeilleurRegimeAlreadyClicked = true
 })
 
-function resetValues(){
-    rendementPSvalues = []
+function calculMeilleurRegime(){
+    rendementPSvalues = []  // Remise à zéro des valeurs des tableaux dans le cas d'un nouveau calcul des rendements
     rendementMEvalues = []
     rendementMod1values = []
     rendementMod2values = []
     rendementEURLvalues = []
     TJMs = []
-}
 
-function calculMeilleurRegime(){
     let nomStatutJuridique = []
     let rendement = []
     for(let TJMfictif = 200 ; TJMfictif <= 1200 ; TJMfictif += 10){
@@ -39,28 +36,28 @@ function calculMeilleurRegime(){
         rendementMEvalues.push(MEOutputs[2])
         rendementMod1values.push(SASUMod1Outputs[2])
         rendementMod2values.push(SASUMod2Outputs[2])
-        rendementEURLvalues.push(EURLOutputs[2])
+        rendementEURLvalues.push(EURLOutputs[2]) // Enregistrement des rendements pour l'EURL dans le tableau
 
         let valuesToTri = [PSOutputs, MEOutputs, SASUMod1Outputs, SASUMod2Outputs, EURLOutputs]
         valuesToTri.sort((x, y) => y[2] - x[2]) // Cette ligne permet de trier les rendements de chaque statut juridique afin d'obtenir les deux meilleurs rendements 
         nomStatutJuridique.push([valuesToTri[0][0], valuesToTri[1][0]]) // On ajoute les statuts juridiques ayant les deux meilleurs rendements pour le TJM donné
-        TJMs.push(TJM)
-        rendement.push([valuesToTri[0][2], valuesToTri[1][2]])
+        TJMs.push(TJM) // Ajout du TJM dans le tableau
+        rendement.push([valuesToTri[0][2], valuesToTri[1][2]]) // Ajout des rendements pour les deux meilleurs régimes
     }
     let nomStatutJuridiqueSimplifiee = [nomStatutJuridique[0]]
     let TJMsSimplifiee = [TJMs[0]]
     let rendementSimplifiee = []
     let rendementSum = rendement[0] // Calcul de la moyenne de rendement
-    let lenBeforeChange = 1 // Nombre d'itérations avant changement
+    let lenBeforeChange = 1 // Nombre d'itérations avant un changement dans l'un des deux meilleurs régimes
     
     for(let i = 1 ; i < nomStatutJuridique.length ; i++){
-        if(nomStatutJuridique[i][0] != nomStatutJuridique[i - 1][0] || nomStatutJuridique[i][1] != nomStatutJuridique[i - 1][1]) {
-            rendementSimplifiee.push([rendementSum[0] / lenBeforeChange, rendementSum[1] / lenBeforeChange])
-            rendementSum = rendement[i]
-            lenBeforeChange = 1
+        if(nomStatutJuridique[i][0] != nomStatutJuridique[i - 1][0] || nomStatutJuridique[i][1] != nomStatutJuridique[i - 1][1]) { // S'il y a un changement dans les deux meilleurs régimes
+            rendementSimplifiee.push([rendementSum[0] / lenBeforeChange, rendementSum[1] / lenBeforeChange]) // On enregistre le rendement moyen pour les deux meilleurs régimes
+            rendementSum = rendement[i] // Réinitialisation de la somme pour le calcul du rendement moyen
+            lenBeforeChange = 1 // Réinitialisation du nombre d'itération avant changement
             nomStatutJuridiqueSimplifiee.push(nomStatutJuridique[i])
             TJMsSimplifiee.push(TJMs[i])
-        } else {
+        } else { // Si les deux meilleurs régimes restent inchangés pour le nouveau TJM
             rendementSum[0] += rendement[i][0]
             rendementSum[1] += rendement[i][1]
             lenBeforeChange++
@@ -70,25 +67,23 @@ function calculMeilleurRegime(){
     rendementSimplifiee.push([rendementSum[0] / lenBeforeChange, rendementSum[1] / lenBeforeChange])
     let tableToDisplay = "<caption>Comparatif des meilleurs régimes</caption>"
     tableToDisplay += "<tr><td>TJM</td>"
-    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>De ${TJMsSimplifiee[i]} € à ${TJMsSimplifiee[i+1]} €</td>` }
+    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>De ${TJMsSimplifiee[i]} € à ${TJMsSimplifiee[i+1]} €</td>` } // Affichage des TJMs
     tableToDisplay += "</tr>"
     tableToDisplay += "<tr><th>Meilleur statut juridique</th>"
-    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${nomStatutJuridiqueSimplifiee[i][0]}</td>` }
+    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${nomStatutJuridiqueSimplifiee[i][0]}</td>` } // Affichage du meilleur régime
     tableToDisplay += "</tr><tr><td>Rendement moyen</td>"
-    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${rendementSimplifiee[i][0].toFixed(1)} %</td>` }
+    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${rendementSimplifiee[i][0].toFixed(1)} %</td>` } // Affichage du meilleur rendement
     tableToDisplay += "</tr><tr><th>Deuxième meilleur statut juridique</th>"
-    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${nomStatutJuridiqueSimplifiee[i][1]}</td>` }
+    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${nomStatutJuridiqueSimplifiee[i][1]}</td>` } // Affichage du deuxième meilleur régime
     tableToDisplay += "<tr><td>Rendement moyen</td>"
-    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${rendementSimplifiee[i][1].toFixed(1)} %</td>` }
+    for(let i = 0 ; i < nomStatutJuridiqueSimplifiee.length ; i++) { tableToDisplay += `<td>${rendementSimplifiee[i][1].toFixed(1)} %</td>` } // Affichage du deuxième meilleur rendement
     tableToDisplay += "</tr>"
     tableMeilleurRegime.innerHTML = tableToDisplay
-    
-    return TJMs
 }
 
-function displayChart(values){
+function displayChart(){ // Affichage des différentes courbes
     const data = {
-        labels: values, // values[0] correspond aux différentes valeurs du TJM
+        labels: TJMs,
         datasets: [{
             label: 'Portage Salarial',
             backgroundColor: 'rgb(255, 99, 132)',
@@ -117,7 +112,7 @@ function displayChart(values){
         }]
     };
     
-    const config = {
+    const config = { // Titre pour chaque axe
         type: 'line',
         data: data,
         options: { scales: { 
@@ -125,7 +120,8 @@ function displayChart(values){
             y: { title: { text: 'Rendement (en %)', display: true} }
         } }
     };
-    if(submitBtnMeilleurRegimeAlreadyClicked) myChart.destroy() // Détruire l'ancien graphique s'il est déjà en train d'afficher des courbes
+
+    if(submitBtnMeilleurRegimeAlreadyClicked) myChart.destroy() // Détruire l'ancien graphique s'il est déjà en train d'afficher les courbes
     myChart = new Chart( document.getElementById('chart'), config );
-    meilleurRegimeChart.style.display = 'block'
+    meilleurRegimeChart.style.display = 'block' // Affichage des nouvelles courbes sur l'écran
 }

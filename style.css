@@ -188,3 +188,17 @@ table td, table th{
     font-weight: 400;
     text-align: right;
 }
+
+/* Responsive */
+
+@media screen and (max-width: 1150px) {
+    #tableScenario *{
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #tableScenario *{
+        font-size: 0.7rem;
+    }
+}

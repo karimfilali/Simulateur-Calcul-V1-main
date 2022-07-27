@@ -225,7 +225,10 @@ function calculateBaseSalariale(config){ // Calcul des éléments colonne C APRE
     C35 = (salaireBrut > L6 && salaireBrut - L6 < L7) ? salaireBrut - L6 : ((salaireBrut > L6 && salaireBrut - L6 > L7) ? L7 : 0)
     C23 = C25 = C27 = Math.max(salaireBrut - L4, 0)
     C29 = salaireBrut < L4 ? 0 : (salaireBrut <= 9 * L4 ? salaireBrut - L4 : 0)
-    if(config == "Assimile Salarie") C26 = C27 = 0
+    if(config == "Assimile Salarie") {
+        C34 = (salaireBrut > L5 && (salaireBrut - L5) < L6) ? salaireBrut - L5 : ((salaireBrut > L5 && salaireBrut - L5 > L6) ? L6 : 0) // Calcul de la case Prévoyance TrB
+        C26 = C27 = 0
+    }
 }
 
 function showBaseSalariale(){ // Affichage des éléments colonne C
@@ -376,7 +379,7 @@ function calculPatronal(config){ // Calcul des éléments colonne H
         G26 = salaireBrut < L4 ? 0 : 0.21
         G27 = salaireBrut < L4 ? 0 : 0.21
         G30 = salaireBrut > L9 ? 1.8 : 0
-        G31 = salaireBrut > L8 ? 6 : 0 // Ces quatre cases dépendent de la valeur du salaire Brut
+        G31 = salaireBrut > L8 ? 6 : 0 // Les quatre valeurs dépendent de la valeur du salaire Brut
         G32 = 0.016
         G33 = 0.77
         G34 = 0.73
@@ -454,7 +457,7 @@ function calculateCotisations(){ // Calcul et affichage des cotisations salarial
     document.getElementById("netPatronal").innerText = `${cotisationsPatronales.toFixed(2)} €`
 }
 
-function apresCotisations(){ // Calcul et affichage des élements APRES salaire net avant impôt
+function apresCotisations(){ // Calcul et affichage des éléments APRES salaire net avant impôt
     C47 = -E19
     C48 = -H36
     C49 = C48 + C47 + salaireBrut + cotisationsSalariales
@@ -472,14 +475,14 @@ function apresCotisations(){ // Calcul et affichage des élements APRES salaire 
     document.getElementById("budgetTotal").innerText = `${budgetTotal.toFixed(2)} €`
 }
 
-function calculTauxHoraireFromBudget(config = ""){ // Fonction de calcul du taux horaire à partir du budget
+function calculTauxHoraireFromBudget(config = ""){ // Fonction de calcul du taux horaire à partir du budget. Config peut valoir "Assimile Salarie".
     recherche_dichotomie_Budget(budget, 0, budget, 50, config)
 }
 
 function recherche_dichotomie_Budget(budget, a, b, n, config){
     if(n == 0) return;
-    salaireBrut = (a + b) / 2
-    L5 = Math.min(salaireBrut, L4)
+    salaireBrut = (a + b) / 2 // Calcul dichotomique
+    L5 = Math.min(salaireBrut, L4) // Mise à jour des variables qui dépendant du salaire brut
     G26 = G27 = salaireBrut < L4 ? 0 : 0.21
     G30 = salaireBrut > L9 ? 1.8 : 0
     G31 = salaireBrut > L8 ? 6 : 0 // Ces quatre cases dépendent de la valeur du salaire Brut
@@ -489,7 +492,7 @@ function recherche_dichotomie_Budget(budget, a, b, n, config){
     
     calculateBaseSalariale(config)
     calculSalarial(config)
-    calculateCotisations() // Calcul de la fiche de paie en fonction du salaire Brut supposé
+    calculateCotisations() // Calcul de la fiche de paie complète en fonction du salaire Brut supposé (sans affichage)
 
     if(garantieFinanciereChecked) tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095 - 0.1)) // Détermination du taux Horaire en fonction du salaire Brut
     else tauxHoraire = salaireBrut / (baseHeure * (1 + 0.05 + 0.095)) // La différence avec la ligne au dessus est que l'on soustrait 10% (d'où le -0.1)

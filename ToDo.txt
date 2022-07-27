@@ -1,4 +1,0 @@
-To Do :
-- Responsive
-- Scénario!L17 : l'impôt Période vaut forcément 0 si l'on est dans du PS (Morceau de formule inutile)
-- Erreur BS Assimilé Salarié!E27 : Manque la multiplication

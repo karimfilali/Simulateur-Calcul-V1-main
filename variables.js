@@ -241,7 +241,7 @@ function showDetailedTables(){ // Fonction qui affiche le bulletin de paie déta
     // Grâce aux différents display = "none", aucune table n'est affichée si la case --Choisir-- est sélectionnée
 }
 
-function getHonoraires(){
+function getHonoraires(){ // La fonction récupère le taux d'honoraires correspondant au TJM en entrée
     var xhReq = new XMLHttpRequest();
     xhReq.open("GET", 'TJMtoHonoraires.json', false);
     xhReq.send(null);
