@@ -59,14 +59,3 @@ function afficherDataEURL(){
     return ["EURL IS", pouvoirAchatMois, rendementMois]
 }
 
-function getSalaireNet(salaireBrutAnnee){
-    var xhReq = new XMLHttpRequest();
-    xhReq.open("GET", 'data.json', false);
-    xhReq.send(null);
-    var data = JSON.parse(xhReq.responseText);  // Lecture du fichier data.json
-    if(salaireBrutAnnee >= 6000 && salaireBrutAnnee < 422450){
-        var row = parseInt((salaireBrutAnnee - 6000) / 50) // On obtient le numéro de la ligne par calcul mathématique
-        return data[row][5];
-    }
-    
-}

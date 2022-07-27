@@ -9,22 +9,24 @@
 </head>
 <body>
     <main>
-        <h1 class="mainHeading">Simulateur de ... (de la réforme de ... pour l'année 2022)</h1>
-        <p class="chapeau">
-            80 % des foyers bénéficient de la suppression de leur taxe d'habitation sur leur résidence principale à compter de 2020.
-            À compter de 2021, pour les 20 % de foyers restants, une diminution progressive de la taxe d’habitation sur la résidence principale s’appliquera jusqu’à sa suppression définitive en 2023.
-            <br><br>
-            Ce simulateur permet de déterminer, à titre indicatif, la réduction de votre taxe d’habitation pour 2022.
-        </p>
-        <h2 class="chapeauQuestion">Quel information souhaitez-vous connaître ?</h2>
-        <select name="simulation-select" id="simulation-select">
-            <option value="">--Choisir--</option>
-            <option value="compare">Comparer les différents statuts juridiques</option>
-            <option value="affiche">Connaître les détails d'un bulletin de paie d'un statut juridique</option>
-            <option value="scenario">Afficher le scénario</option>
-            <option value="calculTJM">Calculer son tarif journalier moyen (TJM)</option>
-            <option value="meilleurRegime">Trouver le meilleur régime</option>
-        </select>
+        <div class="header">
+            <h1 class="mainHeading">Simulateur de ... (de la réforme de ... pour l'année 2022)</h1>
+            <p class="chapeau">
+                80 % des foyers bénéficient de la suppression de leur taxe d'habitation sur leur résidence principale à compter de 2020.
+                À compter de 2021, pour les 20 % de foyers restants, une diminution progressive de la taxe d’habitation sur la résidence principale s’appliquera jusqu’à sa suppression définitive en 2023.
+                <br><br>
+                Ce simulateur permet de déterminer, à titre indicatif, la réduction de votre taxe d’habitation pour 2022.
+            </p>
+            <h2 class="chapeauQuestion">Quel information souhaitez-vous connaître ?</h2>
+            <select name="simulation-select" id="simulation-select">
+                <option value="">-- Choisir --</option>
+                <option value="compare">Comparer les différents statuts juridiques</option>
+                <option value="affiche">Connaître les détails d'un bulletin de paie d'un statut juridique</option>
+                <option value="scenario">Afficher le scénario</option>
+                <option value="calculTJM">Calculer son tarif journalier moyen (TJM)</option>
+                <option value="meilleurRegime">Trouver le meilleur régime</option>
+            </select>
+        </div>
 
         <div class="inputsCompare" id="inputsCompare">
             <p class="messageAvertissement">Attention, toutes les données sont à renseigner.</p>
@@ -64,10 +66,6 @@
                 <label for="inputRevenusConjoint">Revenus brut du conjoint (par an): </label>
                 <input class="inputDepart" type="number" id="inputRevenusConjoint" name="inputRevenusConjoint" value="3000" min="0">
             </div>
-            <div class="rowInput">
-                <label for="inputHonoraires">Honoraires (en %): </label>
-                <input class="inputDepart" type="number" id="inputHonoraires" name="inputHonoraires" value="6" min="0">
-            </div>
             <div class="rowInput" id="garantieFinanciereInput">
                 <label for="garantieFinanciere">Garantie Financière : </label>
                 <input class="inputDepart" type="checkbox" id="inputGarantieFinanciere" name="garantieFinanciere">
@@ -86,41 +84,34 @@
                     <option value="oui">Oui</option>
                 </select>
             </div>
-        </div>
-
-        <div class="checkInputBox" id="checkInputBox">
-            <label>Afficher en détail : </label>
-            <select name="details" id="selectDetails">
-                <option value="choose">--Choisir--</option>
-                <option value="PS">Bulletin de salaire</option>
-                <option value="ME">Micro Entreprise</option>
-                <option value="SASUMod1">SASU Mod 1</option>
-                <option value="SASUMod2">SASU Mod 2</option>
-                <option value="EURL">EURL IS</option>
-            </select>
-        </div>
-
-        
-        <div class="inputsScenario" id="inputsScenario">
-            <!-- PE signifie Pôle Emploi -->
-            <div class="rowInput">
+            <div class="rowInput inputScenario">
                 <label for="inputBrutPE">Ancien salaire brut Pôle Emploi (en €): </label>
                 <input type="number" id="inputBrutPE" name="inputBrutPE" value="47808">
             </div>
-            <div class="rowInput">
+            <div class="rowInput inputScenario">
                 <label for="inputIndemnitePE">Durée d'indemnité Pôle Emploi (en mois): </label>
                 <input type="number" id="inputIndemnitePE" name="inputIndemnitePE" value="23">
             </div>
+            <div class="checkInputBox" id="checkInputBox">
+                <label>Afficher en détail : </label>
+                <select name="details" id="selectDetails">
+                    <option value="choose">-- Choisir --</option>
+                    <option value="PS">Bulletin de salaire</option>
+                    <option value="ME">Micro Entreprise</option>
+                    <option value="SASUMod1">SASU Mod 1</option>
+                    <option value="SASUMod2">SASU Mod 2</option>
+                    <option value="EURL">EURL IS</option>
+                </select>
+            </div>
+            <button type="submit" value="Envoyer" id="submitBtnCalculate">CALCULER</button>
+            <button type="submit" value="Envoyer" id="submitBtnCalculateTJM">CALCULER SON TJM</button>
+            <button type="submit" value="Envoyer" id="submitBtnMeilleurRegime">Trouver le meilleur régime</button>
         </div>
-
-        <button type="submit" value="Envoyer" id="submitBtnCalculate">CALCULER</button>
-        <button type="submit" value="Envoyer" id="submitBtnCalculateTJM">CALCULER SON TJM</button>
-        <button type="submit" value="Envoyer" id="submitBtnMeilleurRegime">Trouver le meilleur régime</button>
         <!-- Fin du formulaire -->
 
         <!-- Affichage du bulletin simplifié -->
-        <div class="tableSimplifiez">
-            <table id="tableComparatifSimplifie">
+        <div id="tableComparatifSimplifie">
+            <table>
                 <caption>Comparatif des différents récapitulatifs de Paie</caption>
                 <tr>
                     <td></td>
@@ -783,6 +774,7 @@
 
         <!-- Scénario -->
         <table id="tableScenario">
+            <caption>Scénario de différents régimes</caption>
             <tr>
                 <td></td>
                 <td>
@@ -1072,7 +1064,8 @@
     <div id="meilleurRegimeChart">
         <canvas id="chart"></canvas>
     </div>
-
+    <h2 class="footer-title-1">DIGIWORK SOLUTIONS</h2>
+    <h3 class="footer-title-2">Groupe WORK4YOU</h3>
     </main>
     <script src="variables.js"></script>
     <script src="portageSalarial.js"></script>

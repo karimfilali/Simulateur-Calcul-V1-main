@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+/* Font Weights: 400, 500, 600, 700 */
+
+/* Configuration générale */
 
 *, ::before, ::after{
     box-sizing: border-box;
@@ -10,14 +13,14 @@
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
-body{
-    background-color:#e5e5e5;
+main{
+    padding: 5rem 4rem;
 }
 
-main{
-    background-color:white;
-    margin: 3rem;
-    padding: 1rem;
+.header{
+    box-shadow: 2px 2px 15px 0 rgba(1, 47, 94, 0.14);
+    border-radius: 0.8rem;
+    padding: 5rem 3rem;
 }
 
 .mainHeading{
@@ -37,6 +40,7 @@ main{
 }
 
 #simulation-select{
+    padding: 1px;
     font-size: 1rem;
 }
 
@@ -50,14 +54,16 @@ main{
 }
 
 .messageAvertissement{
-    font-size: 0.8rem;
-    margin: 0.5rem 0;
+    font-size: 0.86rem;
     text-align: center;
 }
 
-.inputsCompare, .inputsScenario{
-    margin: 1.5rem;
+.inputsCompare{
+    border-radius: 0.8rem;
+    box-shadow: 2px 2px 15px 0 rgba(1, 47, 94, 0.14);
     display: none;
+    margin: 4rem 0;
+    padding: 3rem;
 }
 
 .rowInput{
@@ -72,11 +78,11 @@ main{
     font-size: 1.1rem;
 }
 
-.inputsCompare label, .inputsCompare input, .inputsScenario label, .inputsScenario input{
+.inputsCompare label, .inputsCompare input{
     font-size: 1rem;
 }
 
-.inputsCompare input, .inputsScenario input, .nbMoisInput{
+.inputsCompare input, .nbMoisInput{
     width: 5rem;
     padding: 0.1rem;
 }
@@ -94,7 +100,7 @@ main{
     display: none;
 }
 
-.checkInputBox{
+.checkInputBox, #garantieFinanciereInput, #meilleurRegimeChart{
     display: none;
 }
 
@@ -108,8 +114,11 @@ main{
 
 table{
     display: none;
+    box-shadow: 2px 2px 15px 0 rgba(1, 47, 94, 0.14);
     border-collapse: collapse;
     margin: 1rem 0 3rem;
+    padding: 4rem 5rem 5rem;
+    border-radius: 0.8rem;
 }
 
 table caption{
@@ -123,13 +132,6 @@ table td, table th{
     text-align: left;
 }
 
-.tableSimplifiez{
-    margin: 3rem 0 1rem;
-    display: flex;
-    justify-content: center;
-}
-
-
 .bottom-table-caption{
     margin: 2rem;
     caption-side: bottom;
@@ -142,8 +144,14 @@ table td, table th{
     margin: 2rem;
 }
 
-#garantieFinanciereInput{
+#tableComparatifSimplifie{
     display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#tableComparatifSimplifie table{
+    display: table;
 }
 
 #tableMod1 tr, #tableMod2 tr, #tableME tr, #tableEURL tr{
@@ -167,8 +175,16 @@ table td, table th{
     font-size: 1.1rem;
 }
 
-/* Graphique */
+/* Footer */
 
-#meilleurRegimeChart{
-    display: none;
+.footer-title-1{
+    font-size: 2.1rem;
+    text-align: right;
+    margin: 5rem 0 1rem;
+}
+
+.footer-title-2{
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: right;
 }

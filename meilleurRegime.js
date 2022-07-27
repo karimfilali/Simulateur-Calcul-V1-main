@@ -27,7 +27,7 @@ function resetValues(){
 function calculMeilleurRegime(){
     let nomStatutJuridique = []
     let rendement = []
-    for(let TJMfictif = 200 ; TJMfictif <= 1200 ; TJMfictif += 20){
+    for(let TJMfictif = 200 ; TJMfictif <= 1200 ; TJMfictif += 10){
         getInputData(["calculMeilleurRegime", TJMfictif]) // On récupère les données en entrée et l'on calcule le CA prévisionnel (budget) en fonction du TJM
         let PSOutputs = createFichePaie()
         let MEOutputs = afficherDataME("compare")

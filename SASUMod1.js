@@ -59,12 +59,3 @@ function afficherDataMod1(){ // Fonction de calcul du pouvoir d'achat et du rend
     return ["SASU Mod 1", pouvoirAchatMois, rendementMois]
 }
 
-
-function getNetAvantImpot(salaireBr){ // Récupération du Net Avant Impot (ligne 9) en fonction du salaire brut dans le fichier data.json (BDD)
-    var xhReq = new XMLHttpRequest();
-    xhReq.open("GET", 'data.json', false);
-    xhReq.send(null);
-    var data = JSON.parse(xhReq.responseText);  // Lecture du fichier data.json
-    var row = (salaireBr - 6000 - salaireBr % 50) / 50 // On obtient le numéro de la ligne par calcul mathématique
-    return data[row][9];
-}

@@ -21,7 +21,6 @@ const inputFraisDeplacements = document.getElementById("inputFraisDeplacements")
 const inputRevenuConsultantBrut = document.getElementById("inputRevenuConsultantBrut")
 const inputNbParts = document.getElementById("inputNbParts")
 const inputRevenusConjoint = document.getElementById("inputRevenusConjoint")
-const inputHonoraires = document.getElementById("inputHonoraires")
 const inputBrutPE = document.getElementById("inputBrutPE")
 const inputIndemnitePE = document.getElementById("inputIndemnitePE")
 
@@ -74,7 +73,7 @@ function getInputData(situation = []){ // Permet de récupérer toutes les donn�
     else TJM = situation[1] // Dans le cas calculMeilleurRegime, on ne récupère pas le TJM en entrée. situation[1] correspond au TJM fictif
     nbJoursTravailAn = parseInt(inputNbJoursTravailAn.value)
     nbJoursTravailMois = nbJoursTravailAn / 12
-    honoraires = parseInt(inputHonoraires.value)
+    honoraires = getHonoraires()
     budget = TJM * nbJoursTravailMois * (1 - honoraires / 100) // Budget (CA Indépendant) calculé en cellule Départ!C6
     pouvoirAchatSouhaite = parseInt(inputPouvoirAchatSouhaite.value) // Pouvoir d'achat souhaité dans le cas calcul du TJM
     achatSociete = parseInt(inputAchatSociete.value)
@@ -100,7 +99,6 @@ function getInputData(situation = []){ // Permet de récupérer toutes les donn�
     CAFactureClientMois = nbJoursTravailAn * TJM / 12
     honorairesDWMois = - CAFactureClientMois * honoraires / 100
     RCAIMois = CAFactureClientMois + honorairesDWMois - (achatSociete / 12) - fraisRepas - fraisDeplacements - (revenuConsultantBrut / 12)
-    console.log(RCAIMois, CAFactureClientMois, honorairesDWMois, (achatSociete / 12), fraisRepas, fraisDeplacements, (revenuConsultantBrut / 12));
 }
 
 simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une option dans la liste de départ
@@ -119,7 +117,7 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
     submitBtnCalculate.style.display = 'none'
     submitBtnCalculateTJM.style.display = 'none'
     submitBtnMeilleurRegime.style.display = 'none'
-    document.getElementById("inputsScenario").style.display = 'none'
+    document.querySelectorAll(".inputScenario").forEach(input => input.style.display = 'none')
     document.getElementById("PAsouhaiteTJM").style.display = 'none'
     document.getElementById("ACRE_TJM").style.display = 'none'
     document.getElementById("fiscaliteTJM").style.display = 'none'
@@ -144,7 +142,7 @@ simulationSelect.addEventListener("change", () => { // Lorsque l'on choisit une 
         document.getElementById("inputsCompare").style.display = 'block'
         document.getElementById("TJMinput").style.display = 'flex'
         document.getElementById("tableScenario").style.display = 'block'
-        document.getElementById("inputsScenario").style.display = 'block'
+        document.querySelectorAll(".inputScenario").forEach(input => input.style.display = 'flex')
         
         getInputData()
         calculateScenario()
@@ -183,7 +181,7 @@ submitBtnCalculate.addEventListener("click", () => {
     document.querySelectorAll(".CA_S").forEach(CA => CA.innerText = `${CAFactureClientMois.toFixed(0)} €`)
     // Affichage du chiffre d'affaire dans chaque case de la ligne 'Chiffre d'affaires'
 
-    tableComparatifSimplifie.style.display = 'block' // Affichage de la table comparative des statuts rangés par colonne triés selon un rendement décroissant
+    tableComparatifSimplifie.style.display = 'flex' // Affichage de la table comparative des statuts rangés par colonne triés selon un rendement décroissant
 })
 
 function displayValuesTri(values){ // Cette fonction est appelée lors de l'affichage simplifié des pouvoirs d'achats et rendements pour chaque statut juridique. 
@@ -241,4 +239,13 @@ function showDetailedTables(){ // Fonction qui affiche le bulletin de paie déta
         afficherDataEURL()
     } else tableEURL.style.display = 'none'
     // Grâce aux différents display = "none", aucune table n'est affichée si la case --Choisir-- est sélectionnée
+}
+
+function getHonoraires(){
+    var xhReq = new XMLHttpRequest();
+    xhReq.open("GET", 'TJMtoHonoraires.json', false);
+    xhReq.send(null);
+    var data = JSON.parse(xhReq.responseText);  // Lecture du fichier TJMtoHonoraires.json
+    var row = (TJM - 200 - TJM % 20) / 20 // On obtient le numéro de la ligne par calcul mathématique
+    return data[row][1];
 }

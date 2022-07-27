@@ -497,14 +497,13 @@ function recherche_dichotomie_Budget(budget, a, b, n, config){
 
     budgetTotal = salaireBrut - cotisationsPatronales + fraisDeplacements + fraisProfessionnels - E8
     if(config == "Assimile Salarie") budgetTotal = salaireBrut - cotisationsPatronales
-    console.log("Budget total : " + budgetTotal, budget, config == "Assimile Salarie", salaireBrut, cotisationsPatronales);
     if(budgetTotal < budget) recherche_dichotomie_Budget(budget, salaireBrut, b, n-1, config)
     else recherche_dichotomie_Budget(budget, a, salaireBrut, n-1, config)
 }
 
 function sendDataSimplifieePS(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
     const hypotheseFacturation = nbJoursTravailMois * TJM
-    const honorairesGestion = hypotheseFacturation * (parseInt(inputHonoraires.value) - 2.2) / 100
+    const honorairesGestion = hypotheseFacturation * (getHonoraires() - 2.2) / 100
     const avanceFacturation = hypotheseFacturation / 100
     const CVAE = hypotheseFacturation * 0.012
     const fraisInrefacturables = parseInt(inputFraisRepas.value) + parseInt(inputAchatSociete.value) / 12 + parseInt(inputFraisDeplacements.value)
