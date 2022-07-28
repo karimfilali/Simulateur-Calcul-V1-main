@@ -23,7 +23,7 @@ function calculTJMFromPA(){ // Calcul dichotomique du TJM pour le PS, ME, EURL, 
     displayTJMTri([valuesPS, valuesME, valuesEURL, valuesMod1, valuesMod2]) // Affichage des données dans le tableau
 }
 
-function recherche_dichotomie_TJM_PS(a, b, n){ // Micro Entreprise
+function recherche_dichotomie_TJM_PS(a, b, n){ // Portage Salarial
     if(n == 0) return;
     TJM = (a + b) / 2
     budget = TJM * nbJoursTravailMois * (1 - honoraires / 100) // Calcul du nouveau budget en fonction du TJM calculé avant
