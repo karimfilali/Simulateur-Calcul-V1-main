@@ -5,7 +5,8 @@ Le principal fichier JavaScript du repository est le fichier variables.js (qui e
 Ce fichier récupère toutes les données requises en entrée et s'occupe de l'affichage des différentes options et sous-options. Il fait appel ainsi aux autres fichiers JavaScript (PortageSalarial, ME, SASUMod1, SASUMod2, EURL, Scénario, meilleurRegime, calculTJM) en fonction de l'option ou de la sous-option choisie.
 
 ## Attention !
-# Les nombreuses variables du fichier PortageSalarial.js (type C5, C6, D6, D7, etc.) font référence au nom des cases de la feuille 'BS avec BF 10%' de la feuille Excel version 11.05
+
+### Les nombreuses variables du fichier PortageSalarial.js (type C5, C6, D6, D7, etc.) font référence au nom des cases de la feuille 'BS avec BF 10%' de la feuille Excel version 11.05
 
 Dans le fichier PortageSalarial.js, le salaire brut est calculé par dichotomie en fonction du CA prévisionnel et le taux horaire est directement calculé à partir d'une formule mathématique à partir du salaire brut (en ligne 498).
 En cas d'ajout, de suppression ou de modification de ligne dans le bulletin de paie Portage Salarial, il faudra être vigilant à mettre correctement à jour la table HTML et le fichier PortageSalarial.js. Ce n'est pas difficile mais une erreur d'inattention peut rapidement arriver sur ce gros fichier.
