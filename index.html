@@ -10,12 +10,14 @@
 <body>
     <main>
         <div class="header">
-            <h1 class="mainHeading">Simulateur de ... (de la réforme de ... pour l'année 2022)</h1>
+            <h1 class="mainHeading">Simulateur de calcul du salaire pour freelances</h1>
             <p class="chapeau">
-                80 % des foyers bénéficient de la suppression de leur taxe d'habitation sur leur résidence principale à compter de 2020.
-                À compter de 2021, pour les 20 % de foyers restants, une diminution progressive de la taxe d’habitation sur la résidence principale s’appliquera jusqu’à sa suppression définitive en 2023.
+                Afin de vous aider au mieux dans le lancement de votre activité, la société Work4You met à disposition ce simulateur de salaire gratuit pour freelances. 
+                Il vous permet de déterminer précisément le salaire net que vous toucherez en fonction de votre type d'entreprise et de votre taux journalier moyen (TJM).
                 <br><br>
-                Ce simulateur permet de déterminer, à titre indicatif, la réduction de votre taxe d’habitation pour 2022.
+                Il vous permet de connaître aussi le TJM à facturer à vos clients pour atteindre le salaire net mensuel que vous souhaitez.
+                <br><br>
+                Ce simulateur permet de déterminer, à titre indicatif, les montants que vous pourriez toucher si vous changez de type d'entreprise sur plusieurs années.
             </p>
             <h2 class="chapeauQuestion">Quel information souhaitez-vous connaître ?</h2>
             <select name="simulation-select" id="simulation-select">
@@ -32,7 +34,7 @@
             <p class="messageAvertissement">Attention, toutes les données sont à renseigner.</p>
             <div class="rowInput" id="TJMinput">
                 <label for="inputTJM">Facturation HT par jour (en €): </label>
-                <input class="inputDepart" type="number" id="inputTJM" name="inputTJM" value="0" min="0">
+                <input class="inputDepart" type="number" id="inputTJM" name="inputTJM" value="200" min="200" max="1200">
             </div>
             <div class="rowInput">
                 <label for="inputNbJoursTravailAn">Nombre de jours de travail par an: </label>
@@ -93,7 +95,7 @@
                 <input type="number" id="inputIndemnitePE" name="inputIndemnitePE" value="0" min="0">
             </div>
             <div class="checkInputBox" id="checkInputBox">
-                <label>Afficher en détail : </label>
+                <label>Type d'entreprise : </label>
                 <select name="details" id="selectDetails">
                     <option value="choose">-- Choisir --</option>
                     <option value="PS">Bulletin de salaire</option>
@@ -831,8 +833,8 @@
             </tr>
             <tr>
                 <th>Nombre de mois</th>
-                <td><input type="number" class="nbMoisInput" value="2" min="0"></td>
-                <td><input type="number" class="nbMoisInput" value="10" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
+                <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
                 <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
                 <td><input type="number" class="nbMoisInput" value="12" min="0"></td>
                 <td><input type="number" class="nbMoisInput" value="12" min="0"></td>

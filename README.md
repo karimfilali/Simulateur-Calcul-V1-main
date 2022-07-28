@@ -19,6 +19,8 @@ Le fichier BS_AssimileSalarie_TNS.js contient les fonctions salaireNetAvantImpot
 # Pour des raisons de sécurité
 Il peut être conseillé de masquer le code JavaScript du client. En effet, tout le JS s'exécute sur la machine de l'utilisateur et ce dernier peut donc avoir accès au contenu de tous les fichiers JS, donc aux calculs effectués. Pour masquer le code JS, il est conseillé de supprimer les commentaires puis de brouiller le code. Supprimer les commentaires n'est pas le plus nécessaire mais peut guider l'utilisateur. Pour cela, j'utilise une extension Visual Studio Code qui me permet de retirer en une commande tous les commentaires (https://www.youtube.com/watch?v=DxNkUvwdtJo&ab_channel=WebStylePress). Pour brouiller le code, un outil très populaire et efficace est Obfuscator (https://obfuscator.io/). Il rend le code illisible, ajoute du code mort (du code inutile, qui sert à brouille les pistes) et renomme les variables. Il faut donc garder les fichiers JS "propres" sur la machine locale et mettre en ligne les fichiers brouillés. Le petit inconvéniant est que à chaque mise à jour d'un fichier, il faille brouiller à nouveau le code.
 
+L'intégralité du texte dans l'en tête (header) et dans les selects est donné à titre indicatif. N'hésitez pas à le remplacer et à écrire ce qui vous parait le plus adapté pour des personnes découvrant le simulateur.
+
 En cas de questionnement sur le fonctionnement d'une fonction ou d'une option, merci de me contacter à l'adresse mail suivante : karim.filali@etu.u-paris.fr
 
 Merci

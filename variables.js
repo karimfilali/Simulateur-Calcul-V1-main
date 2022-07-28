@@ -247,5 +247,6 @@ function getHonoraires(){ // La fonction récupère le taux d'honoraires corresp
     xhReq.send(null);
     var data = JSON.parse(xhReq.responseText);  // Lecture du fichier TJMtoHonoraires.json
     var row = (TJM - 200 - TJM % 20) / 20 // On obtient le numéro de la ligne par calcul mathématique
+    console.log(TJM, row, data[row]);
     return data[row][1];
 }
