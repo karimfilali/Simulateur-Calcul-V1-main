@@ -505,7 +505,6 @@ function recherche_dichotomie_Budget(budget, a, b, n, config){
 }
 
 function sendDataSimplifieePS(){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
-    console.log(honoraires);
     const hypotheseFacturation = nbJoursTravailMois * TJM
     const honorairesGestion = hypotheseFacturation * (getHonoraires() - 2.2) / 100
     const avanceFacturation = hypotheseFacturation / 100
@@ -519,7 +518,6 @@ function sendDataSimplifieePS(){ // Fonction de calcul du pouvoir d'achat et du 
     const revenuNetAvantImpotMois = salaireBrutMois + cotisationsSalariales
     const salaireNetAvantImpotMois = revenuNetAvantImpotMois - TitreRestauMois
     const pouvoirAchatMois = baremeProgressif + salaireNetAvantImpotMois
-    console.log(baremeProgressif, salaireNetAvantImpotMois);
     const rendementMois = pouvoirAchatMois / hypotheseFacturation * 100
     return ["Portage Salarial", pouvoirAchatMois, rendementMois]
 }
