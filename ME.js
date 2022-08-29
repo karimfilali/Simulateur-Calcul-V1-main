@@ -23,9 +23,7 @@ document.getElementById("fiscalite").addEventListener("change", () => { // Recal
 })
 
 function afficherDataME(selection, i){ // Fonction de calcul du pouvoir d'achat et du rendement dans le cas du comparatif, du scénario ou du calculTJM
-    const CAClientMois = nbJoursTravailAn * TJM / 12 // Cellule C28
-    const honorairesMois = -CAClientMois * honoraires / 100  // Cellule C29
-    const CAIndependantMois = CAClientMois + honorairesMois
+    const CAIndependantMois = CAFactureClientMois + honorairesDWMois
     let URSSAFMois
     // Les trois cas suivants permettent de savoir si l'on change la valeur du bouton ACRE dans le cas du comparatif, de l'affichage, du calcul TJM ou du scénario
     // Il faut donc récupérer le bon bouton et la bonne valeur en fonction du cas
@@ -46,11 +44,11 @@ function afficherDataME(selection, i){ // Fonction de calcul du pouvoir d'achat 
     
     const revenuNetImpotTotalMois = revenuAvantImpotMois + impotSurRevenuMois
     const pouvoirAchatMois = revenuAvantImpotMois + impotSurRevenuMois
-    const rendementMois = pouvoirAchatMois / CAClientMois * 100
+    const rendementMois = pouvoirAchatMois / CAFactureClientMois * 100
 
     // Remplissage de la fiche de paie simplifiée (pas nécessairement d'affichage)
-    CAFactureClient.innerText = `${CAClientMois.toFixed(2)} €`
-    honorairesDW.innerText = `${honorairesMois.toFixed(2)} €`
+    CAFactureClient.innerText = `${CAFactureClientMois.toFixed(2)} €`
+    honorairesDW.innerText = `${honorairesDWMois.toFixed(2)} €`
     URSSAF.innerText = `${URSSAFMois.toFixed(2)} €`
     formation.innerText = `${formationMois.toFixed(2)} €`
     revenuAvantImpotME.innerText = `${revenuAvantImpotMois.toFixed(2)} €`

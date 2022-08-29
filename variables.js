@@ -69,7 +69,7 @@ let garantieFinanciereChecked
 const varISMois = 38120 / 12
 
 function getInputData(situation = []){ // Permet de récupérer toutes les données d'entrée et de calculer le CA prévisionnel, la garantie Financière et les frais professionnels
-    if(situation[0] != "calculMeilleurRegime") TJM = parseInt(inputTJM.value) // Dans tous les cas, on récupère le TJM en entrée
+    if(situation[0] != "calculMeilleurRegime" && situation[0] != "calculTJM") TJM = parseInt(inputTJM.value) // Dans tous les cas, on récupère le TJM en entrée
     else TJM = situation[1] // Dans le cas calculMeilleurRegime, on ne récupère pas le TJM en entrée. situation[1] correspond au TJM fictif
     nbJoursTravailAn = parseInt(inputNbJoursTravailAn.value)
     nbJoursTravailMois = nbJoursTravailAn / 12

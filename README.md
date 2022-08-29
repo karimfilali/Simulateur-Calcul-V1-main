@@ -14,6 +14,7 @@ En cas d'ajout, de suppression ou de modification de ligne dans le bulletin de p
 Le fichier calculBareme.js permet le calcul du barème Progressif utilisé dans le calcul des impôts et le calcul du PFU.
 
 Le fichier TJMtoHonoraires.json permet la conversion du TJM donné en un taux honoraires correspondant. Le fichier est appelé dans la fonction getHonoraires() du fichier variables.js
+Attention dans le fichier Excel, le calcul des honoraires est différent, ce qui donne des pouvoirs d'achats et chiffre d'affaires différents. 
 
 Le fichier BS_AssimileSalarie_TNS.js contient les fonctions salaireNetAvantImpot_AssimileSalarie() pour la SASU Mod 1 et SASU Mod 2 et salaireNetAvantImpot_TNS() pour l'EURL. Cette dernière fonction a pour vocation d'être modifiée à l'avenir lorsque la feuille BS TNS du fichier Excel sera modifée.
 
